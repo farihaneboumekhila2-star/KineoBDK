@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDK Pédiatrique Avancé - Haute Spécificité Neuromotrice</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @layer base {
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+            input[type="number"] { -moz-appearance: textfield; }
+        }
+        @media print {
+            body { background-color: #fff; color: #000; }
+            .no-print { display: none !important; }
+            .print-card { border: 1px solid #cbd5e1 !important; box-shadow: none !important; page-break-inside: avoid; margin-bottom: 1.5rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen pb-16 selection:bg-amber-600 selection:text-white">
+
+    <div class="max-w-6xl mx-auto px-4 pt-8">
+        
+        <!-- MODULE HEADER -->
+        <header class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 print-card">
+            <div>
+                <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Spécialité Neuropédiatrique & Orthopédique Universitaire</span>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
+                    Bilan Diagnostic Kinésithérapique Pédiatrique Avancé
+                </h1>
+                <p class="text-sm text-slate-500 mt-1">Évaluation analytique des scores neuromoteurs (GMFCS, Ashworth), amplitudes pédiatriques, réflexes primitifs et Pirani scoring.</p>
+            </div>
+            <div class="flex flex-wrap gap-2 no-print">
+                <button onclick="reinitialiserFormulaire()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 transition cursor-pointer shadow-xs">Réinitialiser</button>
+                <button onclick="window.print()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 transition cursor-pointer shadow-xs flex items-center gap-1.5">Imprimer / PDF</button>
+                <button onclick="genererSynthese()" class="px-5 py-2.5 bg-amber-600 rounded-xl text-sm font-semibold text-white hover:bg-amber-700 shadow-sm transition cursor-pointer">Générer la Synthèse</button>
+            </div>
+        </header>
+
+        <form id="bdkPediatriqueAvanceForm" class="space-y-8">
+            
+            <!-- SECTION 1 : TERRAIN, APGAR & HISTOIRE PÉRINATALE EXTENSIVE -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-amber-500 rounded-full"></span> 1. Contexte Périnatal & Données de Naissance
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nom, Prénom & Sexe de l'Enfant</label>
+                        <input type="text" id="enfantNom" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-amber-500 focus:bg-white transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Âge Chronologique / Âge Corrigé (si préma)</label>
+                        <input type="text" id="enfantAge" placeholder="Ex: 6 mois (Corrigé 4 mois)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Terme Gestationnel exact</label>
+                        <input type="text" id="termeAccouchement" placeholder="Ex: 28 SA + 4j (Très grande prématurité)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-center focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Score d'Apgar (1' / 5' / 10')</label>
+                        <input type="text" id="apgarScore" value="7 / 9 / 10" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center font-bold">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">pH au cordon / Lactates</label>
+                        <input type="text" id="phCordon" placeholder="Ex: 7.15" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Poids de Naissance (g)</label>
+                        <input type="number" id="poidsNaissance" value="3150" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Périmètre Crânien (PC - cm)</label>
+                        <input type="text" id="pcNaissance" value="34.5" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2 : CARTOGRAPHIE DES RÉFLEXES PRIMITIFS / ARCHAÏQUES -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-amber-500 rounded-full"></span> 2. État d'Intégration et de Persistance des Réflexes Archaïques
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Réflexe de Moro (Intensité/Cinétique)</label>
+                        <select id="refMoro" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Intégré / Éteint physiologiquement">Intégré / Éteint (Normal pour l'âge)</option><option value="Vif, symétrique, déclenchement très bas seuil">Vif, symétrique (Seuil bas / Hypéréflectivité)</option><option value="Asymétrique : Hémicorps droit déficitaire">Asymétrique : Moins marqué à Droite</option><option value="Asymétrique : Hémicorps gauche déficitaire">Asymétrique : Moins marqué à Gauche</option><option value="Persistant anormalement (Alerte retard d'intégration)">Persistant au-delà de l'âge théorique</option></select>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Réflexe Tonique Asymétrique du Cou (RTAC)</label>
+                        <select id="refRtac" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Absent / Intégré (Libre rotation cervicale sans attitude d'escrimeur)">Intégré (Pas d'attitude d'escrimeur)</option><option value="Inconstant, réductible activement">Inconstant, réductible activement</option><option value="Obligatoire, fixé, empêche la ligne médiane (Pathologique)">Obligatoire / Fixé (Signe neuro-moteur majeur)</option></select>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Réflexe de Galant (Tronc)</label>
+                        <select id="refGalant" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Intégré / Réponse discrète symétrique">Intégré / Normal</option><option value="Hyper-réactivité unilatérale / Incurvation fixe">Hyper-réactivité unilatérale / Asymétrique</option></select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3 : BILAN DU TONUS TOPO-ANALYTIQUE (AMIEL-TISON & ASHWORTH) -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-amber-500 rounded-full"></span> 3. Bilan Analytique du Tonus & Échelles de Spasticité
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Tonus Passif Métrique (Amiel-Tison) -->
+                    <div class="bg-slate-50/50 p-4 rounded-xl border border-slate-100 space-y-3">
+                        <span class="block text-xs font-bold text-amber-900 uppercase tracking-wider border-b border-amber-200 pb-1">Tonus Passif (Angles Populational et Résistance)</span>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Angle Poplité (Ischio-jambiers)</label>
+                                <select id="anglePoplite" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs font-semibold"><option value="Physiologique (90°-110° selon l'âge)">Physiologique (90°-110°)</option><option value="Raideur / < 80° (Rétraction bilatérale)">Raide / &lt; 80°</option><option value="Asymétrique (Droit < Gauche)">Droit &lt; Gauche</option><option value="Asymétrique (Gauche < Droit)">Gauche &lt; Droit</option></select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Angle des Adducteurs (Hanches)</label>
+                                <select id="angleAdducteurs" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs font-semibold"><option value="Ouverture symétrique normale (40°-70°)">Symétrique (Normal)</option><option value="Limitation sévère (< 30° - Risque subluxation)">Limitation sévère (&lt; 30°)</option></select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Manœuvre du Foulard (Scapulaire)</label>
+                                <select id="foulardSigne" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs"><option value="Normal : Le coude s'arrête à la ligne médiane">Normal (Ligne médiane)</option><option value="Hypotonie : Le coude dépasse l'aisselle opposée">Hypotonie (Dépassement majeur)</option><option value="Hypertonie : Le coude n'atteint pas la ligne médiane">Hypertonie (Résistance précoce)</option></select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Dorsiflexion Cheville (Angle R1/R2)</label>
+                                <select id="angleCheville" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs"><option value="Angle normal et souple (> 15° de flexion dorsale)">Normal (&gt; 15°)</option><option value="Équin fixe ou résistant (Rétraction triceps Sural)">Équin fixé / Résistant</option></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spasticité et Tonus Actif -->
+                    <div class="bg-slate-50/50 p-4 rounded-xl border border-slate-100 space-y-3">
+                        <span class="block text-xs font-bold text-amber-900 uppercase tracking-wider border-b border-amber-200 pb-1">Spasticité (Ashworth Modifiée) & Réactions Actives</span>
+                        <div class="space-y-2">
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Score d'Ashworth Modifié (Membres affectés)</label>
+                                <select id="ashworthScore" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs font-bold"><option value="0 : Pas d'augmentation du tonus musculaire">0 : Tonus normal</option><option value="1 : Légère augmentation (Sensation de ressaut en fin de course)">1 : Ressaut discret en fin de course</option><option value="1+ : Légère augmentation avec résistance sur moins de la moitié de la course">1+ : Résistance sur &lt; 50% de la course</option><option value="2 : Augmentation plus marquée sur presque toute la course (Mobilisation aisée)">2 : Augmentation marquée, mobilisation aisée</option><option value="3 : Augmentation considérable du tonus, mobilisation passive difficile">3 : Augmentation majeure, mobilisation difficile</option><option value="4 : Segment affecté rigide en flexion ou en extension">4 : Segment rigide / Fixé (Ankylose spastique)</option></select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Réaction active de redressement (Traction vers l'assise)</label>
+                                <select id="redressementActif" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs"><option value="Excellente participation des fléchisseurs, la tête devance le tronc">Excellente participation (Tête devance/suit)</option><option value="Retard de redressement céphalique complet (Sidération axiale)">Retard céphalique complet (Tête tombante)</option><option value="Opisthotonos / Hyperextension spastique du tronc">Opisthotonos / Hyperextension spastique</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4 : MOTRICITÉ LIBEREE, NEM & CLASSIFICATION GMFCS -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-amber-500 rounded-full"></span> 4. Capacités Neuromotrices, NEM & Niveau de Classification GMFCS
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Niveau de validité stable des acquisitions (NEM de Le Métayer)</label>
+                        <select id="nemStatus" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-amber-500"><option value="NEM 1 : Alignement tête-tronc, retournements non fonctionnels">NEM 1 : Décubitus maîtrisé, contrôle céphalique en cours</option><option value="NEM 2 : Passages latéraux et retournements Dos-Ventre validés">NEM 2 : Retournement Dos-Ventre bilatéral fluide</option><option value="NEM 3 : Pivotement, rampé et redressement sur les coudes">NEM 3 : Rampé actif / Sphinx fonctionnel</option><option value="NEM 4 : Station assise autonome stable, passage au quatre pattes">NEM 4 : Assise stable sans appui + Quatre pattes acquis</option><option value="NEM 5 : Station debout avec appui, ébauche du chevalier servant">NEM 5 : Debout avec appui / Passage par chevalier servant</option><option value="NEM 6 : Marche autonome acquise en terrain varié">NEM 6 : Marche autonome acquise (Appuis centrés)</option></select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Score GMFCS (Si Paralysie Cérébrale / Atteinte Motrice Centrale)</label>
+                        <select id="gmfcsScore" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm font-bold focus:outline-none focus:border-amber-500"><option value="Non applicable (Sujet sain ou pathologie périphérique)">Non applicable (Sujet sain / Orthopédie pure)</option><option value="Niveau I : Marche à la maison, à l'école et à l'extérieur. Monte les escaliers sans rampe.">Niveau I : Marche sans restriction (Vitesse/Coordination réduites)</option><option value="Niveau II : Marche avec limitations. Monte les escaliers avec une rampe.">Niveau II : Marche avec limitations en extérieur (Besoin de rampe)</option><option value="Niveau III : Marche avec une aide technique à la marche (Déambulateur, cannes).">Niveau III : Marche avec aide technique (Déambulateur / Cannes)</option><option value="Niveau IV : Mobilité autonome limitée. Transports en fauteuil roulant manuel/électrique.">Niveau IV : Autonomie assise, déplacements assistés (Fauteuil)</option><option value="Niveau V : Transporté en fauteuil roulant manuel. Limitations majeures du contrôle de tête/tronc.">Niveau V : Atteinte axiale totale, dépendance complète</option></select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5 : EXAMEN ORTHOPÉDIQUE ET SQUELETTIQUE STRUCTURÉ -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-amber-500 rounded-full"></span> 5. Évaluation Orthopédique Régionale Quantitative
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Crâne et Cervical -->
+                    <div class="bg-slate-50/50 p-3 rounded-xl border border-slate-200 space-y-2">
+                        <span class="block text-xs font-bold text-slate-700 uppercase">Sphère Céphalique / Cervicale</span>
+                        <div>
+                            <label class="block text-[11px] text-slate-600">Déformation Crânienne (Argenta Classification)</label>
+                            <select id="argentaPlagio" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs"><option value="Type 0 : Symétrie crânienne normale">Type 0 : Normal</option><option value="Type I : Asymétrie occipitale unilatérale discrète">Type I : Asymétrie occipitale seule</option><option value="Type II : Type I + Déplacement de l'oreille ipsilatérale">Type II : Occipitale + Oreille décalée</option><option value="Type III : Type II + Bossage frontal ipsilatéral (Plagiocéphalie vraie)">Type III : Occipitale + Oreille + Front (Vraie)</option></select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-slate-600">Déficit de rotation cervicale passive (°)</label>
+                            <input type="text" id="rotationCervicaleDeficit" value="0° (Rotation symétrique à 90°)" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs text-center font-semibold">
+                        </div>
+                    </div>
+
+                    <!-- Hanches -->
+                    <div class="bg-slate-50/50 p-3 rounded-xl border border-slate-200 space-y-2">
+                        <span class="block text-xs font-bold text-slate-700 uppercase">Hanches & Dépistage Échographique</span>
+                        <div>
+                            <label class="block text-[11px] text-slate-600">Stabilité des Hanches</label>
+                            <select id="hanchesStabilite" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs"><option value="Manoeuvres de Barlow et Ortolani strictement négatives. Abduction libre.">Barlow & Ortolani Négatifs (Normal)</option><option value="Ressaut franc unilatéral (Signe de Ortolani positif)">Ortolani Positif (Instabilité majeure / Réduction)</option><option value="Piston clinique présent / Limitation d'abduction asymétrique">Limitation d'abduction sévère unilatérale</option></select>
+                        </div>
+                    </div>
+
+                    <!-- Pieds (Pirani) -->
+                    <div class="bg-slate-50/50 p-3 rounded-xl border border-slate-200 space-y-2">
+                        <span class="block text-xs font-bold text-slate-700 uppercase">Statique du Pied (Classification de Pirani)</span>
+                        <div>
+                            <label class="block text-[11px] text-slate-600">Score de Réductibilité du Pied (PBVE)</label>
+                            <select id="piraniScore" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs font-medium"><option value="Score de Pirani = 0 (Pied parfaitement souple et réductible)">Pirani = 0 (Pied normal ou positionnel)</option><option value="Score de Pirani entre 0.5 et 3 (Pied bot modérément raide)">Pirani 0.5 à 3 (Pied bot modéré)</option><option value="Score de Pirani entre 3.5 et 6 (Pied bot sévère, raideur postérieure/médiane)">Pirani 3.5 à 6 (Sévère / Protocole Ponseti strict)</option></select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+
+        <!-- OUTPUT ZONE -->
+        <div id="syntheseZone" class="hidden mt-8 bg-slate-900 text-slate-100 rounded-2xl p-6 shadow-xl border border-slate-800 transition-all duration-300">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                    📋 Rapport Expert de Consultation Neuropédiatrique & Développementale
+                </h3>
+                <button onclick="copierSynthese()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 cursor-pointer">
+                    Copier le texte
+                </button>
+            </div>
+            <pre id="syntheseTexte" class="text-xs md:text-sm font-mono whitespace-pre-wrap overflow-x-auto text-slate-300 leading-relaxed"></pre>
+        </div>
+    </div>
+
+    <!-- LOGIQUE LOGICIELLE DE EXTRACTION ET AGREGATION -->
+    <script>
+        function genererSynthese() {
+            const nom = document.getElementById('enfantNom').value || 'Dossier Anonyme';
+            const age = document.getElementById('enfantAge').value;
+            const terme = document.getElementById('termeAccouchement').value;
+            const apgar = document.getElementById('apgarScore').value;
+            const poids = document.getElementById('poidsNaissance').value;
+            const pc = document.getElementById('pcNaissance').value;
+            const ph = document.getElementById('phCordon').value || 'Non précisé';
+
+            const moro = document.getElementById('refMoro').value;
+            const rtac = document.getElementById('refRtac').value;
+            const galant = document.getElementById('refGalant').value;
+
+            const poplite = document.getElementById('anglePoplite').value;
+            const adducteurs = document.getElementById('angleAdducteurs').value;
+            const foulard = document.getElementById('foulardSigne').value;
+            const cheville = document.getElementById('angleCheville').value;
+            const ashworth = document.getElementById('ashworthScore').value;
+            const redressement = document.getElementById('redressementActif').value;
+
+            const nem = document.getElementById('nemStatus').value;
+            const gmfcs = document.getElementById('gmfcsScore').value;
+
+            const argenta = document.getElementById('argentaPlagio').value;
+            const rotCerv = document.getElementById('rotationCervicaleDeficit').value;
+            const hanches = document.getElementById('hanchesStabilite').value;
+            const pirani = document.getElementById('piraniScore').value;
+
+            const finalOutput = `========================================================================
+RAPPORT UNIVERSITAIRE : BDK NEUROPÉDIATRIQUE & DÉVELOPPEMENTAL AVANCÉ
+========================================================================
+Identité du Patient   : ${nom}  |  Âge Clinique : ${age}
+Terme Gestationnel    : ${terme}
+Données de Naissance  : Apgar : ${apgar} | Poids : ${poids}g | PC : ${pc}cm | pH Cordon : ${ph}
+
+1. INTÉGRATION ET CINÉTIQUE DES RÉFLEXES ARCHAÏQUES
+------------------------------------------------------------------------
+• Réflexe de Moro              : ${moro}
+• RTAC (Asymétrie cervicale)   : ${rtac}
+• Réflexe de Galant (Tronc)    : ${galant}
+
+2. BILAN DU TONUS TOPO-ANALYTIQUE & SPASTICITÉ QUANTIFIÉE
+------------------------------------------------------------------------
+• Tonus Passif Appendiculaire  : Ischio-jambiers (Poplité) : ${poplite}
+                                Adducteurs (Hanches)      : ${adducteurs}
+                                Triceps Sural (Cheville)   : ${cheville}
+• Tonus Passif Scapulaire      : Signe du foulard : ${foulard}
+• Échelle d'Ashworth Modifiée  : ${ashworth}
+• Tonus Actif Axial            : Redressement céphalique : ${redressement}
+
+3. STRATÉGIE NEUROMOTRICE, NEM (LE MÉTAYER) & GMFCS
+------------------------------------------------------------------------
+• Stade d'acquisition stable  : ${nem}
+• Classification GMFCS         : ${gmfcs}
+
+4. EXAMEN ORTHOPÉDIQUE ET SQUELETTIQUE CLINIQUE
+------------------------------------------------------------------------
+• Morphologie Crânienne        : Classification Argenta : ${argenta}
+• Amplitude Cervicale          : Déficit de rotation    : ${rotCerv}
+• Articulation CoXo-Fémorale   : Stabilité des hanches  : ${hanches}
+• Alignement du Pied           : Index de Pirani (PBVE) : ${pirani}
+========================================================================`;
+
+            document.getElementById('syntheseTexte').innerText = finalOutput;
+            const zone = document.getElementById('syntheseZone');
+            zone.classList.remove('hidden');
+            zone.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copierSynthese() {
+            const texte = document.getElementById('syntheseTexte').innerText;
+            navigator.clipboard.writeText(texte).then(() => {
+                alert('Le rapport neuropédiatrique expert a été copié.');
+            });
+        }
+
+        function reinitialiserFormulaire() {
+            if(confirm("Effacer toutes les données de ce dossier neuropédiatrique ?")) {
+                document.getElementById('bdkPediatriqueAvanceForm').reset();
+                document.getElementById('syntheseZone').classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>

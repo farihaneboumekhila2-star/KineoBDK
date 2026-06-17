@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDK Coude Interactif</title>
+    <!-- Chargement de Tailwind CSS pour un design moderne, pro et responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+
+<div class="max-w-4xl mx-auto">
+    <!-- En-tête -->
+    <header class="text-center mb-8 bg-gradient-to-r from-teal-600 to-cyan-700 rounded-2xl p-6 sm:p-8 shadow-lg text-white">
+        <div class="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-3">
+            <i class="fa-solid fa-hand-fist text-3xl rotate-45"></i>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Bilan Diagnostic Kinésithérapique (BDK)</h1>
+        <p class="text-teal-100 mt-2 font-medium">Coude, Avant-bras & Articulations Huméro-Ulnaires, Huméro-Radiales & Radio-Ulnaires</p>
+    </header>
+
+    <form id="bdkForm" class="space-y-6">
+        
+        <!-- Section 1 : Anamnèse & Profil du Patient -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-teal-50 text-teal-600 rounded-lg">
+                    <i class="fa-solid fa-address-card text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">1. Anamnèse & Contexte Clinique</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex flex-col">
+                    <label for="nom" class="text-sm font-semibold text-slate-700 mb-1">Nom / Prénom du Patient :</label>
+                    <input type="text" id="nom" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ex: Lucas Bernard">
+                </div>
+                <div class="flex flex-col">
+                    <label for="age" class="text-sm font-semibold text-slate-700 mb-1">L'âge du Patient :</label>
+                    <input type="text" id="age" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ex: 45 ans">
+                </div>
+                <div class="flex flex-col">
+                    <label for="cote" class="text-sm font-semibold text-slate-700 mb-1">Côté atteint :</label>
+                    <select id="cote" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm">
+                        <option value="Droit">Droit</option>
+                        <option value="Gauche">Gauche</option>
+                        <option value="Bilatéral">Bilatéral</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="lateralite" class="text-sm font-semibold text-slate-700 mb-1">Latéralité dominante :</label>
+                    <select id="lateralite" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm">
+                        <option value="Droitier">Droitier</option>
+                        <option value="Gaucher">Gaucher</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="profession" class="text-sm font-semibold text-slate-700 mb-1">Profession / Postures de travail :</label>
+                    <input type="text" id="profession" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ex: Travail sur écran, peintre, artisan, port de charges">
+                </div>
+                <div class="flex flex-col">
+                    <label for="sport" class="text-sm font-semibold text-slate-700 mb-1">Pratique Sportive / Loisirs :</label>
+                    <input type="text" id="sport" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ex: Tennis (revers douloureux), Escalade, Golf, Musculation">
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-col">
+                <label for="motif" class="text-sm font-semibold text-slate-700 mb-1">Motif de consultation / Diagnostic médical :</label>
+                <textarea id="motif" rows="2" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ex: Épicondylite latérale chronique (Tennis Elbow), épitrochléite (Golf Elbow), syndrome du canal cubital (nerf ulnaire), suite de fracture de la tête radiale..."></textarea>
+            </div>
+        </section>
+
+        <!-- Section 2 : Douleur, Épanchement & Inspection -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-teal-50 text-teal-600 rounded-lg">
+                    <i class="fa-solid fa-eye text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">2. Douleur, Signes Inflammatoires & Inspection</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="eva" class="text-sm font-semibold text-slate-700 mb-1">Douleur au repos (EVA 0 à 10) :</label>
+                    <input type="number" id="eva" min="0" max="10" value="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm">
+                </div>
+                <div class="flex flex-col">
+                    <label for="eva_effort" class="text-sm font-semibold text-slate-700 mb-1">Douleur lors du serrage de main / prise active (EVA 0 à 10) :</label>
+                    <input type="number" id="eva_effort" min="0" max="10" value="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm">
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="gonflement" class="text-sm font-semibold text-slate-700 mb-1">Observation visuelle & palpation :</label>
+                    <select id="gonflement" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm">
+                        <option value="Aucun">Aucun gonflement, aspect sec</option>
+                        <option value="Tuméfacion olécrânienne (Bursite / Hygroma)">Tuméfacion olécrânienne (Bursite / Hygroma)</option>
+                        <option value="Œdème diffus de l'interligne articulaire">Œdème diffus de l'interligne articulaire</option>
+                        <option value="Amyotrophie de la loge postérieure/antérieure">Amyotrophie de la loge postérieure/antérieure</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="palpation" class="text-sm font-semibold text-slate-700 mb-1">Points douloureux ciblés à la palpation :</label>
+                    <input type="text" id="palpation" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ex: Insertion épicondyliens latéraux vive, tête radiale douloureuse, nerf ulnaire sensible">
+                </div>
+            </div>
+
+            <!-- Dépistage d'exclusion neurologique et cervicale -->
+            <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                <h3 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-exclamation"></i> Diagnostic Différentiel (Rachis & Projections)
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <label class="flex items-center gap-2 cursor-pointer text-xs text-slate-700">
+                        <input type="checkbox" id="excl_cervical" class="h-3.5 w-3.5 text-teal-600 rounded focus:ring-teal-500">
+                        Douleur reproduite aux mouvements cervicales ou test de Spurling
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-xs text-slate-700">
+                        <input type="checkbox" id="excl_paresthesie" class="h-3.5 w-3.5 text-teal-600 rounded focus:ring-teal-500">
+                        Paresthésies / Engourdissements constants dans la main (trajet C6, C7, C8)
+                    </label>
+                </div>
+                <p class="text-[11px] text-amber-700 italic mt-2">Si cochés : investiguer l'origine radiculaire ou un syndrome canalaire étagé (canal carpien, canal cubital, syndrome du défilé).</p>
+            </div>
+        </section>
+
+        <!-- Section 3 : Mobilités Articulaires (Goniométrie Actif / Passif) -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-teal-50 text-teal-600 rounded-lg">
+                    <i class="fa-solid fa-arrows-up-down-left-right text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">3. Mobilités Articulaires & amplitudes</h2>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 italic">Notez l'amplitude active / passive du coude pathologique comparativement au coude sain.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="flex_ext" class="text-sm font-semibold text-slate-700 mb-1">Flexion / Extension (Normal : 145° / 0°) :</label>
+                    <input type="text" id="flex_ext" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ex: Actif: 130° / Flessum de -5° | Passif: 140° / 0°">
+                </div>
+                <div class="flex flex-col">
+                    <label for="prono_sup" class="text-sm font-semibold text-slate-700 mb-1">Pronation / Supination (Normal : 80° / 85°) :</label>
+                    <input type="text" id="prono_sup" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ex: Actif: 75° / 80° (Sain: 80° / 85°)">
+                </div>
+            </div>
+
+            <div class="mt-4 flex flex-col">
+                <label for="rec_valg" class="text-sm font-semibold text-slate-700 mb-1">Valgus physiologique ou déviation d'axe :</label>
+                <input type="text" id="rec_valg" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ex: Alignement normal en extension complète | Cubitus valgus marqué">
+            </div>
+        </section>
+
+        <!-- Section 4 : Tests Orthopédiques Spécifiques -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-teal-50 text-teal-600 rounded-lg">
+                    <i class="fa-solid fa-stethoscope text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">4. Tests Orthopédiques Spécifiques</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Epicondylalgies Latérales (Tennis Elbow) -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Épicondylalgie Latérale (Tendinopathie des Épicondyliens Latéraux)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_cozen" class="mt-1 h-4 w-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de Cozen</span>
+                                <span class="text-xs text-slate-500">Douleur à l'épicondyle lors de l'extension du poignet résistée, coude fléchi.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_mill" class="mt-1 h-4 w-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de Mill</span>
+                                <span class="text-xs text-slate-500">Douleur à la mise en tension passive maximale (pronations, flexion du poignet, extension coude).</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_maudsley" class="mt-1 h-4 w-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de Maudsley</span>
+                                <span class="text-xs text-slate-500">Douleur épicondylienne lors de l'extension résistée du majeur (EDC sollicité).</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Epicondylalgies Médiales (Golf Elbow) -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Épicondylalgie Médiale (Golf Elbow / Épitrochléite)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_golf" class="mt-1 h-4 w-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test du Golf Elbow</span>
+                                <span class="text-xs text-slate-500">Flexion résistée du poignet avec pronation active qui reproduit la douleur médiale.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_golf_passive" class="mt-1 h-4 w-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Étirement passif médial</span>
+                                <span class="text-xs text-slate-500">Douleur provoquée par l'extension passive du coude, poignet et doigts.</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Stabilité Ligamentaire & Neuropathie Canalaire -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Instabilités ligamentaires & Compressions nerveuses</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_valgus_stress" class="mt-1 h-4 w-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Stress en Valgus à 25°</span>
+                                <span class="text-xs text-slate-500">Douleur ou laxité anormale du ligament collatéral médial / LLI.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_varus_stress" class="mt-1 h-4 w-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Stress en Varus à 25°</span>
+                                <span class="text-xs text-slate-500">Douleur ou laxité anormale du ligament collatéral radial / LLE.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_tinel" class="mt-1 h-4 w-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Tinel (Gouttière Ulnaire)</span>
+                                <span class="text-xs text-slate-500">Paresthésies reproduites dans les 4e/5e doigts par percussion du nerf ulnaire.</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 : Index d'Incapacité Fonctionnelle du Coude (Inspiré PRTEE /50) -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-teal-50 text-teal-600 rounded-lg">
+                    <i class="fa-solid fa-person-walking-arrow-loop-left text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">5. Index d'Incapacité Fonctionnelle du Coude (PRTEE Simplifié /50)</h2>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 italic">Estimez l'importance du handicap lors des gestes quotidiens et professionnels sollicitant l'articulation du coude.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="sf_porter" class="text-sm font-semibold text-slate-700 mb-1">Douleur au port de charge (sac de course, bouteille) :</label>
+                    <select id="sf_porter" onchange="calculerScoreCoude()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm">
+                        <option value="0">0 - Aucune douleur à la charge</option>
+                        <option value="3">3 - Douleur légère / supportable sur effort prolongé</option>
+                        <option value="6">6 - Douleur importante obligeant à s'arrêter fréquemment</option>
+                        <option value="10">10 - Douleur intolérable, port d'objet impossible</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="sf_ouvrir" class="text-sm font-semibold text-slate-700 mb-1">Tourner une clé, une poignée de porte ou ouvrir un bocal :</label>
+                    <select id="sf_ouvrir" onchange="calculerScoreCoude()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm">
+                        <option value="0">0 - Réalisation fluide et indolore</option>
+                        <option value="3">3 - Gêne intermittente en fin de torsion</option>
+                        <option value="6">6 - Très difficile, compensation de l'épaule requise</option>
+                        <option value="10">10 - Impossible de faire pivoter le poignet en charge</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="sf_toilette" class="text-sm font-semibold text-slate-700 mb-1">Soins personnels (Se coiffer, se laver, s'habiller) :</label>
+                    <select id="sf_toilette" onchange="calculerScoreCoude()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm">
+                        <option value="0">0 - Aucune limitation de mouvement</option>
+                        <option value="3">3 - Légère tension en flexion maximale (coiffage)</option>
+                        <option value="6">6 - Amplitudes douloureuses, compensation indispensable</option>
+                        <option value="10">10 - Impossible de ramener la main au visage / coude bloqué</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="sf_travail" class="text-sm font-semibold text-slate-700 mb-1">Activités professionnelles ou ménagères habituelles :</label>
+                    <select id="sf_travail" onchange="calculerScoreCoude()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm">
+                        <option value="0">0 - Rendement et travail normaux</option>
+                        <option value="3">3 - Quelques pauses requises pour relâcher l'avant-bras</option>
+                        <option value="6">6 - Diminution nette du temps d'activité possible</option>
+                        <option value="10">10 - Arrêt total de l'activité professionnelle / domestique</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-4 flex flex-col">
+                <label for="sf_sport" class="text-sm font-semibold text-slate-700 mb-1">Pratiques récréatives, sportives ou de loisirs :</label>
+                <select id="sf_sport" onchange="calculerScoreCoude()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm">
+                    <option value="0">0 - Pleinement actif dans les loisirs</option>
+                    <option value="3">3 - Adaptations requises ou douleurs tolérables après séance</option>
+                    <option value="6">6 - Forte diminution des activités de loisirs par peur ou douleur</option>
+                    <option value="10">10 - Abandon complet de tout loisir sollicitant le membre supérieur</option>
+                </select>
+            </div>
+
+            <!-- Box d'interprétation dynamique du score d'incapacité -->
+            <div class="mt-6 bg-teal-50 border border-teal-200 rounded-xl p-4 text-center transition-all duration-300" id="scoreBanner">
+                <span class="text-slate-600 block text-sm font-medium">Indice d'incapacité fonctionnelle du coude :</span>
+                <div class="mt-1 flex items-baseline justify-center gap-1">
+                    <span id="totalCoude" class="text-3xl font-extrabold text-teal-700">0</span>
+                    <span class="text-teal-600 font-semibold">/ 50 pts</span>
+                </div>
+                <p id="interpreteCoude" class="text-xs text-teal-800 mt-1 font-medium">Incapacité négligeable à minime (Bon contrôle moteur)</p>
+            </div>
+        </section>
+
+        <!-- Section 6 : Objectifs & Axes de Rééducation -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-teal-50 text-teal-600 rounded-lg">
+                    <i class="fa-solid fa-bullseye text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">6. Objectifs & Axes de Rééducation</h2>
+            </div>
+            <div class="flex flex-col">
+                <label for="objectifs" class="text-sm font-semibold text-slate-700 mb-1">Axes thérapeutiques prioritaires :</label>
+                <textarea id="objectifs" rows="3" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-sm" placeholder="Ex: Diminuer l'inflammation de l'enthèse épicondylienne, étirements passifs doux et Massages Transverses Profonds (MTP), renforcement progressif excentrique des épicondyliens latéraux (Protocole de Stanish), neuroglissement du nerf ulnaire au coude, ajustement ergonomique de la souris / de la poignée..."></textarea>
+            </div>
+        </section>
+
+        <!-- Bouton de Génération -->
+        <button type="button" onclick="genererCompteRendu()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 text-base">
+            <i class="fa-solid fa-file-invoice text-lg"></i>
+            Générer le Résumé Clinique du Coude
+        </button>
+    </form>
+
+    <!-- Résultats et Export (caché par défaut) -->
+    <div id="resultat-bilan" class="mt-8 bg-slate-900 rounded-xl p-6 shadow-xl border border-slate-800 text-slate-100 hidden">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-clipboard-check text-teal-400 text-lg"></i>
+                <h3 class="text-lg font-bold text-slate-100">Résumé du BDK Coude</h3>
+            </div>
+            <button onclick="copierBilan()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-teal-400 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-copy"></i> Copier le texte
+            </button>
+        </div>
+        
+        <pre id="texteBilan" class="text-xs sm:text-sm font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed text-slate-300 bg-slate-950 p-4 rounded-lg border border-slate-800"></pre>
+        
+        <div id="notification-copie" class="mt-3 text-center text-xs text-teal-400 hidden font-semibold flex items-center justify-center gap-1">
+            <i class="fa-solid fa-check-circle"></i> Le bilan a été copié avec succès dans le presse-papier !
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fonction de calcul de l'incapacité fonctionnelle globale du coude
+    function calculerScoreCoude() {
+        const p = parseInt(document.getElementById('sf_porter').value);
+        const o = parseInt(document.getElementById('sf_ouvrir').value);
+        const t = parseInt(document.getElementById('sf_toilette').value);
+        const w = parseInt(document.getElementById('sf_travail').value);
+        const s = parseInt(document.getElementById('sf_sport').value);
+        
+        const total = p + o + t + w + s;
+        const totalElement = document.getElementById('totalCoude');
+        const interpretationElement = document.getElementById('interpreteCoude');
+        const banner = document.getElementById('scoreBanner');
+        
+        totalElement.innerText = total;
+
+        // Mise à jour de l'affichage dynamique (Code couleur de la bannière)
+        if (total <= 10) {
+            interpretationElement.innerText = "Incapacité négligeable à minime (Bon contrôle moteur)";
+            banner.className = "mt-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-emerald-700";
+            interpretationElement.className = "text-xs text-emerald-800 mt-1 font-medium";
+        } else if (total <= 25) {
+            interpretationElement.innerText = "Incapacité modérée (gêne lors des mouvements de torsion ou de préhension lourde)";
+            banner.className = "mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-yellow-700";
+            interpretationElement.className = "text-xs text-yellow-800 mt-1 font-medium";
+        } else if (total <= 40) {
+            interpretationElement.innerText = "Incapacité sévère (impact notable sur le travail, les tâches ménagères et les gestes fins)";
+            banner.className = "mt-6 bg-orange-50 border border-orange-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-orange-700";
+            interpretationElement.className = "text-xs text-orange-800 mt-1 font-medium";
+        } else {
+            interpretationElement.innerText = "Incapacité extrême / impotence fonctionnelle majeure du coude et de la main";
+            banner.className = "mt-6 bg-red-50 border border-red-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-red-700";
+            interpretationElement.className = "text-xs text-red-800 mt-1 font-medium";
+        }
+    }
+
+    // Génération du compte-rendu synthétisé au propre
+    function genererCompteRendu() {
+        const nom = document.getElementById('nom').value || 'Non renseigné';
+        const cote = document.getElementById('cote').value;
+        const lat = document.getElementById('lateralite').value;
+        const profession = document.getElementById('profession').value || 'Non renseigné';
+        const sport = document.getElementById('sport').value || 'Non renseigné';
+        const motif = document.getElementById('motif').value || 'Non renseigné';
+        
+        const eva = document.getElementById('eva').value;
+        const eva_effort = document.getElementById('eva_effort').value;
+        const gonflement = document.getElementById('gonflement').value;
+        const palpation = document.getElementById('palpation').value || 'Aucun point douloureux marqué';
+        
+        const flex_ext = document.getElementById('flex_ext').value || 'Non mesurée';
+        const prono_sup = document.getElementById('prono_sup').value || 'Non mesurée';
+        const rec_valg = document.getElementById('rec_valg').value || 'Alignement normal';
+
+        // Diagnostic différentiel
+        let exclusions = [];
+        if(document.getElementById('excl_cervical').checked) exclusions.push('Douleur reproduite aux mouvements cervicaux');
+        if(document.getElementById('excl_paresthesie').checked) exclusions.push('Paresthésies / Engourdissements constants');
+        const cervicalStr = exclusions.length > 0 ? `SUSPECTÉ (${exclusions.join(', ')})` : 'Négatif (aucune suspicion de projection cervicale)';
+
+        // Compilation des tests cliniques positifs
+        let testsPositifs = [];
+        if(document.getElementById('test_cozen').checked) testsPositifs.push('Cozen (+ : Épicondylite latérale)');
+        if(document.getElementById('test_mill').checked) testsPositifs.push('Mill (+ : Tension épicondyliens latéraux)');
+        if(document.getElementById('test_maudsley').checked) testsPositifs.push('Maudsley (+ : Atteinte Court Radiale / EDC)');
+        if(document.getElementById('test_golf').checked) testsPositifs.push('Golf Elbow (+ : Épicondylite médiale / épitrochléite)');
+        if(document.getElementById('test_golf_passive').checked) testsPositifs.push('Étirement médial (+)');
+        if(document.getElementById('test_valgus_stress').checked) testsPositifs.push('Valgus Stress (+ : instabilité LCM/LLI)');
+        if(document.getElementById('test_varus_stress').checked) testsPositifs.push('Varus Stress (+ : instabilité LCR/LLE)');
+        if(document.getElementById('test_tinel').checked) testsPositifs.push('Tinel (+ : suspicion de souffrance du nerf ulnaire)');
+        
+        const testsStr = testsPositifs.length > 0 ? testsPositifs.join(', ') : 'Tests de provocations ou d\'instabilités négatifs';
+
+        const scoreIncapacite = document.getElementById('totalCoude').innerText;
+        const interpreteScore = document.getElementById('interpreteCoude').innerText;
+        const objectifs = document.getElementById('objectifs').value || 'Physiothérapie antalgique, étirements, récupération des amplitudes et renforcement excentrique progressif.';
+
+        // Construction du livrable textuel final
+        let output = `=== BILAN DIAGNOSTIC KINÉSITHÉRAPIQUE (COUDE) ===\n`;
+        output += `Patient : ${nom} | Côté atteint : ${cote} (${lat})\n`;
+        output += `Profession : ${profession} | Sport : ${sport}\n`;
+        output += `Motif de consultation : ${motif}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `DOULEUR : EVA Repos: ${eva}/10 | EVA Effort/Prise: ${eva_effort}/10\n`;
+        output += `INSPECTION / GONFLEMENT : ${gonflement}\n`;
+        output += `PALPATION / POINTS DOUBLES : ${palpation}\n`;
+        output += `DIAGNOSTIC DIFFÉRENTIEL : ${cervicalStr}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `MOBILITÉS COUDE & AVANT-BRAS (Actif/Passif) :\n`;
+        output += ` - Flexion / Extension : ${flex_ext}\n`;
+        output += ` - Pronation / Supination : ${prono_sup}\n`;
+        output += ` - Valgus / Alignement : ${rec_valg}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `TESTS SPÉCIFIQUES ET ORTHOPÉDIQUES :\n`;
+        output += ` - ${testsStr}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `FONCTIONNEL (Incapacité PRTEE simplifiée) : ${scoreIncapacite}/50 pts (${interpreteScore})\n`;
+        output += `--------------------------------------------------\n`;
+        output += `AXES DE RÉÉDUCATION : ${objectifs}\n`;
+
+        // Affichage dynamique du résultat
+        const divResultat = document.getElementById('resultat-bilan');
+        document.getElementById('texteBilan').innerText = output;
+        divResultat.classList.remove('hidden');
+        
+        // Masquer la confirmation de copie antérieure
+        document.getElementById('notification-copie').classList.add('hidden');
+        
+        // Défilement automatique vers le bloc de synthèse
+        divResultat.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Fonction de copie vers le presse-papiers
+    function copierBilan() {
+        const texte = document.getElementById('texteBilan').innerText;
+        
+        const tempTextarea = document.createElement('textarea');
+        tempTextarea.value = texte;
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextarea);
+
+        // Affichage d'une notification de confirmation
+        const notification = document.getElementById('notification-copie');
+        notification.classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDK Orteils & Avant-pied Interactif</title>
+    <!-- Chargement de Tailwind CSS pour un design moderne et responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+
+<div class="max-w-4xl mx-auto">
+    <!-- En-tête -->
+    <header class="text-center mb-8 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl p-6 sm:p-8 shadow-lg text-white">
+        <div class="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-3">
+            <i class="fa-solid fa-shoe-prints text-3xl"></i>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Bilan Diagnostic Kinésithérapique (BDK)</h1>
+        <p class="text-amber-100 mt-2 font-medium">Orteils, Avant-pied & Articulations Métatarsophalangiennes / Interphalangiennes</p>
+    </header>
+
+    <form id="bdkForm" class="space-y-6">
+        
+        <!-- Section 1 : Anamnèse -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-amber-50 text-amber-600 rounded-lg">
+                    <i class="fa-solid fa-address-card text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">1. Anamnèse & Profil du Patient</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex flex-col">
+                    <label for="nom" class="text-sm font-semibold text-slate-700 mb-1">Nom / Prénom du Patient :</label>
+                    <input type="text" id="nom" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm" placeholder="Ex: Jean Dupont">
+                </div>
+                <div class="flex flex-col">
+                    <label for="age" class="text-sm font-semibold text-slate-700 mb-1">L'âge du Patient :</label>
+                    <input type="text" id="age" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: 45 ans">
+                </div>
+                <div class="flex flex-col">
+                    <label for="cote" class="text-sm font-semibold text-slate-700 mb-1">Côté atteint :</label>
+                    <select id="cote" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                        <option value="Droit">Droit</option>
+                        <option value="Gauche">Gauche</option>
+                        <option value="Bilatéral">Bilatéral</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="lateralite" class="text-sm font-semibold text-slate-700 mb-1">Dominance podale / d'appui :</label>
+                    <select id="lateralite" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                        <option value="Droitier">Droitier (Pied d'appui gauche, pied moteur droit)</option>
+                        <option value="Gaucher">Gaucher (Pied d'appui droit, pied moteur gauche)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="profession" class="text-sm font-semibold text-slate-700 mb-1">Chaussage professionnel / Contraintes ergonomiques :</label>
+                    <input type="text" id="profession" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm" placeholder="Ex: Chaussures de sécurité rigides, Station debout prolongée, Talons hauts">
+                </div>
+                <div class="flex flex-col">
+                    <label for="sport" class="text-sm font-semibold text-slate-700 mb-1">Loisirs / Activités sportives :</label>
+                    <input type="text" id="sport" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm" placeholder="Ex: Course à pied, Danse classique, Football, Escalade">
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-col">
+                <label for="motif" class="text-sm font-semibold text-slate-700 mb-1">Motif / Diagnostic Médical :</label>
+                <textarea id="motif" rows="2" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm" placeholder="Ex: Hallux Valgus symptomatique gauche, Hallux Rigidus douloureux, Névrome de Morton (3ème espace), Orteils en griffe (griffe distale D2), Sésamoïdite aiguë, Suites opératoires d'ostéotomie (Scarf / Weil)..."></textarea>
+            </div>
+        </section>
+
+        <!-- Section 2 : Douleur & Inspection Sensorielle -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-amber-50 text-amber-600 rounded-lg">
+                    <i class="fa-solid fa-eye text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">2. Douleur, Sensibilité & Inspection Visuelle</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="eva" class="text-sm font-semibold text-slate-700 mb-1">Douleur au repos (EVA 0-10) :</label>
+                    <input type="number" id="eva" min="0" max="10" value="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                </div>
+                <div class="flex flex-col">
+                    <label for="eva_effort" class="text-sm font-semibold text-slate-700 mb-1">Douleur en propulsion / appui / chaussage (EVA 0-10) :</label>
+                    <input type="number" id="eva_effort" min="0" max="10" value="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="deformations" class="text-sm font-semibold text-slate-700 mb-1">Déformations / Alignements observés :</label>
+                    <select id="deformations" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                        <option value="Aucune">Aucune déformation évidente</option>
+                        <option value="Hallux Valgus">Hallux Valgus (déviation latérale MTP, exostose / oignon)</option>
+                        <option value="Hallux Rigidus">Hallux Rigidus (limitation douloureuse flexion dorsale Hallux)</option>
+                        <option value="Orteils en marteau">Orteils en marteau (MTP en extension, IPP en flexion, IPD neutre)</option>
+                        <option value="Orteils en griffe">Orteils en griffe (MTP en extension, IPP en flexion, IPD en flexion)</option>
+                        <option value="Orteils en maillet">Orteils en maillet (MTP neutre, IPP neutre, IPD en flexion)</option>
+                        <option value="Quintus Varus">Quintus Varus (bunionette de l'exostose du 5e métatarsien)</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="palpation" class="text-sm font-semibold text-slate-700 mb-1">Observation, Cicatrice, Œdème, Callosités & Palpation :</label>
+                    <input type="text" id="palpation" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm" placeholder="Ex: Cicatrice d'ostéotomie adhérente, oedème MTP1, cor dorsal D2, hyperkératose sous MTP2/MTP3">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3 : Mobilités Articulaires & Alignement -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-amber-50 text-amber-600 rounded-lg">
+                    <i class="fa-solid fa-arrows-up-down-left-right text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">3. Mobilités Articulaires & Statique de l'Avant-pied</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="mby_hallux" class="text-sm font-semibold text-slate-700 mb-1">Mobilité MTP de l'Hallux (Normal Extension : > 60-70°) :</label>
+                    <input type="text" id="mby_hallux" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm" placeholder="Ex: Extension MTP1 limitée à 30° douloureux (raideur), flexion normale">
+                </div>
+                <div class="flex flex-col">
+                    <label for="mby_orteils" class="text-sm font-semibold text-slate-700 mb-1">Mobilité des orteils longs (D2 à D5) (Réductibilité) :</label>
+                    <select id="mby_orteils" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                        <option value="Normales et souples">Amplitudes normales, orteils souples et mobiles</option>
+                        <option value="Griffes réductibles">Griffes réductibles (se corrigent à l'extension passive ou l'appui)</option>
+                        <option value="Griffes rigides / irréductibles">Griffes rigides / irréductibles (raideur fixée en flexion IPP/IPD)</option>
+                        <option value="Déficit global de flexion/extension">Déficit global de flexion et d'extension passive (enraidissement post-traumatique)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="appui_sol" class="text-sm font-semibold text-slate-700 mb-1">Appui des orteils au sol & Statique :</label>
+                    <select id="appui_sol" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                        <option value="Appui complet et symétrique">Appui pulpaire complet au sol de tous les orteils</option>
+                        <option value="Orteils en l'air / sans appui">Un ou plusieurs orteils ne touchent plus le sol (orteils suspendus / flottants)</option>
+                        <option value="Griffe active lors de la marche">Griffe active exagérée lors de l'appui / propulsion</option>
+                        <option value="Effondrement de l'arche antérieure">Effondrement de la voûte transverse / têtes métatarsiennes proéminentes au sol</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="distance_sol" class="text-sm font-semibold text-slate-700 mb-1">Flexion dorsale globale de la cheville & tendon d'Achille :</label>
+                    <input type="text" id="distance_sol" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm" placeholder="Ex: Rétraction de la chaîne postérieure (Lunge test : 7 cm) impactant l'appui antérieur">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4 : Tests Cliniques Spécifiques des Orteils -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-amber-50 text-amber-600 rounded-lg">
+                    <i class="fa-solid fa-stethoscope text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">4. Tests Orthopédiques & Neuro-Vasculaires</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Morton, Sésamoïdes & Stabilité -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Dépistage Pathologique de l'Avant-Pied</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_morton" class="mt-1 h-4 w-4 text-amber-600 border-slate-300 rounded focus:ring-amber-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Squeeze Test de Morton</span>
+                                <span class="text-xs text-slate-500">Compression transversale des têtes métatarsiennes reproduisant une vive douleur névralgique ou un clic audible (Mulgere's click).</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_windlass" class="mt-1 h-4 w-4 text-amber-600 border-slate-300 rounded focus:ring-amber-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de Windlass (Hallux)</span>
+                                <span class="text-xs text-slate-500">Extension passive maximale du gros orteil en charge. Évalue l'intégrité de l'aponévrose plantaire et le treuil mécanique du pied.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_lachman_mtp" class="mt-1 h-4 w-4 text-amber-600 border-slate-300 rounded focus:ring-amber-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Lachman MTP (Plaque plantaire)</span>
+                                <span class="text-xs text-slate-500">Tiroir vertical métatarsophalangien. Une laxité ou une douleur traduit une rupture/lésion de la plaque plantaire (fréquente sur D2/D3).</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Arthrose, Sésamoïdite & Laxité -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Souffrance Cartilagineuse & Ligamentaire</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="grind_mtp1" class="mt-1 h-4 w-4 text-amber-600 border-slate-300 rounded focus:ring-amber-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Grind Test de la MTP1 / Sésamoïdes</span>
+                                <span class="text-xs text-slate-500">Compression axiale et rotation douce de la MTP1. Positif en cas de douleur mécanique franche (Hallux Rigidus / Arthrose).</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="laxite_malleable" class="mt-1 h-4 w-4 text-amber-600 border-slate-300 rounded focus:ring-amber-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Laxité latérale / Stress des collatéraux</span>
+                                <span class="text-xs text-slate-500">Vérification de la stabilité dans le plan frontal des articulations des orteils (entorses MTP / IP).</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 : Score d'Incapacité Fonctionnelle de l'Avant-Pied -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-amber-50 text-amber-600 rounded-lg">
+                    <i class="fa-solid fa-pen-nib text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">5. Index de Gêne Fonctionnelle de l'Avant-Pied (Simplifié /50)</h2>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 italic">Évaluez la répercussion de la douleur et de la perte d'appui des orteils sur la locomotion quotidienne.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="sf_propulsion" class="text-sm font-semibold text-slate-700 mb-1">Propulsion / Marche sur la pointe des pieds :</label>
+                    <select id="sf_propulsion" onchange="calculerScoreOrteils()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                        <option value="0">0 - Aucune difficulté, appui et propulsion solides</option>
+                        <option value="3">3 - Difficulté légère ou inconfort en fin de pas</option>
+                        <option value="6">6 - Difficulté importante, évite d'appuyer sur l'avant-pied</option>
+                        <option value="10">10 - Impossible de se mettre sur la pointe des pieds</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="sf_chaussage" class="text-sm font-semibold text-slate-700 mb-1">Contraintes de Chaussage (Douleur / Conflit chaussure) :</label>
+                    <select id="sf_chaussage" onchange="calculerScoreOrteils()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                        <option value="0">0 - Peut porter n'importe quelle chaussure sans douleur</option>
+                        <option value="3">3 - Limité aux chaussures larges ou de sport (léger conflit)</option>
+                        <option value="6">6 - Douleur constante nécessitant des chaussures adaptées ou orthèses</option>
+                        <option value="10">10 - Chaussage fermé totalement impossible (marche pieds nus)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="sf_equilibre" class="text-sm font-semibold text-slate-700 mb-1">Équilibre unipodal / Stabilité de l'appui au sol :</label>
+                    <select id="sf_equilibre" onchange="calculerScoreOrteils()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                        <option value="0">0 - Équilibre unipodal stable sans douleur</option>
+                        <option value="3">3 - Équilibre légèrement oscillant ou douloureux en fin d'appui</option>
+                        <option value="6">6 - Perte d'appui sévère, se retient immédiatement au sol</option>
+                        <option value="10">10 - Appui unipodal sur le pied atteint impossible</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="sf_marche_longue" class="text-sm font-semibold text-slate-700 mb-1">Marche prolongée (Périmètre sans gêne mécanique) :</label>
+                    <select id="sf_marche_longue" onchange="calculerScoreOrteils()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                        <option value="0">0 - Marche illimitée sans aucune gêne</option>
+                        <option value="3">3 - Gêne ou brûlure après 1 à 2 km de marche continue</option>
+                        <option value="6">6 - Douleurs forçant l'arrêt ou modifiant le pas avant 500m</option>
+                        <option value="10">10 - Marche extrêmement limitée, boiterie immédiate au premier pas</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-4 flex flex-col">
+                <label for="sf_impulsion" class="text-sm font-semibold text-slate-700 mb-1">Saut, Course, Impulsion active (Capacité dynamique) :</label>
+                <select id="sf_impulsion" onchange="calculerScoreOrteils()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm">
+                    <option value="0">0 - Sauts et course fluides sans aucune gêne</option>
+                    <option value="3">3 - Impulsion douloureuse ou ralentie</option>
+                    <option value="6">6 - Sauts impossibles, évite tout impact</option>
+                    <option value="10">10 - Impotence dynamique complète</option>
+                </select>
+            </div>
+
+            <!-- Box d'interprétation dynamique -->
+            <div class="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4 text-center transition-all duration-300" id="scoreBanner">
+                <span class="text-slate-600 block text-sm font-medium">Indice d'incapacité de l'avant-pied & des orteils :</span>
+                <div class="mt-1 flex items-baseline justify-center gap-1">
+                    <span id="totalOrteils" class="text-3xl font-extrabold text-amber-700">0</span>
+                    <span class="text-amber-600 font-semibold">/ 50 pts</span>
+                </div>
+                <p id="interpreteOrteils" class="text-xs text-amber-800 mt-1 font-medium">Incapacité négligeable à minime</p>
+            </div>
+        </section>
+
+        <!-- Section 6 : Objectifs & Planification -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-amber-50 text-amber-600 rounded-lg">
+                    <i class="fa-solid fa-bullseye text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">6. Objectifs & Axes de Rééducation</h2>
+            </div>
+            <div class="flex flex-col">
+                <label for="objectifs" class="text-sm font-semibold text-slate-700 mb-1">Axes de rééducation prioritaires :</label>
+                <textarea id="objectifs" rows="3" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-sm" placeholder="Ex: Antalgie et réduction de l'oedème péri-MTP (bains de contraste, physiothérapie compressive), restauration de l'extension passive MTP1 par mobilisations et postures douces, renforcement analytique des muscles intrinsèques du pied (travail du court fléchisseur, écartement des orteils), étirements du système suro-achilléo-calcanéo-plantaire (SACP) pour limiter la surcharge de l'avant-pied, rééducation proprioceptive sur plateau instable et éducation au chaussage confortable..."></textarea>
+            </div>
+        </section>
+
+        <!-- Bouton de Génération -->
+        <button type="button" onclick="genererCompteRendu()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 text-base">
+            <i class="fa-solid fa-file-invoice text-lg"></i>
+            Générer le Résumé Clinique de l'Avant-Pied & Orteils
+        </button>
+    </form>
+
+    <!-- Résultats et Export -->
+    <div id="resultat-bilan" class="mt-8 bg-slate-900 rounded-xl p-6 shadow-xl border border-slate-800 text-slate-100 hidden">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-clipboard-check text-amber-400 text-lg"></i>
+                <h3 class="text-lg font-bold text-slate-100">Résumé du BDK Orteils</h3>
+            </div>
+            <button onclick="copierBilan()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-amber-400 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-copy"></i> Copier le texte
+            </button>
+        </div>
+        
+        <pre id="texteBilan" class="text-xs sm:text-sm font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed text-slate-300 bg-slate-950 p-4 rounded-lg border border-slate-800"></pre>
+        
+        <div id="notification-copie" class="mt-3 text-center text-xs text-amber-400 hidden font-semibold flex items-center justify-center gap-1">
+            <i class="fa-solid fa-check-circle"></i> Le bilan a été copié avec succès dans le presse-papier !
+        </div>
+    </div>
+</div>
+
+<script>
+    // Calcul de l'incapacité fonctionnelle simplifiée de l'avant-pied et des orteils
+    function calculerScoreOrteils() {
+        const p = parseInt(document.getElementById('sf_propulsion').value);
+        const c = parseInt(document.getElementById('sf_chaussage').value);
+        const e = parseInt(document.getElementById('sf_equilibre').value);
+        const m = parseInt(document.getElementById('sf_marche_longue').value);
+        const i = parseInt(document.getElementById('sf_impulsion').value);
+        
+        const total = p + c + e + m + i;
+        const totalElement = document.getElementById('totalOrteils');
+        const interpretationElement = document.getElementById('interpreteOrteils');
+        const banner = document.getElementById('scoreBanner');
+        
+        totalElement.innerText = total;
+
+        // Mise à jour de la couleur et de l'interprétation en fonction de la sévérité
+        if (total <= 10) {
+            interpretationElement.innerText = "Incapacité négligeable à minime (Bonne fonctionnalité globale de l'avant-pied)";
+            banner.className = "mt-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-emerald-700";
+            interpretationElement.className = "text-xs text-emerald-800 mt-1 font-medium";
+        } else if (total <= 25) {
+            interpretationElement.innerText = "Incapacité modérée (gêne lors des appuis prolongés, du chaussage serré ou de la propulsion)";
+            banner.className = "mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-yellow-700";
+            interpretationElement.className = "text-xs text-yellow-800 mt-1 font-medium";
+        } else if (total <= 40) {
+            interpretationElement.innerText = "Incapacité sévère (impact notable sur le pas, la marche quotidienne, l'équilibre et douleurs fréquentes)";
+            banner.className = "mt-6 bg-orange-50 border border-orange-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-orange-700";
+            interpretationElement.className = "text-xs text-orange-800 mt-1 font-medium";
+        } else {
+            interpretationElement.innerText = "Incapacité extrême / impotence fonctionnelle majeure du pied douloureux";
+            banner.className = "mt-6 bg-red-50 border border-red-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-red-700";
+            interpretationElement.className = "text-xs text-red-800 mt-1 font-medium";
+        }
+    }
+
+    // Génération du compte rendu synthétisé au propre
+    function genererCompteRendu() {
+        const nom = document.getElementById('nom').value || 'Non renseigné';
+        const cote = document.getElementById('cote').value;
+        const lat = document.getElementById('lateralite').value;
+        const profession = document.getElementById('profession').value || 'Non renseigné';
+        const sport = document.getElementById('sport').value || 'Non renseigné';
+        const motif = document.getElementById('motif').value || 'Non renseigné';
+        
+        const eva = document.getElementById('eva').value;
+        const eva_effort = document.getElementById('eva_effort').value;
+        const deformations = document.getElementById('deformations').value;
+        const palpation = document.getElementById('palpation').value || 'RAS';
+        
+        const mby_hallux = document.getElementById('mby_hallux').value || 'Non renseignée';
+        const mby_orteils = document.getElementById('mby_orteils').value;
+        const appui_sol = document.getElementById('appui_sol').value;
+        const distance_sol = document.getElementById('distance_sol').value || 'Non mesurée';
+
+        // Collecte des tests orthopédiques spécifiques
+        let testsPositifs = [];
+        if(document.getElementById('test_morton').checked) testsPositifs.push('Morton Squeeze (+ : suspicion névrome)');
+        if(document.getElementById('test_windlass').checked) testsPositifs.push('Windlass (+ : aponévrosite plantaire / altération treuil)');
+        if(document.getElementById('test_lachman_mtp').checked) testsPositifs.push('Lachman MTP (+ : lésion plaque plantaire)');
+        if(document.getElementById('grind_mtp1').checked) testsPositifs.push('Grind Test MTP1 (+ : suspicion hallux rigidus / sésamoïdite)');
+        if(document.getElementById('laxite_malleable').checked) testsPositifs.push('Laxité collatérale (+ : entorse ou instabilité articulaire)');
+        
+        const testsStr = testsPositifs.length > 0 ? testsPositifs.join(', ') : 'Tests de provocations ou d\'instabilités négatifs';
+
+        const scoreIncapacite = document.getElementById('totalOrteils').innerText;
+        const interpreteScore = document.getElementById('interpreteOrteils').innerText;
+        const objectifs = document.getElementById('objectifs').value || 'Récupération fonctionnelle des amplitudes articulaires et travail de la marche.';
+
+        // Construction du livrable textuel final
+        let output = `=== BILAN DIAGNOSTIC KINÉSITHÉRAPIQUE (ORTEILS & AVANT-PIED) ===\n`;
+        output += `Patient : ${nom} | Côté atteint : ${cote} (Dominance : ${lat})\n`;
+        output += `Chaussage / Contraintes : ${profession} | Sport : ${sport}\n`;
+        output += `Motif / Diagnostic : ${motif}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `DOULEUR : EVA Repos: ${eva}/10 | EVA Effort/Propulsion: ${eva_effort}/10\n`;
+        output += `INSPECTION / ALIGNEMENT : ${deformations}\n`;
+        output += `CLINIQUE (Cicatrice, Œdème, Callosités, Palpation) : ${palpation}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `MOBILITÉS ET BILAN ARTICULAIRE / STATIQUE :\n`;
+        output += ` - Amplitude MTP1 (Hallux) : ${mby_hallux}\n`;
+        output += ` - Souplesse Orteils longs : ${mby_orteils}\n`;
+        output += ` - Appui au sol des orteils : ${appui_sol}\n`;
+        output += ` - Flexion dorsale globale de cheville : ${distance_sol}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `TESTS CLINIQUES SPÉCIFIQUES :\n`;
+        output += ` - ${testsStr}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `FONCTIONNEL (Incapacité simplifiée de l'avant-pied) : ${scoreIncapacite}/50 pts (${interpreteScore})\n`;
+        output += `--------------------------------------------------\n`;
+        output += `AXES DE RÉÉDUCATION : ${objectifs}\n`;
+
+        const divResultat = document.getElementById('resultat-bilan');
+        document.getElementById('texteBilan').innerText = output;
+        divResultat.classList.remove('hidden');
+        document.getElementById('notification-copie').classList.add('hidden');
+        divResultat.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Fonction robuste de copie vers le presse-papiers pour contourner les blocages iFrame
+    function copierBilan() {
+        const texte = document.getElementById('texteBilan').innerText;
+        
+        const tempTextarea = document.createElement('textarea');
+        tempTextarea.value = texte;
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextarea);
+
+        // Affichage d'une notification de confirmation
+        const notification = document.getElementById('notification-copie');
+        notification.classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDK Rachis Complet Interactif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .transition-all-custom {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+
+<div class="max-w-5xl mx-auto">
+    <!-- En-tête principal -->
+    <header class="text-center mb-8 bg-gradient-to-r from-slate-700 to-indigo-950 rounded-2xl p-6 sm:p-8 shadow-xl text-white">
+        <div class="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-3">
+            <i class="fa-solid fa-dna text-3xl animate-pulse"></i>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Bilan Diagnostic Kinésithérapique (BDK)</h1>
+        <p class="text-indigo-200 mt-2 font-medium">Rachis Complet : Cervical, Thoracique, Lombaire, Sacrum & Coccyx</p>
+    </header>
+
+    <form id="bdkForm" class="space-y-6">
+        
+        <!-- Section 1 : Anamnèse & Profil du Patient -->
+        <section class="bg-white rounded-xl p-6 shadow-md border border-slate-100 transition-all-custom hover:shadow-lg">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                    <i class="fa-solid fa-address-card text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">1. Anamnèse & Profil du Patient</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex flex-col">
+                    <label for="nom" class="text-sm font-semibold text-slate-700 mb-1">Nom / Prénom du Patient :</label>
+                    <input type="text" id="nom" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Ex: Jean Martin">
+                </div>
+                <div class="flex flex-col">
+                    <label for="age" class="text-sm font-semibold text-slate-700 mb-1">L'âge du Patient :</label>
+                    <input type="text" id="age" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Ex: 45 ans">
+                </div>
+                <div class="flex flex-col">
+                    <label for="profession" class="text-sm font-semibold text-slate-700 mb-1">Profession / Ergonomie de poste :</label>
+                    <input type="text" id="profession" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Ex: Chauffeur routier, Bureau ergonomique, etc.">
+                </div>
+                <div class="flex flex-col">
+                    <label for="sport" class="text-sm font-semibold text-slate-700 mb-1">Loisirs / Activités physiques :</label>
+                    <input type="text" id="sport" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Ex: Course à pied, Natation, Jardinage">
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-col">
+                <label for="motif" class="text-sm font-semibold text-slate-700 mb-1">Motif de consultation / Diagnostic Médical :</label>
+                <textarea id="motif" rows="2" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Ex: Lombalgie chronique non spécifique, Lombosciatique L5 droite d'origine discale, Cervicalgies chroniques posturales, Coccygodynie après traumatisme direct..."></textarea>
+            </div>
+        </section>
+
+        <!-- Section 2 : Drapeaux Rouges (Red Flags) - Alerte de sécurité -->
+        <section class="bg-red-50/50 rounded-xl p-6 shadow-md border border-red-100">
+            <div class="flex items-center gap-3 border-b border-red-100 pb-3 mb-4">
+                <div class="p-2 bg-red-100 text-red-600 rounded-lg">
+                    <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-red-900">2. Dépistage d'Urgence Neurologique & Clinique (Red Flags)</h2>
+            </div>
+            <p class="text-xs text-slate-600 mb-4 italic">Cochez si l'un de ces signes de gravité est rapporté par le patient (nécessitant une réorientation médicale urgente) :</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="redFlagsContainer">
+                <label class="flex items-start gap-3 p-3 rounded-lg border border-red-100 hover:bg-red-50/70 cursor-pointer transition">
+                    <input type="checkbox" id="rf_selle" class="mt-1 h-4 w-4 text-red-600 border-slate-300 rounded focus:ring-red-500 red-flag-check">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-800 block">Anesthésie en selle / Troubles sphinctériens</span>
+                        <span class="text-[11px] text-slate-500">Incontinence urinaire/fécale récente ou perte de sensibilité périnéale (Syndrome de la queue de cheval).</span>
+                    </div>
+                </label>
+                <label class="flex items-start gap-3 p-3 rounded-lg border border-red-100 hover:bg-red-50/70 cursor-pointer transition">
+                    <input type="checkbox" id="rf_moteur" class="mt-1 h-4 w-4 text-red-600 border-slate-300 rounded focus:ring-red-500 red-flag-check">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-800 block">Déficit moteur progressif ou brutal</span>
+                        <span class="text-[11px] text-slate-500">Faiblesse majeure des membres (ex: steppage du pied, lâchage d'objets, impossibilité de marcher sur talons/pointes).</span>
+                    </div>
+                </label>
+                <label class="flex items-start gap-3 p-3 rounded-lg border border-red-100 hover:bg-red-50/70 cursor-pointer transition">
+                    <input type="checkbox" id="rf_trauma" class="mt-1 h-4 w-4 text-red-600 border-slate-300 rounded focus:ring-red-500 red-flag-check">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-800 block">Traumatisme violent récent ou ostéoporose</span>
+                        <span class="text-[11px] text-slate-500">Chute de hauteur ou accident de la voie publique récent (Suspicion de fracture vertébrale).</span>
+                    </div>
+                </label>
+                <label class="flex items-start gap-3 p-3 rounded-lg border border-red-100 hover:bg-red-50/70 cursor-pointer transition">
+                    <input type="checkbox" id="rf_general" class="mt-1 h-4 w-4 text-red-600 border-slate-300 rounded focus:ring-red-500 red-flag-check">
+                    <div>
+                        <span class="text-xs font-semibold text-slate-800 block">Signes généraux inexpliqués</span>
+                        <span class="text-[11px] text-slate-500">Fièvre, perte de poids inexpliquée, douleur constante et nocturne ne diminuant pas au repos (Suspicion néoplasique ou infectieuse).</span>
+                    </div>
+                </label>
+            </div>
+
+            <!-- Alerte dynamique si drapeau rouge coché -->
+            <div id="alertRedFlags" class="hidden mt-4 p-4 bg-red-100 border-l-4 border-red-600 text-red-900 rounded-lg flex items-center gap-3 animate-bounce">
+                <i class="fa-solid fa-circle-exclamation text-2xl"></i>
+                <div>
+                    <strong class="font-bold">Alerte Clinique majeure !</strong>
+                    <span class="block text-xs">Au moins un drapeau rouge est activé. Une réorientation pour avis médical/examens complémentaires est fortement préconisée avant d'entamer la thérapie manuelle.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3 : Sélection des zones du rachis à évaluer -->
+        <section class="bg-white rounded-xl p-6 shadow-md border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                    <i class="fa-solid fa-sliders text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">3. Sélection des Zones à Évaluer</h2>
+            </div>
+            <p class="text-xs text-slate-500 mb-4">Cochez uniquement les zones douloureuses pour ouvrir dynamiquement les sections cliniques adaptées.</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer hover:bg-indigo-50 hover:border-indigo-200 transition">
+                    <input type="checkbox" id="select_cervical" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500" checked onchange="toggleZone('cervical')">
+                    <span class="text-xs font-bold text-slate-800">Rachis Cervical</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer hover:bg-indigo-50 hover:border-indigo-200 transition">
+                    <input type="checkbox" id="select_thoracique" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500" checked onchange="toggleZone('thoracique')">
+                    <span class="text-xs font-bold text-slate-800">Rachis Thoracique</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer hover:bg-indigo-50 hover:border-indigo-200 transition">
+                    <input type="checkbox" id="select_lombaire" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500" checked onchange="toggleZone('lombaire')">
+                    <span class="text-xs font-bold text-slate-800">Rachis Lombaire</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer hover:bg-indigo-50 hover:border-indigo-200 transition">
+                    <input type="checkbox" id="select_sacrococcyx" class="h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500" checked onchange="toggleZone('sacrococcyx')">
+                    <span class="text-xs font-bold text-slate-800">Sacrum & Coccyx</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- Section 4 : Douleur, Sensibilité & Inspection Globale -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                    <i class="fa-solid fa-eye text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">4. Douleur & Examen Morphostatique</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="eva" class="text-sm font-semibold text-slate-700 mb-1">Douleur moyenne ressentie (EVA 0-10) :</label>
+                    <input type="number" id="eva" min="0" max="10" value="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+                </div>
+                <div class="flex flex-col">
+                    <label for="rythme_douleur" class="text-sm font-semibold text-slate-700 mb-1">Rythme horaire prédominant :</label>
+                    <select id="rythme_douleur" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+                        <option value="Mécanique pur">Mécanique pur (déclenché à l'effort / soulagé par le repos)</option>
+                        <option value="Mixte">Mixte (présence de réveils ou raideurs matinales transitoires)</option>
+                        <option value="Dérangement Douloureux Intracanalaire">Irradiations d'allure neuropathique (Brûlure, électricité)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-col">
+                <label for="inspection_morpho" class="text-sm font-semibold text-slate-700 mb-1">Inspection morphostatique (Attitude antalgique, courbures, contractures) :</label>
+                <input type="text" id="inspection_morpho" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Ex: Attitude en inclinaison gauche (shift lombaire), hypercyphose compensatrice, contracture paravertébrale bilatérale...">
+            </div>
+        </section>
+
+        <!-- Section 5 : Mobilités Cliniques (Modulaires) -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                    <i class="fa-solid fa-arrows-up-down-left-right text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">5. Bilan Articulaire & Mobilités</h2>
+            </div>
+
+            <!-- Bloc Rachis Cervical -->
+            <div id="section_cervical_mobilite" class="space-y-4 mb-6">
+                <h3 class="text-xs font-bold text-indigo-700 uppercase tracking-wider border-l-4 border-indigo-500 pl-2">Rachis Cervical</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="flex flex-col">
+                        <label for="m_cerv_flex_ext" class="text-xs text-slate-600 font-semibold mb-1">Flexion / Extension (Normal : Menton-sternum / Regard plafond) :</label>
+                        <input type="text" id="m_cerv_flex_ext" class="px-3 py-2 border border-slate-200 rounded-lg text-xs" placeholder="Ex: Flexion complète indolore, ext. limitée de 50%">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="m_cerv_rot" class="text-xs text-slate-600 font-semibold mb-1">Rotations Droite / Gauche (Normal : 80° / 80°) :</label>
+                        <input type="text" id="m_cerv_rot" class="px-3 py-2 border border-slate-200 rounded-lg text-xs" placeholder="Ex: Rot D 70°, Rot G 45° douloureuse">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="m_cerv_inc" class="text-xs text-slate-600 font-semibold mb-1">Inclinaisons Droite / Gauche (Normal : 45° / 45°) :</label>
+                        <input type="text" id="m_cerv_inc" class="px-3 py-2 border border-slate-200 rounded-lg text-xs" placeholder="Ex: Inclinaisons symétriques à 30°">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bloc Rachis Thoracique (Dorsal) -->
+            <div id="section_thoracique_mobilite" class="space-y-4 mb-6 border-t border-slate-100 pt-4">
+                <h3 class="text-xs font-bold text-indigo-700 uppercase tracking-wider border-l-4 border-indigo-500 pl-2">Rachis Thoracique</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col">
+                        <label for="m_thor_rot" class="text-xs text-slate-600 font-semibold mb-1">Rotations thoraciques (Bras croisés assis - Normal : 30° / 30°) :</label>
+                        <input type="text" id="m_thor_rot" class="px-3 py-2 border border-slate-200 rounded-lg text-xs" placeholder="Ex: Raideur asymétrique en rotation droite">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="m_thor_expansion" class="text-xs text-slate-600 font-semibold mb-1">Ampliation thoracique (Périmètre axillaire inspiration max - N : > 5 cm) :</label>
+                        <input type="text" id="m_thor_expansion" class="px-3 py-2 border border-slate-200 rounded-lg text-xs" placeholder="Ex: Expansion de 4 cm (bonne souplesse costale)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bloc Rachis Lombaire -->
+            <div id="section_lombaire_mobilite" class="space-y-4 mb-6 border-t border-slate-100 pt-4">
+                <h3 class="text-xs font-bold text-indigo-700 uppercase tracking-wider border-l-4 border-indigo-500 pl-2">Rachis Lombaire</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="flex flex-col">
+                        <label for="m_lomb_dds" class="text-xs text-slate-600 font-semibold mb-1">Distance Doigts-Sol (DDS) :</label>
+                        <input type="text" id="m_lomb_dds" class="px-3 py-2 border border-slate-200 rounded-lg text-xs" placeholder="Ex: DDS à 25 cm en fin de flexion lombaire">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="m_lomb_schober" class="text-xs text-slate-600 font-semibold mb-1">Test de Schober (10 cm + ... - Normal : + 4 à + 5 cm) :</label>
+                        <input type="text" id="m_lomb_schober" class="px-3 py-2 border border-slate-200 rounded-lg text-xs" placeholder="Ex: Schober à + 2 cm (enraidissement)">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="m_lomb_ext" class="text-xs text-slate-600 font-semibold mb-1">Extension active (Test d'appui ou flèche lombaire) :</label>
+                        <input type="text" id="m_lomb_ext" class="px-3 py-2 border border-slate-200 rounded-lg text-xs" placeholder="Ex: Extension douloureuse, blocage à mi-parcours">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bloc Zone Sacrale & Coccygienne -->
+            <div id="section_sacrococcyx_mobilite" class="space-y-4 mb-2 border-t border-slate-100 pt-4">
+                <h3 class="text-xs font-bold text-indigo-700 uppercase tracking-wider border-l-4 border-indigo-500 pl-2">Région Sacro-iliaque & Coccygienne</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col">
+                        <label for="m_sacro_palp" class="text-xs text-slate-600 font-semibold mb-1">Palpation des épines iliaques (EIPS/EIAS / Statique du bassin) :</label>
+                        <input type="text" id="m_sacro_palp" class="px-3 py-2 border border-slate-200 rounded-lg text-xs" placeholder="Ex: Bassin équilibré, sensibilité vive sur l'EIPS droite">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="m_coccyx_assise" class="text-xs text-slate-600 font-semibold mb-1">Tolérance d'appui et douleur coccygienne en position assise :</label>
+                        <input type="text" id="m_coccyx_assise" class="px-3 py-2 border border-slate-200 rounded-lg text-xs" placeholder="Ex: Douleur immédiate en assise profonde (Coccygodynie suspectée)">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6 : Tests Cliniques Spécifiques (Modulaires) -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                    <i class="fa-solid fa-user-doctor text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">6. Tests Orthopédiques & Neurologiques Spécifiques</h2>
+            </div>
+
+            <!-- Tests Rachis Cervical -->
+            <div id="section_cervical_tests" class="space-y-4 mb-6">
+                <h3 class="text-xs font-bold text-indigo-700 uppercase tracking-wider border-l-4 border-indigo-500 pl-2">Tests Cervicaux</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" id="test_spurling" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-800 block">Signe de Spurling</span>
+                            <span class="text-[10px] text-slate-500">Compression axiale de la tête en inclinaison/rotation. Positif si douleur irradiée (conflit radiculaire - NCB).</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" id="test_distraction" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-800 block">Test de Distraction</span>
+                            <span class="text-[10px] text-slate-500">Traction axiale manuelle sous le menton/occiput. Positif si diminution de la radiculopathie.</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" id="test_lhermitte" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-800 block">Signe de Lhermitte</span>
+                            <span class="text-[10px] text-slate-500">Sensation de décharge électrique le long du dos lors de la flexion cervicale (atteinte cordon postérieur).</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tests Rachis Thoracique / Charnières -->
+            <div id="section_thoracique_tests" class="space-y-4 mb-6 border-t border-slate-100 pt-4">
+                <h3 class="text-xs font-bold text-indigo-700 uppercase tracking-wider border-l-4 border-indigo-500 pl-2">Tests Thoraciques / Charnières</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" id="test_mur" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-800 block">Flèche occipitale (Test du Mur)</span>
+                            <span class="text-[10px] text-slate-500">Mesure de la distance mur-occiput en appui talons/fesses. Évalue l'enraidissement cervical/dorsal supérieur (Spondylarthrite).</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" id="test_perc_epine" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-800 block">Percussion des apophyses épineuses</span>
+                            <span class="text-[10px] text-slate-500">Sensibilité élective au marteau à réflexes ou à la pression PA. (Peut indiquer une lésion locale ou souffrance costale).</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tests Rachis Lombaire / Sciatalgie -->
+            <div id="section_lombaire_tests" class="space-y-4 mb-6 border-t border-slate-100 pt-4">
+                <h3 class="text-xs font-bold text-indigo-700 uppercase tracking-wider border-l-4 border-indigo-500 pl-2">Tests Lombaires / Sciatiques</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" id="test_lasegue" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-800 block">Test de Lasègue (Elevation jambe tendue)</span>
+                            <span class="text-[10px] text-slate-500">Mise en tension d'allure neuropathique des racines lombaires basses (L5/S1). Positif si irradiation sous le genou &lt; 60°.</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" id="test_leri" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-800 block">Test de Léri (Lasègue Inversé)</span>
+                            <span class="text-[10px] text-slate-500">Extension passive de la cuisse à plat ventre, genou fléchi. Positif si irradiation antérieure (souffrance cruralgie L3/L4).</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" id="test_slump" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-800 block">Slump Test (Tension méningée)</span>
+                            <span class="text-[10px] text-slate-500">Enroulement dorsal, flexion cervicale, extension active genou + dorsiflexion en position assise. Évalue l'irritation durale globale.</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tests Articulation Sacro-Iliaque & Coccyx -->
+            <div id="section_sacrococcyx_tests" class="space-y-4 border-t border-slate-100 pt-4">
+                <h3 class="text-xs font-bold text-indigo-700 uppercase tracking-wider border-l-4 border-indigo-500 pl-2">Tests Sacro-Iliaques (Cluster de Laslett)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" id="test_dist_comp" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-800 block">Distraction / Compression Sacro-Iliaque</span>
+                            <span class="text-[10px] text-slate-500">Pression antérieure sur les EIAS en décubitus ou compression en décubitus latéral. Positif si douleur unilatérale.</span>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                        <input type="checkbox" id="test_gaenslen" class="mt-1 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                        <div>
+                            <span class="text-xs font-semibold text-slate-800 block">Test de Gaenslen (Torsion de bassin)</span>
+                            <span class="text-[10px] text-slate-500">Une cuisse en flexion maximale contre la poitrine, l'autre jambe suspendue en extension en bout de table.</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7 : Score Fonctionnel d'incapacité Globale du Rachis -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                    <i class="fa-solid fa-pen-nib text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">7. Index de Restriction Fonctionnelle du Rachis (Score /50)</h2>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 italic">Estimez le niveau de gêne du patient dans son quotidien. Plus le score est élevé, plus l'incapacité est forte.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="sf_intensite" class="text-sm font-semibold text-slate-700 mb-1">Intensité de la douleur moyenne :</label>
+                    <select id="sf_intensite" onchange="calculerScoreRachis()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                        <option value="0">0 - Douleur légère ou absente</option>
+                        <option value="3">3 - Douleur modérée mais stable</option>
+                        <option value="6">6 - Douleur vive, limite les activités</option>
+                        <option value="10">10 - Douleur permanente et intolérable</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="sf_assise" class="text-sm font-semibold text-slate-700 mb-1">Tolérance à la station Assise / Debout :</label>
+                    <select id="sf_assise" onchange="calculerScoreRachis()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                        <option value="0">0 - Station prolongée possible sans aucune gêne</option>
+                        <option value="3">3 - Gêne ou douleur après une heure d'assise continue</option>
+                        <option value="6">6 - Gêne forçant le changement de position après 15-30 minutes</option>
+                        <option value="10">10 - Impossibilité totale de rester assis ou debout stable</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="sf_charge" class="text-sm font-semibold text-slate-700 mb-1">Soulever des charges légères à lourdes :</label>
+                    <select id="sf_charge" onchange="calculerScoreRachis()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                        <option value="0">0 - Peut soulever des charges normalement</option>
+                        <option value="3">3 - Gêne modérée pour soulever des objets lourds au sol</option>
+                        <option value="6">6 - Douleur vive restreignant le port de charges courantes (&gt;5kg)</option>
+                        <option value="10">10 - Impossible de se pencher ou de porter quoi que ce soit</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="sf_sommeil" class="text-sm font-semibold text-slate-700 mb-1">Qualité du sommeil (Impact de la douleur vertébrale) :</label>
+                    <select id="sf_sommeil" onchange="calculerScoreRachis()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                        <option value="0">0 - Sommeil excellent et non perturbé</option>
+                        <option value="3">3 - Réveils occasionnels lors de mouvements involontaires</option>
+                        <option value="6">6 - Difficulté à trouver une position de couchage confortable</option>
+                        <option value="10">10 - Douleur permanente provoquant une insomnie sévère</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-4 flex flex-col">
+                <label for="sf_deplacements" class="text-sm font-semibold text-slate-700 mb-1">Déplacements, conduite et marche autonome :</label>
+                <select id="sf_deplacements" onchange="calculerScoreRachis()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    <option value="0">0 - Voyages et déplacements illimités sans gêne</option>
+                    <option value="3">3 - Limitation mineure (gêne lors de trajets prolongés en voiture)</option>
+                    <option value="6">6 - Périmètre de marche réduit à moins de 1 km à cause de la douleur</option>
+                    <option value="10">10 - grabatisation fonctionnelle / dépendance immédiate</option>
+                </select>
+            </div>
+
+            <!-- Box d'interprétation du score de restriction fonctionnelle -->
+            <div class="mt-6 bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-center transition-all duration-300" id="scoreBanner">
+                <span class="text-slate-600 block text-sm font-medium">Indice d'incapacité globale du rachis :</span>
+                <div class="mt-1 flex items-baseline justify-center gap-1">
+                    <span id="totalRachis" class="text-3xl font-extrabold text-indigo-700">0</span>
+                    <span class="text-indigo-600 font-semibold">/ 50 pts</span>
+                </div>
+                <p id="interpreteRachis" class="text-xs text-indigo-800 mt-1 font-medium">Incapacité négligeable à minime (Bon contrôle articulaire)</p>
+            </div>
+        </section>
+
+        <!-- Section 8 : Objectifs & Planification de Traitement -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                    <i class="fa-solid fa-bullseye text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">8. Objectifs & Axes de Rééducation</h2>
+            </div>
+            <div class="flex flex-col">
+                <label for="objectifs" class="text-sm font-semibold text-slate-700 mb-1">Axes thérapeutiques prioritaires :</label>
+                <textarea id="objectifs" rows="3" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Ex: Diminuer la douleur neuro-mécanique locale, lever les tensions myofasciales paravertébrales, restaurer la mobilité lombaire en flexion/extension (Méthode McKenzie si applicable), renforcement et proprioception de la sangle abdominale profonde (Gainage transverse), éducation ergonomique de poste de travail..."></textarea>
+            </div>
+        </section>
+
+        <!-- Bouton de Génération -->
+        <button type="button" onclick="genererCompteRendu()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 text-base">
+            <i class="fa-solid fa-file-invoice text-lg"></i>
+            Générer le Résumé Clinique du Rachis
+        </button>
+    </form>
+
+    <!-- Résultats et Export (caché par défaut) -->
+    <div id="resultat-bilan" class="mt-8 bg-slate-900 rounded-xl p-6 shadow-xl border border-slate-800 text-slate-100 hidden">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-clipboard-check text-indigo-400 text-lg"></i>
+                <h3 class="text-lg font-bold text-slate-100">Résumé du BDK Rachis</h3>
+            </div>
+            <button onclick="copierBilan()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-indigo-400 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-copy"></i> Copier le texte
+            </button>
+        </div>
+        
+        <pre id="texteBilan" class="text-xs sm:text-sm font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed text-slate-300 bg-slate-950 p-4 rounded-lg border border-slate-800"></pre>
+        
+        <div id="notification-copie" class="mt-3 text-center text-xs text-indigo-400 hidden font-semibold flex items-center justify-center gap-1">
+            <i class="fa-solid fa-check-circle"></i> Le bilan a été copié avec succès !
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    // Fonction d'activation et désactivation dynamique des zones cliniques
+    function toggleZone(zone) {
+        const checkbox = document.getElementById('select_' + zone);
+        const panelMobilite = document.getElementById('section_' + zone + '_mobilite');
+        const panelTests = document.getElementById('section_' + zone + '_tests');
+        
+        if (checkbox.checked) {
+            panelMobilite.style.display = 'block';
+            if (panelTests) panelTests.style.display = 'block';
+        } else {
+            panelMobilite.style.display = 'none';
+            if (panelTests) panelTests.style.display = 'none';
+        }
+    }
+
+    // Gestion de l'alerte dynamique des Drapeaux Rouges (Red Flags)
+    const redFlagChecks = document.querySelectorAll('.red-flag-check');
+    const alertBox = document.getElementById('alertRedFlags');
+    
+    redFlagChecks.forEach(check => {
+        check.addEventListener('change', () => {
+            let oneChecked = false;
+            redFlagChecks.forEach(c => { if(c.checked) oneChecked = true; });
+            if (oneChecked) {
+                alertBox.classList.remove('hidden');
+            } else {
+                alertBox.classList.add('hidden');
+            }
+        });
+    });
+
+    // Calcul de l'incapacité globale du rachis
+    function calculerScoreRachis() {
+        const i = parseInt(document.getElementById('sf_intensite').value);
+        const a = parseInt(document.getElementById('sf_assise').value);
+        const c = parseInt(document.getElementById('sf_charge').value);
+        const s = parseInt(document.getElementById('sf_sommeil').value);
+        const d = parseInt(document.getElementById('sf_deplacements').value);
+        
+        const total = i + a + c + s + d;
+        const totalElement = document.getElementById('totalRachis');
+        const interpretationElement = document.getElementById('interpreteRachis');
+        const banner = document.getElementById('scoreBanner');
+        
+        totalElement.innerText = total;
+
+        // Mise à jour de l'affichage dynamique (Code couleur de la bannière)
+        if (total <= 10) {
+            interpretationElement.innerText = "Incapacité négligeable à minime (Bon contrôle moteur)";
+            banner.className = "mt-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-emerald-700";
+            interpretationElement.className = "text-xs text-emerald-800 mt-1 font-medium";
+        } else if (total <= 25) {
+            interpretationElement.innerText = "Incapacité modérée (restrictions d'amplitude ou lors des contraintes mécaniques)";
+            banner.className = "mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-yellow-700";
+            interpretationElement.className = "text-xs text-yellow-800 mt-1 font-medium";
+        } else if (total <= 40) {
+            interpretationElement.innerText = "Incapacité sévère (impact notable sur le travail, les loisirs et le sommeil)";
+            banner.className = "mt-6 bg-orange-50 border border-orange-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-orange-700";
+            interpretationElement.className = "text-xs text-orange-800 mt-1 font-medium";
+        } else {
+            interpretationElement.innerText = "Incapacité extrême / impotence majeure et douloureuse du rachis";
+            banner.className = "mt-6 bg-red-50 border border-red-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-red-700";
+            interpretationElement.className = "text-xs text-red-800 mt-1 font-medium";
+        }
+    }
+
+    // Génération automatique du rapport de synthèse (uniquement pour les zones actives)
+    function genererCompteRendu() {
+        const nom = document.getElementById('nom').value || 'Non renseigné';
+        const profession = document.getElementById('profession').value || 'Non renseignée';
+        const sport = document.getElementById('sport').value || 'Non renseigné';
+        const motif = document.getElementById('motif').value || 'Non renseigné';
+        
+        const eva = document.getElementById('eva').value;
+        const rythme = document.getElementById('rythme_douleur').value;
+        const morpho = document.getElementById('inspection_morpho').value || 'RAS';
+
+        // Collecte des Drapeaux Rouges
+        let redFlags = [];
+        if(document.getElementById('rf_selle').checked) redFlags.push('Troubles sphinctériens / Anesthésie en selle');
+        if(document.getElementById('rf_moteur').checked) redFlags.push('Déficit moteur progressif');
+        if(document.getElementById('rf_trauma').checked) redFlags.push('Traumatisme violent récent');
+        if(document.getElementById('rf_general').checked) redFlags.push('Signes généraux inexpliqués');
+        const rfsStr = redFlags.length > 0 ? `ATTENTION : Drapeaux Rouges détectés (${redFlags.join(', ')})` : 'Aucun drapeau rouge (Dépistage sécurité négatif)';
+
+        // Zones actives
+        const activeZones = [];
+        if(document.getElementById('select_cervical').checked) activeZones.push('Cervical');
+        if(document.getElementById('select_thoracique').checked) activeZones.push('Thoracique');
+        if(document.getElementById('select_lombaire').checked) activeZones.push('Lombaire');
+        if(document.getElementById('select_sacrococcyx').checked) activeZones.push('Sacro-iliaque/Coccyx');
+
+        let output = `=== BILAN DIAGNOSTIC KINÉSITHÉRAPIQUE (RACHIS COMPLET) ===\n`;
+        output += `Patient : ${nom}\n`;
+        output += `Profession : ${profession} | Loisirs : ${sport}\n`;
+        output += `Motif / Diagnostic : ${motif}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `DOULEUR : EVA ${eva}/10 | Rythme : ${rythme}\n`;
+        output += `SÉCURITÉ : ${rfsStr}\n`;
+        output += `MORPHOSTATIQUE : ${morpho}\n`;
+        output += `Zones du rachis évaluées : ${activeZones.join(', ')}\n`;
+        output += `--------------------------------------------------\n`;
+
+        // Cervical
+        if (document.getElementById('select_cervical').checked) {
+            output += `BILAN RACHIS CERVICAL :\n`;
+            output += ` - Flexion / Extension : ${document.getElementById('m_cerv_flex_ext').value || 'Non mesuré'}\n`;
+            output += ` - Rotations : ${document.getElementById('m_cerv_rot').value || 'Non mesuré'}\n`;
+            output += ` - Inclinaisons : ${document.getElementById('m_cerv_inc').value || 'Non mesuré'}\n`;
+            
+            let testsCerv = [];
+            if(document.getElementById('test_spurling').checked) testsCerv.push('Spurling (+ : NCB suspecté)');
+            if(document.getElementById('test_distraction').checked) testsCerv.push('Distraction (+ : réduction douleur)');
+            if(document.getElementById('test_lhermitte').checked) testsCerv.push('Lhermitte (+ : souffrance cordonnal postérieur)');
+            output += ` - Tests Spécifiques : ${testsCerv.length > 0 ? testsCerv.join(', ') : 'Négatifs'}\n`;
+            output += `--------------------------------------------------\n`;
+        }
+
+        // Thoracique
+        if (document.getElementById('select_thoracique').checked) {
+            output += `BILAN RACHIS THORACIQUE :\n`;
+            output += ` - Rotations : ${document.getElementById('m_thor_rot').value || 'Non mesuré'}\n`;
+            output += ` - Ampliation : ${document.getElementById('m_thor_expansion').value || 'Non mesuré'}\n`;
+            
+            let testsThor = [];
+            if(document.getElementById('test_mur').checked) testsThor.push('Flèche occipitale positive');
+            if(document.getElementById('test_perc_epine').checked) testsThor.push('Sensibilité à la percussion/pression PA');
+            output += ` - Tests Spécifiques : ${testsThor.length > 0 ? testsThor.join(', ') : 'Négatifs'}\n`;
+            output += `--------------------------------------------------\n`;
+        }
+
+        // Lombaire
+        if (document.getElementById('select_lombaire').checked) {
+            output += `BILAN RACHIS LOMBAIRE :\n`;
+            output += ` - Distance Doigts-Sol (DDS) : ${document.getElementById('m_lomb_dds').value || 'Non mesuré'}\n`;
+            output += ` - Schober : ${document.getElementById('m_lomb_schober').value || 'Non mesuré'}\n`;
+            output += ` - Extension active : ${document.getElementById('m_lomb_ext').value || 'Non mesuré'}\n`;
+            
+            let testsLomb = [];
+            if(document.getElementById('test_lasegue').checked) testsLomb.push('Lasègue (+ : tension racine L5/S1)');
+            if(document.getElementById('test_leri').checked) testsLomb.push('Léri (+ : tension cruralgie L3/L4)');
+            if(document.getElementById('test_slump').checked) testsLomb.push('Slump (+ : tension neuro-méningée positive)');
+            output += ` - Tests Spécifiques : ${testsLomb.length > 0 ? testsLomb.join(', ') : 'Négatifs'}\n`;
+            output += `--------------------------------------------------\n`;
+        }
+
+        // Sacro-iliaque & Coccyx
+        if (document.getElementById('select_sacrococcyx').checked) {
+            output += `BILAN REGION SACRALE / COCCYGIENNE :\n`;
+            output += ` - Palpation bassin (EIPS/EIAS) : ${document.getElementById('m_sacro_palp').value || 'Non mesuré'}\n`;
+            output += ` - Tolérance assise : ${document.getElementById('m_coccyx_assise').value || 'Non mesuré'}\n`;
+            
+            let testsSac = [];
+            if(document.getElementById('test_dist_comp').checked) testsSac.push('Distraction/Compression SI positive (douleur SI)');
+            if(document.getElementById('test_gaenslen').checked) testsSac.push('Gaenslen (+ : douleur torsion SI)');
+            output += ` - Tests Spécifiques : ${testsSac.length > 0 ? testsSac.join(', ') : 'Négatifs'}\n`;
+            output += `--------------------------------------------------\n`;
+        }
+
+        const scoreIncapacite = document.getElementById('totalRachis').innerText;
+        const interpreteScore = document.getElementById('interpreteRachis').innerText;
+        const objectifs = document.getElementById('objectifs').value || 'Amélioration fonctionnelle articulaire globale.';
+
+        output += `INCAPACITÉ FONCTIONNELLE DU RACHIS : ${scoreIncapacite}/50 pts (${interpreteScore})\n`;
+        output += `--------------------------------------------------\n`;
+        output += `AXES DE RÉÉDUCATION : ${objectifs}\n`;
+
+        // Affichage dynamique
+        const divResultat = document.getElementById('resultat-bilan');
+        document.getElementById('texteBilan').innerText = output;
+        divResultat.classList.remove('hidden');
+        
+        // Cache la notification de copie précédente
+        document.getElementById('notification-copie').classList.add('hidden');
+        
+        // Défilement automatique vers le bloc de synthèse
+        divResultat.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Fonction de copie du résultat clinique vers le presse-papiers
+    function copierBilan() {
+        const texte = document.getElementById('texteBilan').innerText;
+        
+        const tempTextarea = document.createElement('textarea');
+        tempTextarea.value = texte;
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextarea);
+
+        // Affichage d'une notification de confirmation
+        const notification = document.getElementById('notification-copie');
+        notification.classList.remove('hidden');
+    }
+
+    // Initialisation
+    window.onload = function() {
+        toggleZone('cervical');
+        toggleZone('thoracique');
+        toggleZone('lombaire');
+        toggleZone('sacrococcyx');
+    }
+</script>
+
+</body>
+</html>
+`

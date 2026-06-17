@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDK Poignet Interactif</title>
+    <!-- Tailwind CSS pour un design moderne et responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+
+<div class="max-w-4xl mx-auto">
+    <!-- En-tête -->
+    <header class="text-center mb-8 bg-gradient-to-r from-purple-600 to-fuchsia-700 rounded-2xl p-6 sm:p-8 shadow-lg text-white">
+        <div class="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-3">
+            <i class="fa-solid fa-hand text-3xl"></i>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Bilan Diagnostic Kinésithérapique (BDK)</h1>
+        <p class="text-purple-100 mt-2 font-medium">Poignet, Carpe & Articulations Radio-Carpiennes / Médio-Carpiennes</p>
+    </header>
+
+    <form id="bdkForm" class="space-y-6">
+        
+        <!-- Section 1 : Anamnèse & Profil du Patient -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-purple-50 text-purple-600 rounded-lg">
+                    <i class="fa-solid fa-address-card text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">1. Anamnèse & Contexte Clinique</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex flex-col">
+                    <label for="nom" class="text-sm font-semibold text-slate-700 mb-1">Nom / Prénom du Patient :</label>
+                    <input type="text" id="nom" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm" placeholder="Ex: Lucas Bernard">
+                </div>
+                <div class="flex flex-col">
+                    <label for="age" class="text-sm font-semibold text-slate-700 mb-1">L'âge du Patient :</label>
+                    <input type="text" id="age" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm" placeholder="Ex: 45 ans">
+                </div>
+                <div class="flex flex-col">
+                    <label for="cote" class="text-sm font-semibold text-slate-700 mb-1">Côté atteint :</label>
+                    <select id="cote" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                        <option value="Droit">Droit</option>
+                        <option value="Gauche">Gauche</option>
+                        <option value="Bilatéral">Bilatéral</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="lateralite" class="text-sm font-semibold text-slate-700 mb-1">Dominance manuelle :</label>
+                    <select id="lateralite" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                        <option value="Droitier">Droitier</option>
+                        <option value="Gaucher">Gaucher</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="profession" class="text-sm font-semibold text-slate-700 mb-1">Profession / Ergonomie au poste :</label>
+                    <input type="text" id="profession" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm" placeholder="Ex: Secrétariat (clavier/souris), Artisan, Port de charges">
+                </div>
+                <div class="flex flex-col">
+                    <label for="sport" class="text-sm font-semibold text-slate-700 mb-1">Activités de loisirs / Sport :</label>
+                    <input type="text" id="sport" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm" placeholder="Ex: Yoga (appui poignet douloureux), Tennis, CrossFit">
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-col">
+                <label for="motif" class="text-sm font-semibold text-slate-700 mb-1">Motif / Diagnostic Médical :</label>
+                <textarea id="motif" rows="2" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm" placeholder="Ex: Syndrome du canal carpien, Ténosynovite de De Quervain, Séquelles de fracture du scaphoïde, Entorse ligament scapho-lunaire..."></textarea>
+            </div>
+        </section>
+
+        <!-- Section 2 : Douleur & Inspection Sensorielle -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-purple-50 text-purple-600 rounded-lg">
+                    <i class="fa-solid fa-eye text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">2. Douleur, Sensibilité & Inspection</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="eva" class="text-sm font-semibold text-slate-700 mb-1">Douleur au repos (EVA 0-10) :</label>
+                    <input type="number" id="eva" min="0" max="10" value="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                </div>
+                <div class="flex flex-col">
+                    <label for="eva_effort" class="text-sm font-semibold text-slate-700 mb-1">Douleur en charge / appui (EVA 0-10) :</label>
+                    <input type="number" id="eva_effort" min="0" max="10" value="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="paresthesie" class="text-sm font-semibold text-slate-700 mb-1">Troubles sensitifs (Paresthésies) :</label>
+                    <select id="paresthesie" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                        <option value="Aucun">Aucune paresthésie</option>
+                        <option value="Territoire Médian (Pouce-Majeur)">Territoire Médian (Pouce, Index, Majeur)</option>
+                        <option value="Territoire Ulnaire (Auriculaire)">Territoire Ulnaire (Auriculaire, Annulaire)</option>
+                        <option value="Global / Inconstant">Global / Inconstant (Nocturne)</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="palpation" class="text-sm font-semibold text-slate-700 mb-1">Observation & Palpation :</label>
+                    <input type="text" id="palpation" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm" placeholder="Ex: Amyotrophie thénarienne, œdème du carpe, douleur styloïde radiale">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3 : Mobilités Articulaires -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-purple-50 text-purple-600 rounded-lg">
+                    <i class="fa-solid fa-arrows-up-down-left-right text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">3. Mobilités Articulaires (Actif / Passif)</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="flex_ext" class="text-sm font-semibold text-slate-700 mb-1">Flexion / Extension (Normal : 80° / 70°) :</label>
+                    <input type="text" id="flex_ext" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm" placeholder="Ex: 50° / 45° (Sain : 80° / 70°)">
+                </div>
+                <div class="flex flex-col">
+                    <label for="inc_rad_uln" class="text-sm font-semibold text-slate-700 mb-1">Inclin. Radiale / Ulnaire (Normal : 15° / 30°) :</label>
+                    <input type="text" id="inc_rad_uln" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm" placeholder="Ex: 10° / 20°">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4 : Tests Orthopédiques Spécifiques -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-purple-50 text-purple-600 rounded-lg">
+                    <i class="fa-solid fa-stethoscope text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">4. Tests Orthopédiques Spécifiques</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Canal Carpien & Neuro -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Compressions Canalaires (Canal Carpien)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_phalen" class="mt-1 h-4 w-4 text-purple-600 border-slate-300 rounded focus:ring-purple-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de Phalen</span>
+                                <span class="text-xs text-slate-500">Paresthésies reproduites en flexion forcée du poignet.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_tinel" class="mt-1 h-4 w-4 text-purple-600 border-slate-300 rounded focus:ring-purple-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Signe de Tinel</span>
+                                <span class="text-xs text-slate-500">Percussion du nerf médian au carpe provoquant des décharges.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_durkan" class="mt-1 h-4 w-4 text-purple-600 border-slate-300 rounded focus:ring-purple-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Compression de Durkan</span>
+                                <span class="text-xs text-slate-500">Pression directe du nerf médian la plus sensible.</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- De Quervain -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Tendinopathies (De Quervain)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_finkelstein" class="mt-1 h-4 w-4 text-purple-600 border-slate-300 rounded focus:ring-purple-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de Finkelstein</span>
+                                <span class="text-xs text-slate-500">Douleur vive lors de la déviation ulnaire avec pouce fléchi.</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Instabilités & Scaphoïde -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Instabilités & Trauma du Carpe</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_watson" class="mt-1 h-4 w-4 text-purple-600 border-slate-300 rounded focus:ring-purple-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de Watson (Scaphoid Shift)</span>
+                                <span class="text-xs text-slate-500">Instabilité scapho-lunaire (ressaut ou douleur).</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_tabatiere" class="mt-1 h-4 w-4 text-purple-600 border-slate-300 rounded focus:ring-purple-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Pression Tabatière Anat.</span>
+                                <span class="text-xs text-slate-500">Douleur vive suspectant une fracture du scaphoïde.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_tfcc" class="mt-1 h-4 w-4 text-purple-600 border-slate-300 rounded focus:ring-purple-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Compression TFCC (Grind Test)</span>
+                                <span class="text-xs text-slate-500">Douleur ulnaire lors de la compression-circumduction.</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 : Score Fonctionnel du Poignet (Inspiré PRWE /50) -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-purple-50 text-purple-600 rounded-lg">
+                    <i class="fa-solid fa-pen-nib text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">5. Index de Gêne Fonctionnelle (PRWE Simplifié /50)</h2>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 italic">Évaluez la difficulté du patient pour les tâches quotidiennes sollicitant le poignet et la main.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="sf_tourner" class="text-sm font-semibold text-slate-700 mb-1">Tourner une poignée / Ouvrir un bocal :</label>
+                    <select id="sf_tourner" onchange="calculerScorePoignet()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                        <option value="0">0 - Aucune difficulté</option>
+                        <option value="3">3 - Difficulté légère</option>
+                        <option value="6">6 - Difficulté importante (aide manuelle opposée)</option>
+                        <option value="10">10 - Impossible</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="sf_porter" class="text-sm font-semibold text-slate-700 mb-1">Soulever un objet (bouteille, poêle) :</label>
+                    <select id="sf_porter" onchange="calculerScorePoignet()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                        <option value="0">0 - Aucune difficulté</option>
+                        <option value="3">3 - Difficulté légère (fatigue rapide)</option>
+                        <option value="6">6 - Douleur vive obligeant à lâcher l'objet</option>
+                        <option value="10">10 - Impossible de porter quoi que ce soit</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="sf_appui" class="text-sm font-semibold text-slate-700 mb-1">Prendre appui sur la main (chaise, sol) :</label>
+                    <select id="sf_appui" onchange="calculerScorePoignet()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                        <option value="0">0 - Facile, sans aucune appréhension</option>
+                        <option value="3">3 - Appui limité par une raideur/douleur</option>
+                        <option value="6">6 - Appui très douloureux sur le carpe</option>
+                        <option value="10">10 - Appui en extension totale impossible</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="sf_habiller" class="text-sm font-semibold text-slate-700 mb-1">Habillage & Boutonnage :</label>
+                    <select id="sf_habiller" onchange="calculerScorePoignet()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                        <option value="0">0 - Aucune difficulté</option>
+                        <option value="3">3 - Gêne pour les petits boutons/fermetures</option>
+                        <option value="6">6 - Besoin d'une aide technique ou d'un tiers</option>
+                        <option value="10">10 - Incapable de s'habiller seul</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-4 flex flex-col">
+                <label for="sf_force" class="text-sm font-semibold text-slate-700 mb-1">Force de préhension globale (Serrage) :</label>
+                <select id="sf_force" onchange="calculerScorePoignet()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm">
+                    <option value="0">0 - Force normale conservée</option>
+                    <option value="3">3 - Sensation de faiblesse subjective</option>
+                    <option value="6">6 - Perte de force objective (lâche les objets)</option>
+                    <option value="10">10 - Déficit complet de serrage (pince impossible)</option>
+                </select>
+            </div>
+
+            <!-- Box d'interprétation dynamique -->
+            <div class="mt-6 bg-purple-50 border border-purple-200 rounded-xl p-4 text-center transition-all duration-300" id="scoreBanner">
+                <span class="text-slate-600 block text-sm font-medium">Indice d'incapacité du poignet :</span>
+                <div class="mt-1 flex items-baseline justify-center gap-1">
+                    <span id="totalPoignet" class="text-3xl font-extrabold text-purple-700">0</span>
+                    <span class="text-purple-600 font-semibold">/ 50 pts</span>
+                </div>
+                <p id="interpretePoignet" class="text-xs text-purple-800 mt-1 font-medium">Incapacité négligeable à minime</p>
+            </div>
+        </section>
+
+        <!-- Section 6 : Objectifs & Planification -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-purple-50 text-purple-600 rounded-lg">
+                    <i class="fa-solid fa-bullseye text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">6. Objectifs & Axes de Rééducation</h2>
+            </div>
+            <div class="flex flex-col">
+                <label for="objectifs" class="text-sm font-semibold text-slate-700 mb-1">Axes thérapeutiques prioritaires :</label>
+                <textarea id="objectifs" rows="3" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm" placeholder="Ex: Port d'une orthèse nocturne, glissements tendineux (Totten & Hunter), neuro-glissement du nerf médian, renforcement des stabilisateurs du carpe, proprioception et reconditionnement à l'effort..."></textarea>
+            </div>
+        </section>
+
+        <!-- Bouton de Génération -->
+        <button type="button" onclick="genererCompteRendu()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 text-base">
+            <i class="fa-solid fa-file-invoice text-lg"></i>
+            Générer le Résumé Clinique du Poignet
+        </button>
+    </form>
+
+    <!-- Résultats et Export -->
+    <div id="resultat-bilan" class="mt-8 bg-slate-900 rounded-xl p-6 shadow-xl border border-slate-800 text-slate-100 hidden">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-clipboard-check text-purple-400 text-lg"></i>
+                <h3 class="text-lg font-bold text-slate-100">Résumé du BDK Poignet</h3>
+            </div>
+            <button onclick="copierBilan()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-purple-400 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-copy"></i> Copier le texte
+            </button>
+        </div>
+        
+        <pre id="texteBilan" class="text-xs sm:text-sm font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed text-slate-300 bg-slate-950 p-4 rounded-lg border border-slate-800"></pre>
+        
+        <div id="notification-copie" class="mt-3 text-center text-xs text-purple-400 hidden font-semibold flex items-center justify-center gap-1">
+            <i class="fa-solid fa-check-circle"></i> Le bilan a été copié avec succès !
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculerScorePoignet() {
+        const t = parseInt(document.getElementById('sf_tourner').value);
+        const p = parseInt(document.getElementById('sf_porter').value);
+        const a = parseInt(document.getElementById('sf_appui').value);
+        const h = parseInt(document.getElementById('sf_habiller').value);
+        const f = parseInt(document.getElementById('sf_force').value);
+        
+        const total = t + p + a + h + f;
+        const totalElement = document.getElementById('totalPoignet');
+        const interpretationElement = document.getElementById('interpretePoignet');
+        const banner = document.getElementById('scoreBanner');
+        
+        totalElement.innerText = total;
+
+        if (total <= 10) {
+            interpretationElement.innerText = "Incapacité négligeable à minime";
+            banner.className = "mt-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-emerald-700";
+            interpretationElement.className = "text-xs text-emerald-800 mt-1 font-medium";
+        } else if (total <= 25) {
+            interpretationElement.innerText = "Incapacité modérée (gêne lors des contraintes mécaniques)";
+            banner.className = "mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-yellow-700";
+            interpretationElement.className = "text-xs text-yellow-800 mt-1 font-medium";
+        } else if (total <= 40) {
+            interpretationElement.innerText = "Incapacité sévère (impact notable sur le quotidien et le travail)";
+            banner.className = "mt-6 bg-orange-50 border border-orange-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-orange-700";
+            interpretationElement.className = "text-xs text-orange-800 mt-1 font-medium";
+        } else {
+            interpretationElement.innerText = "Incapacité extrême / impotence fonctionnelle majeure du poignet et de la main";
+            banner.className = "mt-6 bg-red-50 border border-red-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-red-700";
+            interpretationElement.className = "text-xs text-red-800 mt-1 font-medium";
+        }
+    }
+
+    function genererCompteRendu() {
+        const nom = document.getElementById('nom').value || 'Non renseigné';
+        const cote = document.getElementById('cote').value;
+        const lat = document.getElementById('lateralite').value;
+        const motif = document.getElementById('motif').value || 'Non renseigné';
+        const eva = document.getElementById('eva').value;
+        const eva_effort = document.getElementById('eva_effort').value;
+        const paresthesie = document.getElementById('paresthesie').value;
+        const palpation = document.getElementById('palpation').value || 'RAS';
+        
+        const flex_ext = document.getElementById('flex_ext').value || 'Non mesurée';
+        const inc_rad_uln = document.getElementById('inc_rad_uln').value || 'Non mesurée';
+
+        let testsPositifs = [];
+        if(document.getElementById('test_phalen').checked) testsPositifs.push('Phalen (+ : suspicion canal carpien)');
+        if(document.getElementById('test_tinel').checked) testsPositifs.push('Tinel (+ : décharge N. Médian)');
+        if(document.getElementById('test_durkan').checked) testsPositifs.push('Durkan (+ : compression N. Médian)');
+        if(document.getElementById('test_finkelstein').checked) testsPositifs.push('Finkelstein (+ : Ténosynovite De Quervain)');
+        if(document.getElementById('test_watson').checked) testsPositifs.push('Watson (+ : instabilité scapho-lunaire)');
+        if(document.getElementById('test_tabatiere').checked) testsPositifs.push('Tabatière Anat. (+ : suspicion fracture scaphoïde)');
+        if(document.getElementById('test_tfcc').checked) testsPositifs.push('Grind Test TFCC (+ : lésion fibro-cartilage)');
+        
+        const testsStr = testsPositifs.length > 0 ? testsPositifs.join(', ') : 'Tests de provocations ou d\'instabilités négatifs';
+
+        const scoreIncapacite = document.getElementById('totalPoignet').innerText;
+        const interpreteScore = document.getElementById('interpretePoignet').innerText;
+        const objectifs = document.getElementById('objectifs').value || 'Récupération fonctionnelle, renforcement et travail de la préhension.';
+
+        let output = `=== BILAN DIAGNOSTIC KINÉSITHÉRAPIQUE (POIGNET) ===\n`;
+        output += `Patient : ${nom} | Côté atteint : ${cote} (Dominance : ${lat})\n`;
+        output += `Motif / Diagnostic : ${motif}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `DOULEUR : EVA Repos: ${eva}/10 | EVA Effort/Appui: ${eva_effort}/10\n`;
+        output += `SENSIBILITÉ : Paresthésies ${paresthesie}\n`;
+        output += `CLINIQUE : ${palpation}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `MOBILITÉS POIGNET (Actif/Passif) :\n`;
+        output += ` - Flexion / Extension : ${flex_ext}\n`;
+        output += ` - Inclinaison Radiale / Ulnaire : ${inc_rad_uln}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `TESTS SPÉCIFIQUES ET ORTHOPÉDIQUES :\n`;
+        output += ` - ${testsStr}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `FONCTIONNEL (Incapacité PRWE simplifiée) : ${scoreIncapacite}/50 pts (${interpreteScore})\n`;
+        output += `--------------------------------------------------\n`;
+        output += `AXES DE RÉÉDUCATION : ${objectifs}\n`;
+
+        const divResultat = document.getElementById('resultat-bilan');
+        document.getElementById('texteBilan').innerText = output;
+        divResultat.classList.remove('hidden');
+        document.getElementById('notification-copie').classList.add('hidden');
+        divResultat.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copierBilan() {
+        const texte = document.getElementById('texteBilan').innerText;
+        const tempTextarea = document.createElement('textarea');
+        tempTextarea.value = texte;
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextarea);
+        const notification = document.getElementById('notification-copie');
+        notification.classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>

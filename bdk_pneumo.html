@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDK Respiratoire Avancé - Spécialité Universitaire & Réanimation</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @layer base {
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+            input[type="number"] { -moz-appearance: textfield; }
+        }
+        @media print {
+            body { background-color: #fff; color: #000; }
+            .no-print { display: none !important; }
+            .print-card { border: 1px solid #cbd5e1 !important; box-shadow: none !important; page-break-inside: avoid; margin-bottom: 1.5rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen pb-16 selection:bg-cyan-600 selection:text-white">
+
+    <div class="max-w-6xl mx-auto px-4 pt-8">
+        
+        <!-- MODULE HEADER -->
+        <header class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 print-card">
+            <div>
+                <span class="bg-cyan-100 text-cyan-800 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Haute Spécificité Cardiorespiratoire</span>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
+                    Bilan Diagnostic Kinésithérapique Respiratoire Avancé
+                </h1>
+                <p class="text-sm text-slate-500 mt-1">Évaluation analytique thoraco-abdominale, auscultation topographique segmentaire, mécanique quantitative et index d'encombrement.</p>
+            </div>
+            <div class="flex flex-wrap gap-2 no-print">
+                <button onclick="reinitialiserFormulaire()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 transition cursor-pointer shadow-xs">Réinitialiser</button>
+                <button onclick="window.print()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 bg-white hover:bg-slate-50 transition cursor-pointer shadow-xs flex items-center gap-1.5">Imprimer / PDF</button>
+                <button onclick="genererSynthese()" class="px-5 py-2.5 bg-cyan-600 rounded-xl text-sm font-semibold text-white hover:bg-cyan-700 shadow-sm transition cursor-pointer">Générer la Synthèse</button>
+            </div>
+        </header>
+
+        <form id="bdkRespiAvanceForm" class="space-y-8">
+            
+            <!-- SECTION 1 : CONTEXTE CLINIQUE & GAZOMÉTRIE / CONSTANTES -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-cyan-600 rounded-full"></span> 1. Terrain, Statut Clinique & Paramètres Gazométriques
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nom du Patient</label>
+                        <input type="text" id="patientNom" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 focus:bg-white transition-all">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">L'âge du Patient</label>
+                        <input type="number" id="patientAge" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 focus:bg-white transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Date du Bilan</label>
+                        <input type="date" id="bilanDate" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 focus:bg-white transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Diagnostic principal / Contexte Opératoire</label>
+                        <select id="contextePathologique" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-cyan-500 transition-all">
+                            <option value="Post-opératoire immédiat de chirurgie abdominale haute / Hépatectomie">Post-opératoire : Chirurgie abdominale haute / Hépatectomie</option>
+                            <option value="Post-opératoire de chirurgie thoracique majeure">Post-opératoire : Chirurgie thoracique majeure</option>
+                            <option value="Exacerbation aiguë de BPCO (Stade GOLD III/IV)">Exacerbation aiguë de BPCO (GOLD III/IV)</option>
+                            <option value="Pathologie restrictive / Syndrome de détresse respiratoire aiguë">Pathologie restrictive / Fibrose / SDRA</option>
+                            <option value="Encombrement bronchique aigu sur poumon sain">Encombrement bronchique aigu / Atélectasie lobaire</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-6 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Fréq. Respi (FR)</label>
+                        <input type="number" id="frRespi" value="18" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center font-bold">
+                        <span class="block text-[9px] text-center text-slate-400 mt-0.5">cycles / min</span>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">SpO2 (%)</label>
+                        <input type="number" id="spo2" value="95" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center font-bold">
+                        <span class="block text-[9px] text-center text-slate-400 mt-0.5">Saturation pulsée</span>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">Apport en O2</label>
+                        <input type="text" id="o2Mode" value="2 L/min (Lunettes)" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">PaO2 (si dispo)</label>
+                        <input type="number" id="pao2" placeholder="mmHg" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">PaCO2 (si dispo)</label>
+                        <input type="number" id="paco2" placeholder="mmHg" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1">pH Artériel</label>
+                        <input type="text" id="phArteriel" placeholder="7.40" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2 : INSPECTION ET SYNDROME DE DETRESSE CLINIQUE -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-cyan-600 rounded-full"></span> 2. Inspection Dynamique, Cinétique & Signes d'Épuisement
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Asymétrie et Ampliation Visuelle</label>
+                        <select id="asymetrieCinétique" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-cyan-500"><option value="Cinétique symétrique et régulière">Symétrique (Aires pulmonaires mobiles de façon synchrone)</option><option value="Sous-ampliation unilatérale droite (Zone opérée / Atélectasie)">Sous-ampliation unilatérale droite (Cicatricielle / Atélectasie)</option><option value="Sous-ampliation unilatérale gauche">Sous-ampliation unilatérale gauche</option><option value="Distension thoracique globale fixée">Distension thoracique globale fixée (Profil emphysémateux)</option></select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Syndrome de Lutte / Recrutement</label>
+                        <select id="syndromeLutte" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-cyan-500"><option value="Absence de signe de tirage ou de recrutement musculaire">Aucun (Pas de recrutement des muscles accessoires)</option><option value="Recrutement exclusif des scalènes et SCM à l'inspiration">Mise en jeu active des SCM et Scalènes (Dyspnée inspiratoire)</option><option value="Tirage intercostal franc + Entonnoir xyphoïdien">Tirage intercostal marqué + Dépression sous-mamelonnaire</option><option value="Asynchronisme thoraco-abdominal (Balancement)">Balancement thoraco-abdominal (Signe d'épuisement critique)</option></select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Faciès & Signes Neuro-Végétatifs</label>
+                        <select id="signesNeuroVeg" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-cyan-500"><option value="Faciès détendu, pas de sueurs ni d'agitation">Faciès calme (Pas de sueurs ni d'ailes du nez)</option><option value="Battement des ailes du nez + Sueurs profuses profuses">Battement des ailes du nez + Sueurs (Hypercapnie suspectée)</option><option value="Agitation, anxiété majeure liée à l'hypoxie">Agitation / Angoisse respiratoire aiguë</option><option value="Somnolence / Encombrement majeur avec asthénie">Somnolence / Obnubilation (Urgence réanimatoire)</option></select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3 : PALPATION & SYSTÈME ANALYTIQUE MUSCULAIRE -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4 border-b border-slate-100 pb-3">
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-cyan-600 rounded-full"></span> 3. Palpation, Ampliation Métrique & Statut Diaphragmatique
+                    </h2>
+                    <span class="bg-cyan-50 text-cyan-700 text-xs font-mono font-bold px-3 py-1 rounded-xl border border-cyan-200">
+                        Périmètre Différentiel : <span id="ampliDisplay" class="text-sm font-bold">0</span> cm
+                    </span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Inspiration Max (cm)</label>
+                        <input type="number" id="inspiMax" value="95" class="amp-input w-full bg-white border border-slate-200 rounded-lg p-1 text-xs text-center font-bold">
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Expiration Max (cm)</label>
+                        <input type="number" id="expiMax" value="91" class="amp-input w-full bg-white border border-slate-200 rounded-lg p-1 text-xs text-center font-bold">
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Course Diaphragmatique Palpée</label>
+                        <select id="courseDiaphragme" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-[11px]"><option value="Physiologique et symétrique">Physiologique et symétrique</option><option value="Sidération / Hypotonie post-chirurgicale unilatérale (droite)">Sidération unilatérale droite (Laparotomie/Hépatectomie)</option><option value="Signe de Hoover présent (Poussée costale interne à l'inspi)">Signe de Hoover présent (Distension majeure)</option></select>
+                    </div>
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Compétence Sangle Abdominale</label>
+                        <select id="sangleAbdo" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-[11px]"><option value="Tonique, permet une toux efficace">Tonique (Toux efficace)</option><option value="Hypotonique / Distendue (Incapable de générer une surpression)">Hypotonique / Déficitaire</option><option value="Inhibition douloureuse majeure (Incision sous-costale)">Inhibition douloureuse (Incision sous-costale)</option></select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4 : AUSCULTATION SÉLECTIVE TOPOGRAPHIQUE (CRITÈRES ATS/ELF) -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-cyan-600 rounded-full"></span> 4. Auscultation Stéthacoustique Topographique & Segmentaire
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Hémithorax Droit -->
+                    <div class="bg-slate-50/50 p-4 rounded-xl border border-slate-100 space-y-3">
+                        <span class="block text-xs font-bold text-cyan-900 uppercase tracking-wider border-b border-cyan-200 pb-1">Hémithorax Droit (3 Lobes)</span>
+                        <div class="space-y-2">
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Apex (Lobe Supérieur)</label>
+                                <select id="auscultDroitSup" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs"><option value="MV normal, aucun bruit surajouté">MV normal, propre</option><option value="Diminution du MV">Diminution du MV</option><option value="Râles sibilants localisés">Sibilants</option></select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Lobe Moyen</label>
+                                <select id="auscultDroitMoyen" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs"><option value="MV normal, aucun bruit surajouté">MV normal, propre</option><option value="Ronchus d'encombrement proximal">Ronchus d'encombrement mobile</option><option value="Crépitants de condensation">Crépitants (Foyer pulmonaire)</option></select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Base (Lobe Inférieur - Zone à risque atélectasie)</label>
+                                <select id="auscultDroitBase" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs"><option value="MV normal, aucun bruit surajouté">MV normal</option><option value="Abolition complète du MV / Silence auscultatoire (Atélectasie)">Silence auscultatoire (Atélectasie / Épanchement)</option><option value="Râles crépitants fins de fin d'inspiration">Crépitants fins (Atélectasie passive / Recrutement alvéolaire)</option></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hémithorax Gauche -->
+                    <div class="bg-slate-50/50 p-4 rounded-xl border border-slate-100 space-y-3">
+                        <span class="block text-xs font-bold text-teal-900 uppercase tracking-wider border-b border-teal-200 pb-1">Hémithorax Gauche (2 Lobes / Lingula)</span>
+                        <div class="space-y-2">
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Apex (Lobe Supérieur)</label>
+                                <select id="auscultGaucheSup" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs"><option value="MV normal, aucun bruit surajouté">MV normal, propre</option><option value="Diminution du MV">Diminution du MV</option><option value="Râles sibilants diffus">Sibilants diffus</option></select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Lingula</label>
+                                <select id="auscultGaucheLingula" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs"><option value="MV normal, aucun bruit surajouté">MV normal, propre</option><option value="Ronchus d'encombrement bronchique">Ronchus d'encombrement</option></select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Base (Lobe Inférieur)</label>
+                                <select id="auscultGaucheBase" class="w-full bg-white border border-slate-200 rounded-lg p-1 text-xs"><option value="MV normal, aucun bruit surajouté">MV normal</option><option value="Diminution du MV avec râles sous-crépitants humides">Diminution du MV + Sous-crépitants (Sécrétions distales)</option><option value="Abolition du MV aux bases">Silence auscultatoire de la base gauche</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5 : CAPACITÉ DE TOUX QUANTIFIÉE & SPIROMÉTRIE INCITATIVE -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-cyan-600 rounded-full"></span> 5. Évaluation de la Toux, Rhéologie & Échelles de Tolérance Fonctionnelle
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Toux et DEP -->
+                    <div class="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                        <span class="block text-xs font-bold text-slate-700 uppercase">Dynamique de la Toux</span>
+                        <div>
+                            <label class="block text-[11px] text-slate-600 mb-1">Efficacité cinétique intrinsèque</label>
+                            <select id="mecanismeToux" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Toux volontaire forte et productive">Efficace et productive (DEP de toux suffisant)</option><option value="Toux faible, avortée par la douleur cicatriciale">Inefficace : Limitée par la douleur (Sidération protectrice)</option><option value="Toux totalement inefficace, encombrement majeur rétro-stérnal">Inefficace : Épuisement musculaire / Encombrement majeur</option></select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-slate-600 mb-1">Spirométrie incitative (Cible atteinte, mL)</label>
+                            <input type="number" id="spirometrieIncitative" value="1500" placeholder="Ex: 1500 mL au Coach/Triflo" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs font-bold text-center">
+                        </div>
+                    </div>
+
+                    <!-- Sécrétions -->
+                    <div class="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                        <span class="block text-xs font-bold text-slate-700 uppercase">Rhéologie de l'Encombrement</span>
+                        <div>
+                            <label class="block text-[11px] text-slate-600 mb-1">Aspect macroscopique / Couleur</label>
+                            <select id="crachatAspect" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Séreux / Translucide fluide">Séreux / Translucide fluide</option><option value="Muco-purulent épais (Vert/Jaune - Foyer infectieux)">Muco-purulent épais (Vert/Jaune)</option><option value="Hémoptoïque (Stries de sang à surveiller)">Hémoptoïque (Stries de sang présentes)</option><option value="Rétention totale (Encombrement auscultatoire sans expectoration)">Rétention totale (Auscultation chargée mais toux sèche)</option></select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-slate-600 mb-1">Volume quotidien estimé</label>
+                            <select id="crachatVolume" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Minime (< 10 ml/24h)">Minime (&lt; 10 ml/24h)</option><option value="Abondant (Bronchorrhée > 30 ml/24h)">Abondant (Bronchorrhée &gt; 30 ml/24h)</option></select>
+                        </div>
+                    </div>
+
+                    <!-- Échelles de Tolérance -->
+                    <div class="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                        <span class="block text-xs font-bold text-slate-700 uppercase">Dyspnée Clinique Croisée</span>
+                        <div>
+                            <label class="block text-[11px] text-slate-600 mb-1">Échelle mMRC Fonctionnelle</label>
+                            <select id="mmrcScore" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Stade 0 : Dyspnée uniquement lors d'efforts intenses">Stade 0 : Uniquement pour effort vigoureux</option><option value="Stade 1 : Essoufflement lors de marche rapide à plat ou pente légère">Stade 1 : En marchant vite ou pente légère</option><option value="Stade 2 : Doit s'arrêter à la marche à son propre rythme à plat">Stade 2 : Marche plus lente que l'âge à plat</option><option value="Stade 3 : S'arrête pour respirer après 100 mètres de marche">Stade 3 : S'arrête après 100m à plat</option><option value="Stade 4 : Dyspnée au moindre geste (habillage, repos)">Stade 4 : Essoufflement au repos / habillage</option></select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-slate-600 mb-1">Échelle de Borg Modifiée (État Aigu, 0 à 10)</label>
+                            <select id="borgScore" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs font-bold"><option value="0 : Repos total, aucune gêne">0 : Nulle (Repos total)</option><option value="2 : Dyspnée légère / Très faible">2 : Légère / Faible</option><option value="5 : Dyspnée sévère / Gêne importante">5 : Sévère / Gêne importante</option><option value="8 : Dyspnée très sévère / Épuisement">8 : Très sévère / Épuisement proche</option><option value="10 : Dyspnée maximale absolue / Arrêt immédiat">10 : Maximale absolue (Asphyxie)</option></select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+
+        <!-- ZONE DE RENDU EXTENSIBLE : COMPTE-RENDU UNIVERSITAIRE -->
+        <div id="syntheseZone" class="hidden mt-8 bg-slate-900 text-slate-100 rounded-2xl p-6 shadow-xl border border-slate-800 transition-all duration-300">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+                    📊 Rapport d'Expertise Clinique Respiratoire & Physiothérapie Ventilatoire
+                </h3>
+                <button onclick="copierSynthese()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 cursor-pointer">
+                    Copier le texte complet
+                </button>
+            </div>
+            <pre id="syntheseTexte" class="text-xs md:text-sm font-mono whitespace-pre-wrap overflow-x-auto text-slate-300 leading-relaxed"></pre>
+        </div>
+    </div>
+
+    <!-- LOGIQUE DE CALCUL ET SCRIPT DE TRAITEMENT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('bilanDate').valueAsDate = new Date();
+            
+            document.querySelectorAll('.amp-input').forEach(input => {
+                input.addEventListener('input', calculAmpliationThoracique);
+            });
+            
+            calculAmpliationThoracique();
+        });
+
+        function calculAmpliationThoracique() {
+            const inspi = parseFloat(document.getElementById('inspiMax').value) || 0;
+            const expi = parseFloat(document.getElementById('expiMax').value) || 0;
+            const res = Math.max(0, inspi - expi);
+            
+            document.getElementById('ampliDisplay').innerText = res.toFixed(1);
+        }
+
+        function genererSynthese() {
+            const nom = document.getElementById('patientNom').value || 'Dossier Anonyme';
+            const date = document.getElementById('bilanDate').value;
+            const dx = document.getElementById('contextePathologique').value;
+            
+            // Constantes
+            const fr = document.getElementById('frRespi').value;
+            const sat = document.getElementById('spo2').value;
+            const o2 = document.getElementById('o2Mode').value;
+            const pao2 = document.getElementById('pao2').value || 'Non mesurée';
+            const paco2 = document.getElementById('paco2').value || 'Non mesurée';
+            const ph = document.getElementById('phArteriel').value || 'Non mesuré';
+
+            // Inspection
+            const asym = document.getElementById('asymetrieCinétique').value;
+            const lutte = document.getElementById('syndromeLutte').value;
+            const veg = document.getElementById('signesNeuroVeg').value;
+
+            // Palpation / Diaphragme
+            const amp = document.getElementById('ampliDisplay').innerText;
+            const diaphragme = document.getElementById('courseDiaphragme').value;
+            const abdo = document.getElementById('sangleAbdo').value;
+
+            // Auscultation segmentaire
+            const dSup = document.getElementById('auscultDroitSup').value;
+            const dMoy = document.getElementById('auscultDroitMoyen').value;
+            const dBase = document.getElementById('auscultDroitBase').value;
+            const gSup = document.getElementById('auscultGaucheSup').value;
+            const gLing = document.getElementById('auscultGaucheLingula').value;
+            const gBase = document.getElementById('auscultGaucheBase').value;
+
+            // Toux & Fonctionnel
+            const toux = document.getElementById('mecanismeToux').value;
+            const spirométrie = document.getElementById('spirometrieIncitative').value;
+            const aspect = document.getElementById('crachatAspect').value;
+            const vol = document.getElementById('crachatVolume').value;
+            const mmrc = document.getElementById('mmrcScore').value;
+            const borg = document.getElementById('borgScore').value;
+
+            const finalReport = `========================================================================
+RAPPORT EXPERT : BILAN DIAGNOSTIC KINÉSITHÉRAPIQUE (BDK) RESPIRATOIRE
+========================================================================
+Date de l'évaluation : ${date}
+Patient / Unité      : ${nom}
+Contexte pathologique: ${dx}
+
+1. SYNDROME VENTILATOIRE & GAZOMÉTRIE DU SANG
+------------------------------------------------------------------------
+• Fréquence Respiratoire (FR) : ${fr} cycles/min
+• Saturation Capillaire (SpO2): ${sat} %  |  Apport O2 ext. : ${o2}
+• Profil Gazométrique (GDS)  : PaO2 : ${pao2} mmHg | PaCO2 : ${paco2} mmHg | pH : ${ph}
+
+2. CINÉTIQUE THORACIQUE & DIAGNOSTIC DE LUTTE
+------------------------------------------------------------------------
+• Expansion visuelle          : ${asym}
+• Signes de détresse (Lutte)  : ${lutte}
+• Comportement végétatif      : ${veg}
+
+3. MÉCANIQUE VENTILATOIRE QUANTITATIVE & SYSTÈME MUSCULAIRE
+------------------------------------------------------------------------
+• Ampliation périmétrique (ruban) : ${amp} cm (Écart Inspiration/Expiration)
+• Statut moteur diaphragmatique   : ${diaphragme}
+• Synergie / Sangle Abdominale    : ${abdo}
+
+4. EXAMEN AUSCULTATOIRE SEGMENTAIRE ET LOBOCENTRIQUE (CRITÈRES ATS)
+------------------------------------------------------------------------
+[HÉMITHORAX DROIT]
+  - Lobe Supérieur (Apex)  : ${dSup}
+  - Lobe Moyen             : ${dMoy}
+  - Lobe Inférieur (Base)  : ${dBase}
+[HÉMITHORAX GAUCHE]
+  - Lobe Supérieur (Apex)  : ${gSup}
+  - Lingula                : ${gLing}
+  - Lobe Inférieur (Base)  : ${gBase}
+
+5. DIAGNOSTIC DE L'ENCOMBREMENT & TOLÉRANCE FONCTIONNELLE
+------------------------------------------------------------------------
+• Dynamique de la Toux        : ${toux}
+• Capacité Spirométrique (S.I): ${spirométrie} mL reached (Spirométrie incitative)
+• Rhéologie des sécrétions    : Aspect : ${aspect} | Volume : ${vol}
+• Dyspnée croisée             : Chronique (mMRC) : ${mmrc}
+                                Aiguë (Borg)     : ${borg}
+========================================================================`;
+
+            document.getElementById('syntheseTexte').innerText = finalReport;
+            const zone = document.getElementById('syntheseZone');
+            zone.classList.remove('hidden');
+            zone.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copierSynthese() {
+            const texte = document.getElementById('syntheseTexte').innerText;
+            navigator.clipboard.writeText(texte).then(() => {
+                alert('Le compte-rendu respiratoire hautement détaillé a été copié dans le presse-papiers.');
+            });
+        }
+
+        function reinitialiserFormulaire() {
+            if(confirm("Confirmer la réinitialisation complète de ce dossier respiratoire ?")) {
+                document.getElementById('bdkRespiAvanceForm').reset();
+                calculAmpliationThoracique();
+                document.getElementById('syntheseZone').classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>

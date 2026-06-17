@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDK Épaule Interactif</title>
+    <!-- Chargement de Tailwind CSS pour un design moderne, pro et responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+
+<div class="max-w-4xl mx-auto">
+    <!-- En-tête -->
+    <header class="text-center mb-8 bg-gradient-to-r from-sky-600 to-indigo-700 rounded-2xl p-6 sm:p-8 shadow-lg text-white">
+        <div class="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-3">
+            <i class="fa-solid fa-child-reaching text-3xl"></i>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Bilan Diagnostic Kinésithérapique (BDK)</h1>
+        <p class="text-sky-100 mt-2 font-medium">Épaule, Ceinture Scapulaire & Complexe Articulaire de la Coiffe</p>
+    </header>
+
+    <form id="bdkForm" class="space-y-6">
+        
+        <!-- Section 1 : Anamnèse & Profil du Patient -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-sky-50 text-sky-600 rounded-lg">
+                    <i class="fa-solid fa-address-card text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">1. Anamnèse & Contexte Clinique</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex flex-col">
+                    <label for="nom" class="text-sm font-semibold text-slate-700 mb-1">Nom / Prénom du Patient :</label>
+                    <input type="text" id="nom" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: Sophie Laurent">
+                </div>
+                <div class="flex flex-col">
+                    <label for="age" class="text-sm font-semibold text-slate-700 mb-1">L'âge du Patient :</label>
+                    <input type="text" id="age" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: 45 ans">
+                </div>
+                <div class="flex flex-col">
+                    <label for="cote" class="text-sm font-semibold text-slate-700 mb-1">Côté atteint :</label>
+                    <select id="cote" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                        <option value="Droit">Droit</option>
+                        <option value="Gauche">Gauche</option>
+                        <option value="Bilatéral">Bilatéral</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="lateralite" class="text-sm font-semibold text-slate-700 mb-1">Latéralité dominante :</label>
+                    <select id="lateralite" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                        <option value="Droitier">Droitier</option>
+                        <option value="Gaucher">Gaucher</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="profession" class="text-sm font-semibold text-slate-700 mb-1">Profession / Activités quotidiennes :</label>
+                    <input type="text" id="profession" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: Peintre, travail sur écran, port de charges">
+                </div>
+                <div class="flex flex-col">
+                    <label for="sport" class="text-sm font-semibold text-slate-700 mb-1">Pratique Sportive / Loisirs :</label>
+                    <input type="text" id="sport" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: Tennis (Service douloureux), Musculation, Natation">
+                </div>
+            </div>
+            
+            <div class="mt-4 flex flex-col">
+                <label for="motif" class="text-sm font-semibold text-slate-700 mb-1">Motif de consultation / Diagnostic médical :</label>
+                <textarea id="motif" rows="2" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: Capsulite rétractile phase froide, conflit sous-acromial droit, tendinopathie du supra-épineux, suites de chirurgie d'acromioplastie/suture de coiffe..."></textarea>
+            </div>
+        </section>
+
+        <!-- Section 2 : Douleur, Signes inflammatoires & Inspection -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-sky-50 text-sky-600 rounded-lg">
+                    <i class="fa-solid fa-eye text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">2. Douleur, Dyskinésie & Inspection</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="eva" class="text-sm font-semibold text-slate-700 mb-1">Douleur au repos / nocturne (EVA 0 à 10) :</label>
+                    <input type="number" id="eva" min="0" max="10" value="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                </div>
+                <div class="flex flex-col">
+                    <label for="eva_effort" class="text-sm font-semibold text-slate-700 mb-1">Douleur lors des mouvements actifs (EVA 0 à 10) :</label>
+                    <input type="number" id="eva_effort" min="0" max="10" value="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="rythme" class="text-sm font-semibold text-slate-700 mb-1">Rythme & Horaire de la douleur :</label>
+                    <select id="rythme" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                        <option value="Mécanique pur">Mécanique pur (uniquement lors de la mobilisation)</option>
+                        <option value="Inflammatoire / Nocturne">Inflammatoire / Nocturne (réveils constants sans mouvement)</option>
+                        <option value="Mixte">Mixte (fond douloureux permanent avec pics d'effort)</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="dyskinetic" class="text-sm font-semibold text-slate-700 mb-1">Inspection & Dyskinésie Scapulaire :</label>
+                    <select id="dyskinetic" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                        <option value="Aucune">Aucune dyskinésie (Bonne sonnette scapulaire)</option>
+                        <option value="Perte de rythme scapulo-humeral">Perte de rythme scapulo-huméral précoce</option>
+                        <option value="Scapula Alata">Scapula Alata (Décollement du bord médial ou inférieur)</option>
+                        <option value="Amyotrophie / attitude antalgique">Amyotrophie (Fosses supra/infra-épineuses) ou enroulement</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Focus clinique : Diagnostic différentiel (Cervical / Exclusion) -->
+            <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                <h3 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-exclamation"></i> Élimination d'une projection cervicale (Screening)
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <label class="flex items-center gap-2 cursor-pointer text-xs text-slate-700">
+                        <input type="checkbox" id="cervical_mvt" class="h-3.5 w-3.5 text-sky-600 rounded focus:ring-sky-500">
+                        Douleur reproduite aux mouvements cervicaux purs
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-xs text-slate-700">
+                        <input type="checkbox" id="cervical_radiculo" class="h-3.5 w-3.5 text-sky-600 rounded focus:ring-sky-500">
+                        Paresthésies / Irradiations sous le coude (Trajet C5-C6)
+                    </label>
+                </div>
+                <p class="text-[11px] text-amber-700 italic mt-2">Si cochés : investiguer le rachis cervical (test de Spurling, tractions) pour éliminer une névralgie cervico-brachiale.</p>
+            </div>
+        </section>
+
+        <!-- Section 3 : Mobilités Articulaires (Goniométrie) -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-sky-50 text-sky-600 rounded-lg">
+                    <i class="fa-solid fa-arrows-up-down-left-right text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">3. Mobilités Articulaires (Actif vs Passif)</h2>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 italic">Notez la valeur mesurée du côté pathologique comparé au côté sain. Ex: Actif : 120° / Passif : 160°</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="flexion_elev" class="text-sm font-semibold text-slate-700 mb-1">Flexion (Élévation Antérieure - Normale : 180°) :</label>
+                    <input type="text" id="flexion_elev" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: 110° actif / 150° passif (limité par la douleur)">
+                </div>
+                <div class="flex flex-col">
+                    <label for="abduction" class="text-sm font-semibold text-slate-700 mb-1">Abduction (Normale : 180°) :</label>
+                    <input type="text" id="abduction" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: 90° actif (arc douloureux 70°-110°) / 140° passif">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="re1" class="text-sm font-semibold text-slate-700 mb-1">Rot. Externe RE1 (Bras au corps - N : 45°/60°) :</label>
+                    <input type="text" id="re1" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: 15° actif / 20° passif (arrêt dur capsulaire)">
+                </div>
+                <div class="flex flex-col">
+                    <label for="re2" class="text-sm font-semibold text-slate-700 mb-1">Rot. Externe RE2 (Abd à 90° - N : 90°) :</label>
+                    <input type="text" id="re2" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: Non réalisable (abduction insuffisante)">
+                </div>
+                <div class="flex flex-col">
+                    <label for="ri" class="text-sm font-semibold text-slate-700 mb-1">Rot. Interne RI (Niveau pouce vertébral) :</label>
+                    <input type="text" id="ri" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: Pathologique : fesse | Sain : Th12">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4 : Tests Cliniques Spécifiques de l'Épaule -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-sky-50 text-sky-600 rounded-lg">
+                    <i class="fa-solid fa-user-doctor text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">4. Tests Orthopédiques Spécifiques</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- Conflit sous-acromial -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Conflit Sous-Acromial / Impingement</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_neer" class="mt-1 h-4 w-4 text-sky-600 border-slate-300 rounded focus:ring-sky-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Signe de Neer</span>
+                                <span class="text-xs text-slate-500">Douleur lors de l'élévation antérieure passive maximale avec rotation interne.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_hawkins" class="mt-1 h-4 w-4 text-sky-600 border-slate-300 rounded focus:ring-sky-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test d'Hawkins-Kennedy</span>
+                                <span class="text-xs text-slate-500">Rotation interne forcée à 90° de flexion de l'épaule et du coude.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_yocum" class="mt-1 h-4 w-4 text-sky-600 border-slate-300 rounded focus:ring-sky-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de Yocum</span>
+                                <span class="text-xs text-slate-500">Main sur l'épaule opposée, élévation active du coude contre résistance.</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Coiffe des rotateurs -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Intégrité de la Coiffe des Rotateurs</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_jobe" class="mt-1 h-4 w-4 text-sky-600 border-slate-300 rounded focus:ring-sky-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de Jobe</span>
+                                <span class="text-xs text-slate-500">Rupture ou souffrance du tendon du <strong>Supra-Épineux</strong> (Supraspinatus).</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_patte" class="mt-1 h-4 w-4 text-sky-600 border-slate-300 rounded focus:ring-sky-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de Patte</span>
+                                <span class="text-xs text-slate-500">Déficit de rotation externe contre résistance (<strong>Infra-Épineux</strong> / Infraspinatus).</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_gerber" class="mt-1 h-4 w-4 text-sky-600 border-slate-300 rounded focus:ring-sky-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de Gerber / Belly Press</span>
+                                <span class="text-xs text-slate-500">Déficit de rotation interne, dos de la main décollé du dos (<strong>Subscapulaire</strong>).</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Biceps & Instabilité / Labrum -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Tendons accessoires & Labrum / Instabilité</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_speed" class="mt-1 h-4 w-4 text-sky-600 border-slate-300 rounded focus:ring-sky-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Speed Test / Palm Beach</span>
+                                <span class="text-xs text-slate-500">Douleur dans la coulisse bicipitale lors de l'antépulsion du bras en supination contre résistance.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_apprehension" class="mt-1 h-4 w-4 text-sky-600 border-slate-300 rounded focus:ring-sky-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">Test de l'Appréhension Antérieure</span>
+                                <span class="text-xs text-slate-500">Défense ou peur du patient lors de l'abduction-rotation externe forcée.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                            <input type="checkbox" id="test_obrien" class="mt-1 h-4 w-4 text-sky-600 border-slate-300 rounded focus:ring-sky-500">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-800 block">O'Brien Test (SLAP Lesion)</span>
+                                <span class="text-xs text-slate-500">Douleur interne de l'épaule en adduction-rotation interne, soulagée en rotation externe.</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5 : Score d'Incapacité Fonctionnelle de l'Épaule (Membres Supérieurs - /50) -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-sky-50 text-sky-600 rounded-lg">
+                    <i class="fa-solid fa-person-falling-burst text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">5. Index d'Incapacité Fonctionnelle de l'Épaule (Simplifié /50)</h2>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 italic">Estimez la sévérité de l'impotence de l'épaule pour les gestes fonctionnels essentiels du quotidien.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="sf_elevation" class="text-sm font-semibold text-slate-700 mb-1">Élévation active du bras (attraper un objet en hauteur) :</label>
+                    <select id="sf_elevation" onchange="calculerScoreEpaule()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                        <option value="0">0 - Aucune gêne, mouvement fluide au-dessus de la tête</option>
+                        <option value="3">3 - Difficulté modérée ( compensation du tronc requise)</option>
+                        <option value="6">6 - Très limité, impossible d'élever le bras au-delà de l'horizontale</option>
+                        <option value="10">10 - Élévation active totalement impossible</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="sf_derriere" class="text-sm font-semibold text-slate-700 mb-1">Main derrière le dos (Soutien-gorge, portefeuille) :</label>
+                    <select id="sf_derriere" onchange="calculerScoreEpaule()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                        <option value="0">0 - Facile, sans aucune raideur ou gêne</option>
+                        <option value="3">3 - Réalisable mais douloureux ou niveau limité (L5)</option>
+                        <option value="6">6 - Très difficile, s'arrête à la fesse / passage de la hanche laborieux</option>
+                        <option value="10">10 - Impossible d'amener la main dans le dos</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div class="flex flex-col">
+                    <label for="sf_sommeil" class="text-sm font-semibold text-slate-700 mb-1">Impact sur le sommeil (appui sur l'épaule) :</label>
+                    <select id="sf_sommeil" onchange="calculerScoreEpaule()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                        <option value="0">0 - Parfait, appui indolore sur l'épaule pathologique</option>
+                        <option value="3">3 - Gêne intermittente, réveil lors des changements de position</option>
+                        <option value="6">6 - Couchage impossible sur le côté atteint, réveils nocturnes réguliers</option>
+                        <option value="10">10 - Douleurs permanentes empêchant l'endormissement complet</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="sf_charge" class="text-sm font-semibold text-slate-700 mb-1">Port de charge / Lever un sac de courses :</label>
+                    <select id="sf_charge" onchange="calculerScoreEpaule()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                        <option value="0">0 - Force normale, aucune douleur à l'effort</option>
+                        <option value="3">3 - Fatigue ou douleur après plusieurs répétitions</option>
+                        <option value="6">6 - Incapable de soulever plus d'un kilo, compensation majeure</option>
+                        <option value="10">10 - Impotence complète du membre supérieur atteint</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-4 flex flex-col">
+                <label for="sf_toilette" class="text-sm font-semibold text-slate-700 mb-1">Soins personnels (Se coiffer, se laver les cheveux) :</label>
+                <select id="sf_toilette" onchange="calculerScoreEpaule()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm">
+                    <option value="0">0 - Totalement autonome</option>
+                    <option value="3">3 - Lent, inconfortable mais autonome</option>
+                    <option value="6">6 - Besoin d'incliner la tête pour atteindre le crâne</option>
+                    <option value="10">10 - Nécessite l'aide d'un tiers pour l'hygiène de la tête</option>
+                </select>
+            </div>
+
+            <!-- Box d'interprétation dynamique du score d'incapacité -->
+            <div class="mt-6 bg-sky-50 border border-sky-200 rounded-xl p-4 text-center transition-all duration-300" id="scoreBanner">
+                <span class="text-slate-600 block text-sm font-medium">Indice d'incapacité de l'épaule :</span>
+                <div class="mt-1 flex items-baseline justify-center gap-1">
+                    <span id="totalEpaule" class="text-3xl font-extrabold text-sky-700">0</span>
+                    <span class="text-sky-600 font-semibold">/ 50 pts</span>
+                </div>
+                <p id="interpreteEpaule" class="text-xs text-sky-800 mt-1 font-medium">Incapacité négligeable à minime (Bon contrôle dynamique)</p>
+            </div>
+        </section>
+
+        <!-- Section 6 : Objectifs & Axes de Rééducation -->
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-sky-50 text-sky-600 rounded-lg">
+                    <i class="fa-solid fa-bullseye text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">6. Objectifs & Axes de Rééducation</h2>
+            </div>
+            <div class="flex flex-col">
+                <label for="objectifs" class="text-sm font-semibold text-slate-700 mb-1">Axes thérapeutiques prioritaires :</label>
+                <textarea id="objectifs" rows="3" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: Récupérer les amplitudes articulaires en RE1 et flexion passive par mobilisations douces et glissement inférieur huméral, renforcement ciblé et excentrique des rotateurs externes (infra-épineux/petit rond), stabilisation dynamique de la scapula (dentelé antérieur et trapèze inférieur) pour réguler le rythme scapulo-huméral, réentraînement fonctionnel au geste professionnel ou sportif..."></textarea>
+            </div>
+        </section>
+
+        <!-- Bouton de Génération -->
+        <button type="button" onclick="genererCompteRendu()" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 text-base">
+            <i class="fa-solid fa-file-invoice text-lg"></i>
+            Générer le Résumé Clinique de l'Épaule
+        </button>
+    </form>
+
+    <!-- Résultats et Export (caché par défaut) -->
+    <div id="resultat-bilan" class="mt-8 bg-slate-900 rounded-xl p-6 shadow-xl border border-slate-800 text-slate-100 hidden">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-clipboard-check text-sky-400 text-lg"></i>
+                <h3 class="text-lg font-bold text-slate-100">Résumé du BDK Épaule</h3>
+            </div>
+            <button onclick="copierBilan()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-sky-400 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                <i class="fa-solid fa-copy"></i> Copier le texte
+            </button>
+        </div>
+        
+        <pre id="texteBilan" class="text-xs sm:text-sm font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed text-slate-300 bg-slate-950 p-4 rounded-lg border border-slate-800"></pre>
+        
+        <div id="notification-copie" class="mt-3 text-center text-xs text-sky-400 hidden font-semibold flex items-center justify-center gap-1">
+            <i class="fa-solid fa-check-circle"></i> Le bilan a été copié avec succès dans le presse-papier !
+        </div>
+    </div>
+</div>
+
+<script>
+    // Fonction de calcul de l'incapacité fonctionnelle globale de l'épaule
+    function calculerScoreEpaule() {
+        const e = parseInt(document.getElementById('sf_elevation').value);
+        const d = parseInt(document.getElementById('sf_derriere').value);
+        const s = parseInt(document.getElementById('sf_sommeil').value);
+        const c = parseInt(document.getElementById('sf_charge').value);
+        const t = parseInt(document.getElementById('sf_toilette').value);
+        
+        const total = e + d + s + c + t;
+        const totalElement = document.getElementById('totalEpaule');
+        const interpretationElement = document.getElementById('interpreteEpaule');
+        const banner = document.getElementById('scoreBanner');
+        
+        totalElement.innerText = total;
+
+        // Mise à jour de l'affichage dynamique (Code couleur de la bannière)
+        if (total <= 10) {
+            interpretationElement.innerText = "Incapacité négligeable à minime (Bonne autonomie fonctionnelle)";
+            banner.className = "mt-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-emerald-700";
+            interpretationElement.className = "text-xs text-emerald-800 mt-1 font-medium";
+        } else if (total <= 25) {
+            interpretationElement.innerText = "Incapacité modérée (restrictions d'amplitude ou lors des contraintes mécaniques)";
+            banner.className = "mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-yellow-700";
+            interpretationElement.className = "text-xs text-yellow-800 mt-1 font-medium";
+        } else if (total <= 40) {
+            interpretationElement.innerText = "Incapacité sévère (impact direct sur les gestes du quotidien et le sommeil)";
+            banner.className = "mt-6 bg-orange-50 border border-orange-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-orange-700";
+            interpretationElement.className = "text-xs text-orange-800 mt-1 font-medium";
+        } else {
+            interpretationElement.innerText = "Incapacité extrême / impotence majeure et douloureuse de l'épaule";
+            banner.className = "mt-6 bg-red-50 border border-red-200 rounded-xl p-4 text-center transition-all duration-300";
+            totalElement.className = "text-3xl font-extrabold text-red-700";
+            interpretationElement.className = "text-xs text-red-800 mt-1 font-medium";
+        }
+    }
+
+    // Génération du compte-rendu synthétisé au propre
+    function genererCompteRendu() {
+        const nom = document.getElementById('nom').value || 'Non renseigné';
+        const cote = document.getElementById('cote').value;
+        const lat = document.getElementById('lateralite').value;
+        const profession = document.getElementById('profession').value || 'Non renseigné';
+        const sport = document.getElementById('sport').value || 'Non renseigné';
+        const motif = document.getElementById('motif').value || 'Non renseigné';
+        
+        const eva = document.getElementById('eva').value;
+        const eva_effort = document.getElementById('eva_effort').value;
+        const rythme = document.getElementById('rythme').value;
+        const dyskinesie = document.getElementById('dyskinetic').value;
+        
+        const flex_elev = document.getElementById('flexion_elev').value || 'Non mesurée';
+        const abd = document.getElementById('abduction').value || 'Non mesurée';
+        const re1 = document.getElementById('re1').value || 'Non mesurée';
+        const re2 = document.getElementById('re2').value || 'Non mesurée';
+        const ri = document.getElementById('ri').value || 'Non mesurée';
+
+        // Exclusion cervicale
+        let exclusions = [];
+        if(document.getElementById('cervical_mvt').checked) exclusions.push('Douleur reproduite aux mobilisations cervicales');
+        if(document.getElementById('cervical_radiculo').checked) exclusions.push('Paresthésies / Irradiations radiales/ulnaires');
+        const cervicalStr = exclusions.length > 0 ? `SUSPECTÉ (${exclusions.join(', ')})` : 'Négatif (aucune suspicion de projection cervicale)';
+
+        // Compilation des tests cliniques positifs
+        let testsPositifs = [];
+        if(document.getElementById('test_neer').checked) testsPositifs.push('Neer (+ : conflit)');
+        if(document.getElementById('test_hawkins').checked) testsPositifs.push('Hawkins (+ : conflit)');
+        if(document.getElementById('test_yocum').checked) testsPositifs.push('Yocum (+ : conflit)');
+        if(document.getElementById('test_jobe').checked) testsPositifs.push('Jobe (+ : atteinte Supra-épineux)');
+        if(document.getElementById('test_patte').checked) testsPositifs.push('Patte (+ : atteinte Infra-épineux)');
+        if(document.getElementById('test_gerber').checked) testsPositifs.push('Gerber (+ : atteinte Subscapulaire)');
+        if(document.getElementById('test_speed').checked) testsPositifs.push('Speed Test (+ : atteinte Long Biceps)');
+        if(document.getElementById('test_apprehension').checked) testsPositifs.push('Appréhension Antérieure (+ : laxité/instabilité antérieure)');
+        if(document.getElementById('test_obrien').checked) testsPositifs.push("O'Brien (+ : suspicion de lésion SLAP)");
+        
+        const testsStr = testsPositifs.length > 0 ? testsPositifs.join(', ') : 'Tests de provocations ou de conflits négatifs';
+
+        const scoreIncapacite = document.getElementById('totalEpaule').innerText;
+        const interpreteScore = document.getElementById('interpreteEpaule').innerText;
+        const objectifs = document.getElementById('objectifs').value || 'Récupération d\'amplitude articulaire passive, régulation du rythme scapulo-huméral et renforcement ciblé.';
+
+        // Construction du livrable textuel final
+        let output = `=== BILAN DIAGNOSTIC KINÉSITHÉRAPIQUE (ÉPAULE) ===\n`;
+        output += `Patient : ${nom} | Côté atteint : ${cote} (${lat})\n`;
+        output += `Profession : ${profession} | Sport : ${sport}\n`;
+        output += `Motif de consultation : ${motif}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `DOULEUR : EVA Repos: ${eva}/10 | EVA Mouvement: ${eva_effort}/10\n`;
+        output += `CARACTÉRISTIQUES : Rythme ${rythme}\n`;
+        output += `INSPECTION / DYSKINÉSIE : ${dyskinesie}\n`;
+        output += `EXCLUSION CERVICALE : ${cervicalStr}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `MOBILITÉS SCAPULO-HUMÉRALES (Actif/Passif) :\n`;
+        output += ` - Flexion (Élévation Ant.) : ${flex_elev}\n`;
+        output += ` - Abduction : ${abd}\n`;
+        output += ` - Rotation Externe (RE1) : ${re1}\n`;
+        output += ` - Rotation Externe (RE2) : ${re2}\n`;
+        output += ` - Rotation Interne (RI) : ${ri}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `TESTS SPÉCIFIQUES ET ORTHOPÉDIQUES :\n`;
+        output += ` - ${testsStr}\n`;
+        output += `--------------------------------------------------\n`;
+        output += `FONCTIONNEL (Incapacité simplifiée) : ${scoreIncapacite}/50 pts (${interpreteScore})\n`;
+        output += `--------------------------------------------------\n`;
+        output += `AXES DE RÉÉDUCATION : ${objectifs}\n`;
+
+        // Affichage dynamique du résultat
+        const divResultat = document.getElementById('resultat-bilan');
+        document.getElementById('texteBilan').innerText = output;
+        divResultat.classList.remove('hidden');
+        
+        // Masquer la confirmation de copie antérieure
+        document.getElementById('notification-copie').classList.add('hidden');
+        
+        // Défilement automatique vers le bloc de synthèse
+        divResultat.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Fonction robuste de copie vers le presse-papiers pour contourner les blocages iFrame
+    function copierBilan() {
+        const texte = document.getElementById('texteBilan').innerText;
+        
+        const tempTextarea = document.createElement('textarea');
+        tempTextarea.value = texte;
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextarea);
+
+        // Affichage d'une notification de confirmation
+        const notification = document.getElementById('notification-copie');
+        notification.classList.remove('hidden');
+    }
+</script>
+
+</body>
+</html>
+`

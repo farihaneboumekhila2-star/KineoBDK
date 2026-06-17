@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDK Pelvi-Périnéologie Avancé - Spécialité & Recherche</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @layer base {
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+            input[type="number"] { -moz-appearance: textfield; }
+        }
+        @media print {
+            body { background-color: #fff; color: #000; }
+            .no-print { display: none !important; }
+            .print-card { border: 1px solid #ef6ed1 !important; box-shadow: none !important; page-break-inside: avoid; margin-bottom: 1rem; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen pb-16 selection:bg-rose-500 selection:text-white">
+
+    <div class="max-w-6xl mx-auto px-4 pt-8">
+        
+        <!-- MODULE HEADER -->
+        <header class="bg-pink-400 rounded-2xl p-6 shadow-sm border border-slate-200 mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 print-card">
+            <div>
+                <span class="bg-rose-100 text-rose-800 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Dossier Clinique Spécifique</span>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
+                    Bilan Diagnostic Kinésithérapique Pelvi-Périnéal
+                </h1>
+                <p class="text-sm text-slate-500 mt-1">Évaluation analytique, fonctionnelle, neurologique sacrée et métrique des troubles sphinctériens et de la statique pelvienne.</p>
+            </div>
+            <div class="flex flex-wrap gap-2 no-print">
+                <button onclick="reinitialiserFormulaire()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 bg-white hover:bg-rose-700 transition cursor-pointer shadow-xs">Réinitialiser</button>
+                <button onclick="window.print()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 bg-white hover:bg-rose-700 transition cursor-pointer shadow-xs flex items-center gap-1.5">Imprimer / PDF</button>
+                <button onclick="genererSynthese()" class="px-5 py-2.5 bg-white rounded-xl text-sm font-semibold text-black hover:bg-rose-700 shadow-sm transition cursor-pointer">Générer la Synthèse</button>
+            </div>
+        </header>
+
+        <form id="bdkPelviAvanceForm" class="space-y-8">
+            
+            <!-- SECTION 1 : ANAMNÈSE EXHAUSTIVE -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-rose-600 rounded-full"></span> 1. Anamnèse, Profil & Données Antropométriques
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Identifiant Patient / Nom</label>
+                        <input type="text" id="patientNom" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Date du Bilan</label>
+                        <input type="date" id="bilanDate" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Âge</label>
+                        <input type="number" id="patientAge" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition-all text-center">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Antécédents Gynéco-Obstétricaux Spécifiques</label>
+                        <input type="text" id="atcObstetrique" placeholder="Ex: G3 P2, 1 Épisiotomie gauche, 1 Forceps, Déchirure simple, Poids max néonatal : 4100g" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Statut Hormonal / Ménopause</label>
+                        <select id="statutHormonal" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition-all">
+                            <option value="Activité génitale régulière">Activité génitale régulière (Cycles normaux)</option>
+                            <option value="Ménopause non traitée">Ménopause installée sans THS</option>
+                            <option value="Ménopause sous THS / Traitement local">Ménopause sous THS / Œstrogénothérapie locale</option>
+                            <option value="Post-partum immédiat (< 6 mois)">Post-partum immédiat (&lt; 6 mois)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Chirurgies Pelviennes Antérieures</label>
+                        <input type="text" id="chirPelvienne" placeholder="Hystérectomie (totale/subtotale), Cure de prolapsus, TVT/TOT, Chirurgie prostatique..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-rose-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Comorbidités & Facteurs de Risque Généraux</label>
+                        <input type="text" id="facteursRisque" placeholder="Toux chronique (BPCO), Constipation opiniâtre, Sport d'impact (Crossfit/Course), Profession (Station debout prolongée)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-rose-500">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2 : CALENDRIER MICTORIEL ABBRÉGÉ (24H) -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4 border-b border-slate-100 pb-3">
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-rose-600 rounded-full"></span> 2. Profil Mictionnel & Analyse Hydrique (24h)
+                    </h2>
+                    <div class="flex gap-2 text-xs font-mono">
+                        <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded-lg border border-slate-200">Diurèse : <span id="diureseTotal" class="font-bold">0</span> ml</span>
+                        <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded-lg border border-slate-200">Capacité Max : <span id="capaciteMax" class="font-bold">0</span> ml</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Quantification</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[11px] text-slate-600 mb-1">Entrées hydriques (ml)</label>
+                                <input type="number" id="volApports" value="1500" class="cal-input w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center font-bold">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600 mb-1">Volume diurne total (ml)</label>
+                                <input type="number" id="volDiurne" value="1200" class="cal-input w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center font-bold">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600 mb-1">Volume nocturne total (ml)</label>
+                                <input type="number" id="volNocturne" value="200" class="cal-input w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center font-bold">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600 mb-1">Miction max notée (ml)</label>
+                                <input type="number" id="mictionMax" value="350" class="cal-input w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center font-bold">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Fréquences Cliniques</h3>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[11px] text-slate-600 mb-1">Nb mictions Jour</label>
+                                <input type="number" id="nbMictJour" value="6" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600 mb-1">Nb mictions Nuit (Nycturie)</label>
+                                <input type="number" id="nbMictNuit" value="0" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-slate-600 mb-1">Urgenturies / Impériosités (par jour)</label>
+                            <select id="imperiosites" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="0">Aucune urgenturie</option><option value="1 à 2 épisodes">Légère (1-2 / jour)</option><option value="> 3 épisodes par jour avec fuite">Sévère (&gt; 3 / jour avec fuites)</option></select>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Symptômes d'Évacuation</h3>
+                        <div>
+                            <label class="block text-[11px] text-slate-600 mb-1">Dysurie clinique / Jet urinaire</label>
+                            <select id="dysurieType" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Jet fluide, continu, sans poussée">Jet normal sans poussée</option><option value="Jet faible, haché, nécessité de poussées">Jet faible / Nécessité de poussée abdominale</option><option value="Gouttes à gouttes terminales / Sensation résidu post-mict">Gouttes à gouttes / Sensation de résidu</option></select>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-slate-600 mb-1">Fuites insensibles / Pertes inconscientes</label>
+                            <select id="fuitesInsensibles" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Absentes">Absentes</option><option value="Présentes (Incompétence sphinctérienne pure)">Présentes (Fuites sans sensation de besoin)</option></select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3 : ANATOMIE CLASSIFICATION STATIQUE VISCÉRALE (POP-Q SIMPLIFIÉ) -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-rose-600 rounded-full"></span> 3. Statique Pelvienne & Compartiments (Staging ICS / POP-Q)
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-50/50 p-4 rounded-xl border border-slate-100 space-y-2">
+                        <span class="block text-xs font-bold text-blue-900 uppercase">Compartiment Antérieur</span>
+                        <label class="block text-xs text-slate-600">Cystocèle (Vessie)</label>
+                        <select id="cystoceleGrade" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Grade 0 : Normal">Grade 0 : Pas de prolapsus</option><option value="Grade 1 : Intra-vaginal (>1cm au-dessus de l'hymen)">Grade 1 : Descend jusqu'à la moitié du vagin</option><option value="Grade 2 : Affleure l'hymen (+/- 1cm)">Grade 2 : Arrive au niveau de la vulve/hymen</option><option value="Grade 3 : Extériorisé (Dépasse l'hymen)">Grade 3 : Sort de la fente vulvaire à l'effort</option></select>
+                    </div>
+
+                    <div class="bg-slate-50/50 p-4 rounded-xl border border-slate-100 space-y-2">
+                        <span class="block text-xs font-bold text-purple-900 uppercase">Compartiment Moyen</span>
+                        <label class="block text-xs text-slate-600">Hystérocèle / Col utérin (ou Dôme)</label>
+                        <select id="hysteroceleGrade" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Grade 0 : Normal">Grade 0 : Pas de descente utérine</option><option value="Grade 1 : Descente intra-vaginale supérieure">Grade 1 : Descente mineure haut-vaginale</option><option value="Grade 2 : Col visible à l'ostium à la poussée">Grade 2 : Col utérin affleurant l'introitus</option><option value="Grade 3 : Prolapsus utérin complet (Procidence)">Grade 3 : Éversion complète / Procidence totale</option></select>
+                    </div>
+
+                    <div class="bg-slate-50/50 p-4 rounded-xl border border-slate-100 space-y-2">
+                        <span class="block text-xs font-bold text-emerald-900 uppercase">Compartiment Postérieur</span>
+                        <label class="block text-xs text-slate-600">Rectocèle / Élytrocèle (Rectum)</label>
+                        <select id="rectoceleGrade" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Grade 0 : Normal">Grade 0 : Pas de rectocèle</option><option value="Grade 1 : Bombement vaginal postérieur discret">Grade 1 : Bombement discret intra-vaginal</option><option value="Grade 2 : Rectocèle palpable arrivant à l'hymen">Grade 2 : Rectocèle bombant jusqu'à l'introitus</option><option value="Grade 3 : Extériorisation fécale vaginale">Grade 3 : Nécessité de réintégration digitale pour déféquer</option></select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4 : EXAMEN EXTRACAVITAIRE & EXAMEN NEUROLOGIQUE SACRÉ -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-rose-600 rounded-full"></span> 4. Évaluation Neurologique Périnéale & Dermatomes Sacrés
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                        <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wide border-b border-slate-200 pb-1">Sensibilité Cutanée Marge/Vulve (Dermatomes S2-S3-S4)</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] text-slate-600 mb-1">Côté Gauche</label>
+                                <select id="sensiNeurologiqueG" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Normo-esthésie intacte">Normoesthésie (Tact/piqûre perçus)</option><option value="Hypoesthésie en selle">Hypoesthésie locale (S2-S4 diminué)</option><option value="Anesthésie en selle complète">Anesthésie en selle totale</option></select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600 mb-1">Côté Droit</label>
+                                <select id="sensiNeurologiqueD" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Normo-esthésie intacte">Normoesthésie (Tact/piqûre perçus)</option><option value="Hypoesthésie en selle">Hypoesthésie locale (S2-S4 diminué)</option><option value="Anesthésie en selle complète">Anesthésie en selle totale</option></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                        <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wide border-b border-slate-200 pb-1">Réflexes de la Boucle Sacrée</h3>
+                        <div class="grid grid-cols-2 gap-3 pt-1">
+                            <div>
+                                <label class="block text-[11px] text-slate-600 mb-1">Réflexe Bulbo-caverneux</label>
+                                <select id="refBulbo" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Normal ( contraction immédiate)">Présent / Synchrone</option><option value="Aboli / Absence de réponse sphinctérienne">Aboli (Suspicion de lésion radiculaire/médullaire)</option></select>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600 mb-1">Clignotement Anal (Anal Blink)</label>
+                                <select id="refAnal" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs"><option value="Normal (contraction externe de l'anus)">Présent / Réflexe vif</option><option value="Aboli">Aboli</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5 : EXAMEN DIGITAL INTRACAVITAIRE & CRITÈRES PERFECT COGNITIFS -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4 border-b border-slate-100 pb-3">
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-rose-600 rounded-full"></span> 5. Palpation & Score PERFECT Exhaustif (Oxford Modifié)
+                    </h2>
+                    <span class="bg-rose-50 text-rose-700 text-xs font-mono font-bold px-3 py-1 rounded-xl border border-rose-200">
+                        Power Clinique : <span id="perfectPowerVal" class="text-sm font-bold">0</span> / 5
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-slate-50 border border-slate-200 p-3 rounded-xl">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">P - Power (Force Oxford)</label>
+                        <select id="perfP" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs font-bold"><option value="0">0 : Aucune contraction</option><option value="1">1 : Trace / Fasciculation</option><option value="2">2 : Faible contraction sans résistance</option><option value="3">3 : Modérée (Pression sur le doigt)</option><option value="4">4 : Bonne (Aspiration du doigt vers le haut)</option><option value="5">5 : Puissante résistance contre opérateur</option></select>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-3 rounded-xl">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">E - Endurance (Temps max, max 10s)</label>
+                        <input type="number" id="perfE" min="0" max="10" value="0" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center font-bold">
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-3 rounded-xl">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">R - Répétitions (Endurance, max 10)</label>
+                        <input type="number" id="perfR" min="0" max="10" value="0" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center font-bold">
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-3 rounded-xl">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">F - Fast (Contractions d'1s, max 10)</label>
+                        <input type="number" id="perfF" min="0" max="10" value="0" class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-xs text-center font-bold">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Inversion de Commande / Cocontraction</label>
+                        <select id="inversionCommande" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-rose-500"><option value="Absente : Bonne dissociation motrice">Absente (Bonne dissociation motrice)</option><option value="Présente : Poussée paradoxale / Valsalva">Présente (Poussée paradoxale / Manœuvre de Valsalva automatique)</option><option value="Cocontraction excessive des fessiers/adducteurs">Cocontraction parasite majeure (Fessiers / Adducteurs)</option></select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Points Gâchettes / Myofasciaux (Trigger points)</label>
+                        <select id="triggerPoints" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-rose-500"><option value="Aucun point douloureux à la palpation digitale">Aucun point douloureux</option><option value="Douleur vive sur le muscle élévateur de l'anus (Levator ani)">Douleur unilatérale/bilatérale de l'Élévateur de l'anus</option><option value="Douleur du muscle obturateur interne / piriforme">Douleur du muscle Obturateur Interne</option></select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Verrouillage Périnéal à la Toux (VPT)</label>
+                        <select id="vptAutomatique" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-rose-500"><option value="Présent et efficace">Présent et efficace (Verrouillage précède la toux)</option><option value="Déficitaire (Contraction synchrone insuffisante)">Déficitaire (Contraction synchrone insuffisante)</option><option value="Inexistant (Béance lors de l'effort de toux)">Inexistant (Béance et fuite immédiate)</option></select>
+                    </div>
+                </div>
+            </section>
+        </form>
+
+        <!-- ZONE DE RENDU : RAPPORT EXPORTABLE HAUTE DÉFINITION -->
+        <div id="syntheseZone" class="hidden mt-8 bg-slate-900 text-slate-100 rounded-2xl p-6 shadow-xl border border-slate-800 transition-all duration-300">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-rose-400 flex items-center gap-2">
+                    📊 Rapport Clinique d'Évaluation Pelvi-Périnéologique Spécialisé
+                </h3>
+                <button onclick="copierSynthese()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 cursor-pointer">
+                    Copier le compte-rendu
+                </button>
+            </div>
+            <pre id="syntheseTexte" class="text-xs md:text-sm font-mono whitespace-pre-wrap overflow-x-auto text-slate-300 leading-relaxed"></pre>
+        </div>
+    </div>
+
+    <!-- LOGIQUE JAVASCRIPT ET CALCULS DES VOLUMES -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('bilanDate').valueAsDate = new Date();
+            
+            // Écouter les modifications du calendrier pour mettre à jour les métriques en temps réel
+            document.querySelectorAll('.cal-input').forEach(input => {
+                input.addEventListener('input', calculDonniesMictionnelles);
+            });
+            
+            document.getElementById('perfP').addEventListener('change', (e) => {
+                document.getElementById('perfectPowerVal').innerText = e.target.value.substring(0,1);
+            });
+
+            calculDonniesMictionnelles();
+        });
+
+        function calculDonniesMictionnelles() {
+            const diurne = parseInt(document.getElementById('volDiurne').value) || 0;
+            const nocturne = parseInt(document.getElementById('volNocturne').value) || 0;
+            const maxMict = parseInt(document.getElementById('mictionMax').value) || 0;
+
+            const diurese = diurne + nocturne;
+
+            document.getElementById('diureseTotal').innerText = diurese;
+            document.getElementById('capaciteMax').innerText = maxMict;
+        }
+
+        function genererSynthese() {
+            const nom = document.getElementById('patientNom').value || 'Anonyme';
+            const date = document.getElementById('bilanDate').value;
+            const age = document.getElementById('patientAge').value || 'Non précisé';
+            const atcGyn = document.getElementById('atcObstetrique').value || 'RAS';
+            const hormonal = document.getElementById('statutHormonal').value;
+            const chir = document.getElementById('chirPelvienne').value || 'Aucune';
+            const fdr = document.getElementById('facteursRisque').value || 'Aucun';
+
+            // Données calendrier
+            const diurese = document.getElementById('diureseTotal').innerText;
+            const capMax = document.getElementById('capaciteMax').innerText;
+            const mictJ = document.getElementById('nbMictJour').value;
+            const mictN = document.getElementById('nbMictNuit').value;
+            const imp = document.getElementById('imperiosites').value;
+            const dysurie = document.getElementById('dysurieType').value;
+            const fInsensibles = document.getElementById('fuitesInsensibles').value;
+
+            // Statique viscérale
+            const cysto = document.getElementById('cystoceleGrade').value;
+            const hystero = document.getElementById('hysteroceleGrade').value;
+            const recto = document.getElementById('rectoceleGrade').value;
+
+            // Neurologie sacrée
+            const sensG = document.getElementById('sensiNeurologiqueG').value;
+            const sensD = document.getElementById('sensiNeurologiqueD').value;
+            const bCaverneux = document.getElementById('refBulbo').value;
+            const rAnal = document.getElementById('refAnal').value;
+
+            // PERFECT
+            const p = document.getElementById('perfP').value.substring(0,1);
+            const e = document.getElementById('perfE').value;
+            const r = document.getElementById('perfR').value;
+            const f = document.getElementById('perfF').value;
+            
+            const inv = document.getElementById('inversionCommande').value;
+            const trig = document.getElementById('triggerPoints').value;
+            const vpt = document.getElementById('vptAutomatique').value;
+
+            const report = `========================================================================
+RAPPORT EXPERT : BILAN DIAGNOSTIC KINÉSITHÉRAPIQUE (BDK) PELVI-PÉRINÉAL
+========================================================================
+Date de l'évaluation : ${date}
+Identifiant Patient   : ${nom}  |  Âge : ${age} ans
+Statut Hormonal      : ${hormonal}
+Antécédents Gyn/Obs  : ${atcGyn}
+Chirurgies Pelviennes: ${chir}
+Facteurs aggravants  : ${fdr}
+
+1. PROFIL HYDRO-MICTIONNEL ET DIURÈSE (DONNÉES COMPILÉES 24H)
+------------------------------------------------------------------------
+• Diurèse totale calculée  : ${diurese} ml
+• Capacité vésicale utile  : ${capMax} ml (Miction maximale unique)
+• Fréquence mictionnelle   : Jour : ${mictJ} | Nuit (Nycturie) : ${mictN}
+• Gestion du besoin        : ${imp}
+• Qualité du flux (Axe jet): ${dysurie}
+• Pertes insensibles       : ${fInsensibles}
+
+2. STATIQUE VISCÉRALE ET BILAN COMPARTIMENTAL (ICS / POP-Q)
+------------------------------------------------------------------------
+• Étage Antérieur (Vessie) : ${cysto}
+• Étage Moyen (Utérus/Dôme): ${hystero}
+• Étage Postérieur (Rectum): ${recto}
+
+3. EXAMEN NEUROLOGIQUE SÉLECTIF DE LA BOUCLE SACRÉE (S2 à S4)
+------------------------------------------------------------------------
+• Sensibilité Dermatomes Hémicorps G : ${sensG}
+• Sensibilité Dermatomes Hémicorps D : ${sensD}
+• Réflexe Bulbo-Caverneux (S2-S4)    : ${bCaverneux}
+• Réflexe de Clignotement Anal       : ${rAnal}
+
+4. TESTING ANALYTIQUE INTRACAVITAIRE & PARAMÈTRES PERFECT
+------------------------------------------------------------------------
+• Puissance (Oxford Modifié)     : P ${p} / 5
+• Endurance soutenue            : E ${e} secondes
+• Répétitions d'endurance       : R ${r} fois
+• Contractions rapides (1s/1s)   : F ${f} fois
+👉 Formule PERFECT finale validée : P${p}E${e}R${r}F${f}
+
+• Comportement cinétique dynamique :
+  - Commande motrice             : ${inv}
+  - Syndromes myofasciaux locaux : ${trig}
+  - Verrouillage réflexe (Toux)   : ${vpt}
+========================================================================`;
+
+            document.getElementById('syntheseTexte').innerText = report;
+            const zone = document.getElementById('syntheseZone');
+            zone.classList.remove('hidden');
+            zone.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copierSynthese() {
+            const texte = document.getElementById('syntheseTexte').innerText;
+            navigator.clipboard.writeText(texte).then(() => {
+                alert('Le compte-rendu spécialisé a été copié avec succès dans le presse-papiers.');
+            });
+        }
+
+        function reinitialiserFormulaire() {
+            if(confirm("Attention : Vous allez effacer l'intégralité de ce dossier pelvi-périnéal. Confirmer ?")) {
+                document.getElementById('bdkPelviAvanceForm').reset();
+                document.getElementById('perfectPowerVal').innerText = "0";
+                calculDonniesMictionnelles();
+                document.getElementById('syntheseZone').classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>

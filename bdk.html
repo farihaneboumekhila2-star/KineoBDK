@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BDK - Page d'accueil</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #17324d;
+      background: #f4f8fb;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0f766e, #2563eb);
+      color: white;
+      padding: 54px 20px 46px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      margin-bottom: 12px;
+      letter-spacing: 0;
+    }
+
+    header p {
+      max-width: 780px;
+      margin: 0 auto;
+      font-size: 1.08rem;
+      opacity: 0.96;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    .identity {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: -64px;
+      margin-bottom: 28px;
+    }
+
+    .identity-item,
+    .details-panel {
+      background: white;
+      border: 1px solid #dbe7ef;
+      border-radius: 8px;
+      box-shadow: 0 14px 30px rgba(15, 35, 52, 0.08);
+    }
+
+    .identity-item {
+      padding: 20px;
+    }
+
+    .identity-item span {
+      display: block;
+      color: #60758a;
+      font-size: 0.88rem;
+      margin-bottom: 7px;
+    }
+
+    .identity-item strong {
+      display: block;
+      font-size: 1.08rem;
+      color: #17324d;
+    }
+
+    .identity-field {
+      background: white;
+      border: 1px solid #dbe7ef;
+      border-radius: 8px;
+      box-shadow: 0 14px 30px rgba(15, 35, 52, 0.08);
+      padding: 20px;
+    }
+
+    .identity-field label {
+      display: block;
+      color: #60758a;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .identity-field input {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid #c8d7e3;
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #17324d;
+      background: #f9fcfe;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .identity-field input:focus {
+      border-color: #2563eb;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+    }
+
+    .specialties {
+      margin-top: 28px;
+    }
+
+    .specialties h2 {
+      font-size: 1.55rem;
+      margin-bottom: 16px;
+      color: #17324d;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    button {
+      min-height: 58px;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      cursor: pointer;
+      color: white;
+      background: #0f766e;
+      font-size: 0.96rem;
+      font-weight: 700;
+      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover,
+    button.active {
+      background: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+    }
+
+    .details-panel {
+      min-height: 720px;
+      overflow: hidden;
+    }
+
+    .details-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 22px 24px;
+      border-bottom: 1px solid #dbe7ef;
+    }
+
+    .details-heading {
+      min-width: 0;
+    }
+
+    .details-panel h3 {
+      font-size: 1.45rem;
+      color: #0f766e;
+      margin-bottom: 12px;
+    }
+
+    .details-panel p {
+      color: #4c647a;
+      margin-bottom: 12px;
+    }
+
+    .open-page {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: white;
+      background: #17324d;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .bdk-frame {
+      display: block;
+      width: 100%;
+      height: 820px;
+      border: 0;
+      background: white;
+    }
+
+    footer {
+      padding: 22px 20px;
+      text-align: center;
+      color: #60758a;
+      border-top: 1px solid #dbe7ef;
+      background: white;
+    }
+
+    @media (max-width: 900px) {
+      .identity {
+        grid-template-columns: 1fr;
+        margin-top: -36px;
+      }
+
+      .buttons {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      header {
+        padding-top: 42px;
+      }
+
+      main {
+        width: min(100% - 22px, 1120px);
+      }
+
+      .buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .details-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 18px;
+      }
+
+      .open-page {
+        width: 100%;
+      }
+
+      .bdk-frame {
+        height: 760px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>KineoBDK</h1>
+    <p>Une plateforme dédiée au Bilan Diagnostic Kinésithérapique : analyser, structurer et maîtriser le raisonnement clinique avec précision.</p>
+  </header>
+
+  <main>
+    <section class="identity" aria-label="Informations principales">
+      <div class="identity-field">
+        <label for="kinesitherapeute">Nom du kinésithérapeute</label>
+        <input type="text" id="kinesitherapeute" name="kinesitherapeute" placeholder="Écrire le nom du kinésithérapeute">
+      </div>
+
+      <div class="identity-field">
+        <label for="etablissement">Nom de l'établissement</label>
+        <input type="text" id="etablissement" name="etablissement" placeholder="Écrire le nom de l'établissement">
+      </div>
+
+      <div class="identity-field">
+        <label for="service">Nom du service</label>
+        <input type="text" id="service" name="service" placeholder="Écrire le nom du service">
+      </div>
+    </section>
+
+    <section class="specialties" aria-label="Spécialités BDK">
+      <h2>Spécialités BDK</h2>
+
+      <div class="buttons">
+        <button class="active" type="button" data-specialty="ortho">BDK en Ortho/Rhumato</button>
+        <button type="button" data-specialty="respiratoire">BDK en kiné respiratoire</button>
+        <button type="button" data-specialty="pediatrie">BDK en Pédiatrie</button>
+        <button type="button" data-specialty="neuro">BDK en Neuro</button>
+        <button type="button" data-specialty="pelvi">BDK en pelvi-périnéologie</button>
+      </div>
+
+      <article class="details-panel">
+        <div class="details-header">
+          <div class="details-heading">
+            <h3 id="details-title">BDK en Ortho/Rhumato</h3>
+            <p id="details-intro">Le BDK Ortho/Rhumato est affiché ci-dessous.</p>
+          </div>
+          <a id="open-page" class="open-page" href="bdk_ortho_rhumato.html" target="_blank" rel="noopener">Ouvrir en pleine page</a>
+        </div>
+        <iframe id="bdk-frame" class="bdk-frame" src="bdk_ortho_rhumato.html" title="BDK en Ortho/Rhumato"></iframe>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 KineoBDK. Tous droits réservés.
+Les informations proposées sur ce site sont destinées à un usage pédagogique et informatif. Elles ne remplacent en aucun cas un avis médical ou une prise en charge par un professionnel de santé qualifié.
+Contenu élaboré dans le respect des recommandations professionnelles et des bonnes pratiques en kinésithérapie.
+Conçu et développé par Boumekhila Farihane Alaa Errahmane, Iihoum Asma et Bourabha Hadjer.</p>
+  </footer>
+
+  <script>
+    const bdkDetails = {
+      ortho: {
+        title: "BDK en Ortho/Rhumato",
+        intro: "Le BDK Ortho/Rhumato est affiché ci-dessous.",
+        file: "bdk_ortho_rhumato.html"
+      },
+      respiratoire: {
+        title: "BDK en kiné respiratoire",
+        intro: "Le BDK en kinésithérapie respiratoire est affiché ci-dessous.",
+        file: "bdk_pneumo.html"
+      },
+      pediatrie: {
+        title: "BDK en Pédiatrie",
+        intro: "Le BDK en pédiatrie est affiché ci-dessous.",
+        file: "bdk_pediatrie.html"
+      },
+      neuro: {
+        title: "BDK en Neuro",
+        intro: "Le BDK en neurologie est affiché ci-dessous.",
+        file: "bdk_neuro.html"
+      },
+      pelvi: {
+        title: "BDK en pelvi-périnéologie",
+        intro: "Le BDK en pelvi-périnéologie est affiché ci-dessous.",
+        file: "bdk_perineologie.html"
+      }
+    };
+
+    const buttons = document.querySelectorAll("button[data-specialty]");
+    const detailsTitle = document.getElementById("details-title");
+    const detailsIntro = document.getElementById("details-intro");
+    const bdkFrame = document.getElementById("bdk-frame");
+    const openPage = document.getElementById("open-page");
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const selected = button.dataset.specialty;
+        const details = bdkDetails[selected];
+
+        buttons.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+
+        detailsTitle.textContent = details.title;
+        detailsIntro.textContent = details.intro;
+        bdkFrame.src = details.file;
+        bdkFrame.title = details.title;
+        openPage.href = details.file;
+      });
+    });
+  </script>
+</body>
+</html>

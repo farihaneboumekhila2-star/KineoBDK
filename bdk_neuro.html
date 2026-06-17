@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDK Neurologique Avancé & Standardisé</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @layer base {
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+            input[type="number"] { -moz-appearance: textfield; }
+        }
+        @media print {
+            body { background-color: oklab(98.387% -0.00166 -0.002); color: #000; }
+            .no-print { display: none !important; }
+            .print-card { border: 1px solid #0458be !important; box-shadow: none !important; page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen pb-16 selection:bg-indigo-500 selection:text-white">
+
+    <div class="max-w-6xl mx-auto px-4 pt-8">
+        
+        <header class="bg-indigo-600 rounded-2xl p-6 shadow-sm border border-slate-200 mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 print-card">
+            <div>
+                
+                <h1 class="text-3xl font-extrabold text-white tracking-tight mt-1">
+                    Bilan Diagnostic Kinésithérapique Neurologique
+                </h1>
+                <p class="text-sm text-slate-200 mt-1">Évaluation quantitative, sémiologique et fonctionnelle basée sur les échelles validées (MRC, Ashworth, FAC, TUG).</p>
+            </div>
+            <div class="flex flex-wrap gap-2 no-print">
+                <button onclick="reinitialiserFormulaire()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 bg-blue-100 hover:bg-slate-50 active:bg-slate-100 transition cursor-pointer shadow-xs">Réinitialiser</button>
+                <button onclick="window.print()" class="px-4 py-2.5 border border-slate-300 rounded-xl text-sm font-medium text-slate-700 bg-blue-100 hover:bg-slate-50 active:bg-slate-100 transition cursor-pointer shadow-xs flex items-center gap-1.5">Imprimer / PDF</button>
+                <button onclick="genererSynthese()" class="px-5 py-2.5 bg-indigo-600 rounded-xl text-sm font-semibold text-white hover:bg-indigo-700 active:bg-indigo-800 shadow-sm transition cursor-pointer">Générer la Synthèse</button>
+            </div>
+        </header>
+
+        <form id="bdkForm" class="space-y-8">
+            
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span> 1. Identification & Contexte Clinique
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nom du patient</label>
+                        <input type="text" id="patientNom" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all">
+                    </div>
+                   <div class="flex flex-col">
+                    <label for="age" class="text-sm font-semibold text-slate-700 mb-1">L'âge du Patient :</label>
+                    <input type="text" id="age" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm" placeholder="Ex: 45 ans">
+                </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Date du Bilan</label>
+                        <input type="date" id="bilanDate" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Diagnostic Médical Principal</label>
+                        <input type="text" id="patientDiag" placeholder="Ex: AVC, SEP, Parkinson, Traumatisme médullaire..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Histoire de la maladie & Plaintes principales du patient</label>
+                    <textarea id="anamneseTexte" rows="2" placeholder="Mode d'installation, déficits rapportés par le patient, objectifs fonctionnels..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all resize-none"></textarea>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4 border-b border-slate-100 pb-3">
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span> 2. Évaluation du Tonus (Ashworth Modifiée)
+                    </h2>
+                    <span class="self-start bg-amber-50 text-amber-800 text-xs font-bold px-3 py-1 rounded-xl border border-amber-200">
+                        Index Global de Spasticité : <span id="scoreAshworthDisplay" class="font-mono text-sm">0.0</span> / 4
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex justify-between"><span>Hémicorps Gauche</span><span>Cotation (0 à 4)</span></h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between"><span class="text-sm text-slate-700">Fléchisseurs du coude (G)</span>
+                                <select class="ashworth-select bg-white border border-slate-200 rounded-lg p-1.5 text-xs focus:outline-none focus:border-indigo-500"><option value="0">0</option><option value="1">1</option><option value="1.5">1+</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+                            </div>
+                            <div class="flex items-center justify-between"><span class="text-sm text-slate-700">Ischio-jambiers (G)</span>
+                                <select class="ashworth-select bg-white border border-slate-200 rounded-lg p-1.5 text-xs focus:outline-none focus:border-indigo-500"><option value="0">0</option><option value="1">1</option><option value="1.5">1+</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+                            </div>
+                            <div class="flex items-center justify-between"><span class="text-sm text-slate-700">Triceps sural (G)</span>
+                                <select class="ashworth-select bg-white border border-slate-200 rounded-lg p-1.5 text-xs focus:outline-none focus:border-indigo-500"><option value="0">0</option><option value="1">1</option><option value="1.5">1+</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-3 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex justify-between"><span>Hémicorps Droit</span><span>Cotation (0 à 4)</span></h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between"><span class="text-sm text-slate-700">Fléchisseurs du coude (D)</span>
+                                <select class="ashworth-select bg-white border border-slate-200 rounded-lg p-1.5 text-xs focus:outline-none focus:border-indigo-500"><option value="0">0</option><option value="1">1</option><option value="1.5">1+</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+                            </div>
+                            <div class="flex items-center justify-between"><span class="text-sm text-slate-700">Ischio-jambiers (D)</span>
+                                <select class="ashworth-select bg-white border border-slate-200 rounded-lg p-1.5 text-xs focus:outline-none focus:border-indigo-500"><option value="0">0</option><option value="1">1</option><option value="1.5">1+</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+                            </div>
+                            <div class="flex items-center justify-between"><span class="text-sm text-slate-700">Triceps sural (D)</span>
+                                <select class="ashworth-select bg-white border border-slate-200 rounded-lg p-1.5 text-xs focus:outline-none focus:border-indigo-500"><option value="0">0</option><option value="1">1</option><option value="1.5">1+</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4 border-b border-slate-100 pb-3">
+                    <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span> 3. Force Musculaire Segmentaire (Échelle MRC)
+                    </h2>
+                    <div class="flex gap-2 text-xs font-mono">
+                        <span class="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-200">Total G : <span id="totalMrcG" class="font-bold">40</span>/40</span>
+                        <span class="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg border border-slate-200">Total D : <span id="totalMrcD" class="font-bold">40</span>/40</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <h3 class="text-sm font-bold text-indigo-900 uppercase tracking-wide mb-2 flex justify-between border-b border-slate-100 pb-1"><span>Hémicorps GAUCHE</span><span>Score (0-5)</span></h3>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">C5 - Fléchisseurs du coude (Biceps)</span><input type="number" min="0" max="5" value="5" class="mrc-g w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">C6 - Extenseurs du poignet</span><input type="number" min="0" max="5" value="5" class="mrc-g w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">C7 - Extenseurs du coude (Triceps)</span><input type="number" min="0" max="5" value="5" class="mrc-g w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">L2 - Fléchisseurs de hanche (Psoas)</span><input type="number" min="0" max="5" value="5" class="mrc-g w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">L3 - Extenseurs du genou (Quadriceps)</span><input type="number" min="0" max="5" value="5" class="mrc-g w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">L4 - Fléchisseurs dorsaux (Tibial Ant)</span><input type="number" min="0" max="5" value="5" class="mrc-g w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">L5 - Extenseur propre de l'hallux</span><input type="number" min="0" max="5" value="5" class="mrc-g w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">S1 - Fléchisseurs plantaires (Triceps)</span><input type="number" min="0" max="5" value="5" class="mrc-g w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-sm font-bold text-indigo-900 uppercase tracking-wide mb-2 flex justify-between border-b border-slate-100 pb-1"><span>Hémicorps DROIT</span><span>Score (0-5)</span></h3>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">C5 - Fléchisseurs du coude (Biceps)</span><input type="number" min="0" max="5" value="5" class="mrc-d w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">C6 - Extenseurs du poignet</span><input type="number" min="0" max="5" value="5" class="mrc-d w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">C7 - Extenseurs du coude (Triceps)</span><input type="number" min="0" max="5" value="5" class="mrc-d w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">L2 - Fléchisseurs de hanche (Psoas)</span><input type="number" min="0" max="5" value="5" class="mrc-d w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">L3 - Extenseurs du genou (Quadriceps)</span><input type="number" min="0" max="5" value="5" class="mrc-d w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">L4 - Fléchisseurs dorsaux (Tibial Ant)</span><input type="number" min="0" max="5" value="5" class="mrc-d w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">L5 - Extenseur propre de l'hallux</span><input type="number" min="0" max="5" value="5" class="mrc-d w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                        <div class="flex justify-between items-center bg-slate-50 p-2 rounded-lg"><span class="text-xs font-medium text-slate-600">S1 - Fléchisseurs plantaires (Triceps)</span><input type="number" min="0" max="5" value="5" class="mrc-d w-12 text-center text-sm font-semibold border border-slate-200 rounded-md bg-white p-1"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span> 4. Réflexes Ostéotendineux & Signes Centraux
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">ROT Hémicorps Gauche</label>
+                        <select id="rotG" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-sm focus:outline-none focus:border-indigo-500">
+                            <option value="Normaux (++)">Normaux (++)</option>
+                            <option value="Vifs, diffusés (+++)">Vifs, élargis, diffusés (+++)</option>
+                            <option value="Polycinétiques (++++)">Polycinétiques / Clonus inépuisable (++++)</option>
+                            <option value="Diminués (+)">Diminués (+)</option>
+                            <option value="Abolis (0)">Abolis (0)</option>
+                        </select>
+                    </div>
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">ROT Hémicorps Droit</label>
+                        <select id="rotD" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-sm focus:outline-none focus:border-indigo-500">
+                            <option value="Normaux (++)">Normaux (++)</option>
+                            <option value="Vifs, diffusés (+++)">Vifs, élargis, diffusés (+++)</option>
+                            <option value="Polycinétiques (++++)">Polycinétiques / Clonus inépuisable (++++)</option>
+                            <option value="Diminués (+)">Diminués (+)</option>
+                            <option value="Abolis (0)">Abolis (0)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    <span class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Signes cliniques d'irritation pyramidale</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="checkbox" id="babinski" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4"> Babinski présent</label>
+                        <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="checkbox" id="hoffmann" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4"> Hoffmann présent</label>
+                        <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="checkbox" id="trepidation" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4"> Trépidation épileptoïde</label>
+                        <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer"><input type="checkbox" id="syncesies" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4"> Syncinésies globales</label>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span> 5. Sensibilités & Coordination Synchronisée
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-3">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 pb-1">Axe Sensitif</h3>
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">Sensibilité Superficielle (Tacto-algique)</label>
+                            <select id="sensiSup" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-indigo-500"><option value="Normale">Conservée</option><option value="Hypoesthésie systématisée">Hypoesthésie localisée / Hémianesthésie</option><option value="Allodynie / Paresthésies">Allodynie / Paresthésies exacerbées</option></select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">Proprioception (Position du gros orteil / Arthrokinesthésie)</label>
+                            <select id="sensiProf" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-indigo-500"><option value="Intacte (Erreurs : 0)">Intacte (Aucune erreur positionnelle)</option><option value="Déficitaire (Erreurs occasionnelles)">Déficitaire (Erreurs de sens de position)</option><option value="Abolie">Abolie (Ataxie proprioceptive franche)</option></select>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 pb-1">Axe Cérébelleux & Vestibulaire</h3>
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">Coordination Cinétique (Doigt-nez / Talon-genou)</label>
+                            <select id="coordCereb" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-indigo-500"><option value="Précise sans oscillation">Précise sans oscillation (Normale)</option><option value="Dysmétrie / Hypermétrie">Dysmétrie / Hypermétrie (Cérébelleuse)</option><option value="Adiadococinésie">Adiadococinésie (Asynchronisme des mouvements alternatifs)</option></select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">Statique & Signe de Romberg</label>
+                            <select id="romberg" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm focus:outline-none focus:border-indigo-500"><option value="Négatif">Négatif (Stable les yeux fermés)</option><option value="Positif d'origine proprioceptive (Chute immédiate)">Positif proprioceptif (Chute à la fermeture des yeux)</option><option value="Positif d'origine vestibulaire (Déviation lente)">Positif vestibulaire (Déviation latéralisée tardive)</option></select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 print-card">
+                <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span> 6. Évaluation Évolutive Fonctionnelle
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Échelle de Marche FAC (0 à 5)</label>
+                        <select id="facScore" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-sm focus:outline-none focus:border-indigo-500">
+                            <option value="5 - Indépendant sur tous terrains">5 - Indépendant (Y compris escaliers/terrains variés)</option>
+                            <option value="4 - Indépendant sur plat uniquement">4 - Indépendant sur le plat (Aide sur terrain irrégulier)</option>
+                            <option value="3 - Supervision verbale ou physique légère">3 - Dépendance de supervision (Aide verbale sans contact)</option>
+                            <option value="2 - Assistance physique continue (1 personne équilibre)">2 - Assistance physique continue (Équilibre/propulsion)</option>
+                            <option value="1 - Assistance physique majeure (1 ou 2 personnes)">1 - Assistance majeure continue</option>
+                            <option value="0 - Non fonctionnelle / Patient incapable">0 - Non fonctionnelle / Ne peut pas marcher</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Test Unipodal (Tenue max 30s)</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="number" id="unipodalG" placeholder="G (sec)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:bg-white text-center">
+                            <input type="number" id="unipodalD" placeholder="D (sec)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:bg-white text-center">
+                        </div>
+                    </div>
+
+                    <div class="no-print">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Chronomètre Timed Up & Go (TUG)</label>
+                        <div class="flex items-center bg-slate-50 border border-slate-200 rounded-xl p-1 gap-2">
+                            <span id="tugChronoDisplay" class="font-mono text-base font-bold text-slate-700 px-3 w-20 text-center">0.00s</span>
+                            <button type="button" onclick="toggleChrono()" id="btnChrono" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs py-2 px-3 rounded-lg transition cursor-pointer">Démarrer</button>
+                            <button type="button" onclick="resetChrono()" class="bg-slate-200 hover:bg-slate-300 text-slate-600 font-medium text-xs py-2 px-2 rounded-lg transition cursor-pointer">RàZ</button>
+                        </div>
+                        <input type="hidden" id="tugFinalValue" value="0.0">
+                    </div>
+                </div>
+            </section>
+        </form>
+
+        <div id="syntheseZone" class="hidden mt-8 bg-slate-900 text-slate-100 rounded-2xl p-6 shadow-xl border border-slate-800 transition-all duration-300">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-4">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-2">
+                    📄 Compte-rendu Clinique Structuré (Prêt pour le Dossier Patient Informatique)
+                </h3>
+                <button onclick="copierSynthese()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 cursor-pointer">
+                    Copier le texte
+                </button>
+            </div>
+            <pre id="syntheseTexte" class="text-xs md:text-sm font-mono whitespace-pre-wrap overflow-x-auto text-slate-300 leading-relaxed"></pre>
+        </div>
+    </div>
+
+    <script>
+        // -- Chronomètre variables --
+        let chronoTimer = null;
+        let chronoStart = 0;
+        let chronoRunning = false;
+        let tempsEcoule = 0;
+
+        // -- Event listeners pour mise à jour automatique des scores --
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('bilanDate').valueAsDate = new Date();
+            
+            // Attacher les listeners de recalcul
+            document.querySelectorAll('.ashworth-select').forEach(el => el.addEventListener('change', calculerSpasticite));
+            document.querySelectorAll('.mrc-g').forEach(el => el.addEventListener('input', () => calculerMrc('g')));
+            document.querySelectorAll('.mrc-d').forEach(el => el.addEventListener('input', () => calculerMrc('d')));
+            
+            // Lancer les calculs initiaux
+            calculerSpasticite();
+            calculerMrc('g');
+            calculerMrc('d');
+        });
+
+        // -- Fonctions de calcul en temps réel --
+        function calculerSpasticite() {
+            const selects = document.querySelectorAll('.ashworth-select');
+            let cumul = 0;
+            selects.forEach(s => cumul += parseFloat(s.value));
+            document.getElementById('scoreAshworthDisplay').innerText = (cumul / selects.length).toFixed(1);
+        }
+
+        function calculerMrc(cote) {
+            const inputs = document.querySelectorAll(`.mrc-${cote}`);
+            let total = 0;
+            inputs.forEach(i => {
+                let val = parseInt(i.value);
+                if(isNaN(val) || val < 0) val = 0;
+                if(val > 5) { val = 5; i.value = 5; }
+                total += val;
+            });
+            document.getElementById(`totalMrc${cote.toUpperCase()}`).innerText = total;
+        }
+
+        // -- Chronomètre TUG --
+        function toggleChrono() {
+            const btn = document.getElementById('btnChrono');
+            if(!chronoRunning) {
+                chronoStart = performance.now() - tempsEcoule;
+                chronoTimer = setInterval(() => {
+                    tempsEcoule = performance.now() - chronoStart;
+                    document.getElementById('tugChronoDisplay').innerText = (tempsEcoule / 1000).toFixed(2) + "s";
+                }, 40);
+                btn.innerText = "Arrêter";
+                btn.classList.replace('bg-indigo-600', 'bg-red-600');
+                btn.classList.replace('hover:bg-indigo-700', 'hover:bg-red-700');
+                chronoRunning = true;
+            } else {
+                clearInterval(chronoTimer);
+                document.getElementById('tugFinalValue').value = (tempsEcoule / 1000).toFixed(1);
+                btn.innerText = "Reprendre";
+                btn.classList.replace('bg-red-600', 'bg-indigo-600');
+                btn.classList.replace('hover:bg-red-700', 'hover:bg-indigo-700');
+                chronoRunning = false;
+            }
+        }
+
+        function resetChrono() {
+            clearInterval(chronoTimer);
+            chronoRunning = false;
+            tempsEcoule = 0;
+            document.getElementById('tugChronoDisplay').innerText = "0.00s";
+            document.getElementById('tugFinalValue').value = "0.0";
+            const btn = document.getElementById('btnChrono');
+            btn.innerText = "Démarrer";
+            btn.className = "flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-xs py-2 px-3 rounded-lg transition cursor-pointer";
+        }
+
+        // -- Génération de la synthèse textuelle finale --
+        function genererSynthese() {
+            const nom = document.getElementById('patientNom').value || 'Anonyme';
+            const date = document.getElementById('bilanDate').value;
+            const diag = document.getElementById('patientDiag').value || 'Non documenté';
+            const anamnese = document.getElementById('anamneseTexte').value || 'RAS';
+            
+            const ashworth = document.getElementById('scoreAshworthDisplay').innerText;
+            const mrcG = document.getElementById('totalMrcG').innerText;
+            const mrcD = document.getElementById('totalMrcD').innerText;
+            
+            const rotG = document.getElementById('rotG').value;
+            const rotD = document.getElementById('rotD').value;
+            
+            let signes = [];
+            if(document.getElementById('babinski').checked) signes.push("Signe de Babinski (+)");
+            if(document.getElementById('hoffmann').checked) signes.push("Signe de Hoffmann (+)");
+            if(document.getElementById('trepidation').checked) signes.push("Trépidation épileptoïde / Clonus");
+            if(document.getElementById('syncesies').checked) signes.push("Syncinésies motrices");
+            const syndromePyramidal = signes.length > 0 ? signes.join(', ') : "Absence de signes pyramidaux francs secondaires";
+
+            const sSup = document.getElementById('sensiSup').value;
+            const sProf = document.getElementById('sensiProf').value;
+            const coord = document.getElementById('coordCereb').value;
+            const rombergVal = document.getElementById('romberg').value;
+            
+            const fac = document.getElementById('facScore').value;
+            const uniG = document.getElementById('unipodalG').value || 'Non testé';
+            const uniD = document.getElementById('unipodalD').value || 'Non testé';
+            const tug = document.getElementById('tugFinalValue').value;
+
+            const synthese = `========================================================================
+SYNTHÈSE DU BILAN DIAGNOSTIC KINÉSITHÉRAPIQUE (BDK) NEUROLOGIQUE
+========================================================================
+Évaluation clinique réalisée le : ${date}
+Identifiant Patient             : ${nom}
+Diagnostic Médical référencé    : ${diag}
+Anamnèse / Plaintes             : ${anamnese}
+
+1. SYNDROME PYRAMIDAL & TONUS (SPASTICITÉ)
+------------------------------------------------------------------------
+• Index d'Ashworth Modifiée Moyen : ${ashworth} / 4
+• Réflexes (ROT) Hémicorps G    : ${rotG}
+• Réflexes (ROT) Hémicorps D    : ${rotD}
+• Signes d'atteinte centrale   : ${syndropePyramidal}
+
+2. FORCE MUSCULAIRE ANALYTIQUE (MOTRICITÉ ASIA / MRC TOTAL)
+------------------------------------------------------------------------
+• Score Global Hémicorps Gauche : ${mrcG} / 40
+• Score Global Hémicorps Droit  : ${mrcD} / 40
+*(Score calculé sur 8 groupes musculaires clés C5 à S1)*
+
+3. EXAMEN NEURO-SENSITIFF & COORDINATION ATXIQUE
+------------------------------------------------------------------------
+• Sensibilité Superficielle      : ${sSup}
+• Proprioception (Profonde)     : ${sProf}
+• Coordination Segmentaire      : ${coord}
+• Signe de Romberg (Statique)   : ${rombergVal}
+
+4. INDICES FONCTIONNELS ET PERFORMANCE DE MARCHE
+------------------------------------------------------------------------
+• Niveau d'ambulation (Score FAC): ${fac}
+• Test Unipodal (Stabilité)    : Gauche : ${uniG}s | Droit : ${uniD}s
+• Chronomètre Timed Up & Go (TUG): ${tug} secondes
+========================================================================`;
+
+            document.getElementById('syntheseTexte').innerText = synthese;
+            const zone = document.getElementById('syntheseZone');
+            zone.classList.remove('hidden');
+            zone.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copierSynthese() {
+            const texte = document.getElementById('syntheseTexte').innerText;
+            navigator.clipboard.writeText(texte).then(() => {
+                alert('La synthèse structurée a été copiée avec succès dans votre presse-papiers.');
+            });
+        }
+
+        function reinitialiserFormulaire() {
+            if(confirm("Voulez-vous réinitialiser l'ensemble des données cliniques de ce patient ?")) {
+                document.getElementById('bdkForm').reset();
+                resetChrono();
+                document.querySelectorAll('.mrc-g, .mrc-d').forEach(el => el.value = 5);
+                calculerSpasticite();
+                calculerMrc('g');
+                calculerMrc('d');
+                document.getElementById('syntheseZone').classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>

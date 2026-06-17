@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Globale de Bilans Cliniques - Soutenance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; \
+        }
+        
+        /* Conteneur principal style "Dashboard Médical" */
+        .main-dashboard-container {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+            background-color: #ffffff;
+            padding: 24px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f1f5f9;
+        }
+
+        /* L'image de haute qualité */
+        .main-dashboard-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* CONFIGURATION DES CALQUES INTERACTIFS AJUSTÉS */
+        .interactive-zone {
+            position: absolute;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%; 
+            transition: all 0.25s ease-in-out;
+
+            /* REPÈRE VISUEL POUR VOS TESTS : Fond léger et contour bleu */
+            /* Pour rendre 100% invisible le jour J, remplacez les deux lignes ci-dessous par : */
+            /* background-color: rgba(59, 130, 246, 0); border: 2px solid transparent; */
+            background-color: rgba(59, 130, 246, 0.05);
+            border: 1.5px solid rgba(37, 99, 235, 0.4);
+        }
+
+        /* Effet d'illumination technologique au survol */
+        .interactive-zone:hover {
+            background-color: rgba(59, 130, 246, 0.2); 
+            border-color: rgba(37, 99, 235, 1);      
+            box-shadow: 0 0 14px rgba(59, 130, 246, 0.6); 
+            transform: scale(1.08);
+        }
+        
+        /* Formes spécifiques allongées */
+        .shape-rect { border-radius: 8px; }
+
+        /* ==========================================================================
+           COORDONNÉES ALIGNÉES PILE SUR LES ARTICULATIONS (IMAGE VECTORIELLE CHATGPT)
+           ========================================================================== */
+
+        /* --- SILHOUETTE DE GAUCHE : VUE ANTÉRIEURE (FACE) --- */
+        .zone-epaule-droite  { top: 20.0%; left: 11.0%; width: 5.5%; height: 5.0%; }
+        .zone-epaule-gauche  { top: 20.0%; left: 30.0%; width: 5.5%; height: 5.0%; }
+        
+        .zone-coude-droit    { top: 33.0%; left: 10.8%;  width: 4.5%; height: 4.0%; }
+        .zone-coude-gauche   { top: 33.0%; left: 31.5%; width: 4.5%; height: 4.0%; }
+        
+        .zone-poignet-droit  { top: 44.0%; left: 8.5%;  width: 4.2%; height: 3.5%; }
+        .zone-poignet-gauche { top: 44.0%; left: 34.0%; width: 4.2%; height: 3.5%; }
+        
+        .zone-main-droite    { top: 49.0%; left: 6.2%;  width: 5.0%; height: 5.5%; }
+        .zone-main-gauche    { top: 49.0%; left: 35.5%; width: 5.0%; height: 5.5%; }
+
+        /* --- SILHOUETTE DE DROITE : VUE POSTÉRIEURE (DOS) --- */
+        .zone-rachis         { top: 18.0%; left: 74.7%; width: 3.2%; height: 28.0%; }
+        .zone-bassin         { top: 44.5%; left: 69.5%; width: 14.0%; height: 7.0%; border-radius: 30px; }
+        
+        .zone-genou-droit    { top: 65.5%; left: 70.5%; width: 5.2%; height: 4.5%; }
+        .zone-genou-gauche   { top: 65.5%; left: 76.5%; width: 5.2%; height: 4.5%; }
+        
+        .zone-cheville-droite{ top: 85.5%; left: 72.0%; width: 4.8%; height: 4.2%; }
+        .zone-cheville-gauche{ top: 85.5%; left: 76.0%; width: 4.8%; height: 4.2%; }
+        
+        .zone-orteils-droit  { top: 89.0%; left: 69.5%; width: 5.5%; height: 3.5%; border-radius: 6px; }
+        .zone-orteils-gauche { top: 89.0%; left: 77.0%; width: 5.5%; height: 3.5%; border-radius: 6px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col items-center py-10 px-4">
+
+    <div class="max-w-5xl w-full text-center mb-8">
+        <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-600 bg-blue-50 rounded-full border border-blue-100">
+            Plateforme Clinique Digitalisée
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-3 tracking-tight">
+            Système Centralisé de Bilans Diagnostic Kinésithérapiques
+        </h1>
+        <p class="text-slate-500 mt-2 text-sm sm:text-base max-w-2xl mx-auto">
+            Sélectionnez une région anatomique sur le modèle vectoriel pour charger instantanément le formulaire d'évaluation dynamique.
+        </p>
+    </div>
+
+    <div class="main-dashboard-container">
+        <img src="ChatGPT Image 10 juin 2026 à 18_55_00.png" alt="Modèle Clinique Haute Qualité">
+
+        <div class="interactive-zone zone-epaule-droite" data-file="bdk_epaule.html" title="Épaule Droite"></div>
+        <div class="interactive-zone zone-epaule-gauche" data-file="bdk_epaule.html" title="Épaule Gauche"></div>
+        
+        <div class="interactive-zone zone-coude-droit" data-file="bdk_coude.html" title="Coude Droit"></div>
+        <div class="interactive-zone zone-coude-gauche" data-file="bdk_coude.html" title="Coude Gauche"></div>
+        
+        <div class="interactive-zone zone-poignet-droit" data-file="bdk_poignet.html" title="Poignet Droit"></div>
+        <div class="interactive-zone zone-poignet-gauche" data-file="bdk_poignet.html" title="Poignet Gauche"></div>
+        
+        <div class="interactive-zone zone-main-droite" data-file="bdk_doigts.html" title="Main & Doigts Droite"></div>
+        <div class="interactive-zone zone-main-gauche" data-file="bdk_doigts.html" title="Main & Doigts Gauche"></div>
+
+        <div class="interactive-zone zone-rachis shape-rect" data-file="bdk_rachis.html" title="Rachis & Colonne Vertébrale"></div>
+        <div class="interactive-zone zone-bassin" data-file="bdk_hanche.html" title="Complexe Lombo-Pelvi-Fémoral"></div>
+        
+        <div class="interactive-zone zone-genou-droit" data-file="bdk_genou.html" title="Genou Droit"></div>
+        <div class="interactive-zone zone-genou-gauche" data-file="bdk_genou.html" title="Genou Gauche"></div>
+        
+        <div class="interactive-zone zone-cheville-droite" data-file="bdk_cheville.html" title="Cheville Droite"></div>
+        <div class="interactive-zone zone-cheville-gauche" data-file="bdk_cheville.html" title="Cheville Gauche"></div>
+        
+        <div class="interactive-zone zone-orteils-droit" data-file="bdk_orteils.html" title="Orteils & Avant-Pied Droit"></div>
+        <div class="interactive-zone zone-orteils-gauche" data-file="bdk_orteils.html" title="Orteils & Avant-Pied Gauche"></div>
+    </div>
+
+    <div id="globalModal" class="fixed inset-0 bg-slate-950/40 backdrop-blur-md hidden z-50 justify-center items-center p-4 transition-all duration-300">
+        <div class="bg-white w-full max-w-5xl h-[88vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative border border-slate-100 transform scale-95 transition-transform duration-300" id="modalBox">
+            
+            <div class="flex justify-between items-center bg-slate-50 px-6 py-4 border-b border-slate-100">
+                <div class="flex items-center space-x-3">
+                    <div class="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"></div>
+                    <h3 id="modalBdkTitle" class="text-sm font-bold text-slate-700 uppercase tracking-wider">Formulaire</h3>
+                </div>
+                <button onclick="closeGlobalModal()" class="text-slate-500 hover:text-slate-800 transition-colors bg-slate-200/50 hover:bg-slate-200/80 px-4 py-2 rounded-xl text-xs font-semibold flex items-center space-x-2">
+                    <i class="fa-solid fa-xmark text-sm"></i> <span>Fermer la session</span>
+                </button>
+            </div>
+
+            <div class="flex-1 bg-slate-100">
+                <iframe id="bdkFrame" src="" class="w-full h-full border-none" title="Contenu Clinique"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('globalModal');
+        const modalBox = document.getElementById('modalBox');
+        const frame = document.getElementById('bdkFrame');
+        const title = document.getElementById('modalBdkTitle');
+
+        // Écouteur de clic sur les zones tactiles
+        document.querySelectorAll('.interactive-zone').forEach(zone => {
+            zone.addEventListener('click', function() {
+                const targetFile = this.getAttribute('data-file');
+                const zoneTitle = this.getAttribute('title');
+                
+                if(targetFile) {
+                    title.innerText = "ÉVALUATION CLINIQUE : " + zoneTitle.toUpperCase();
+                    frame.src = targetFile;
+                    
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    setTimeout(() => { modalBox.classList.remove('scale-95'); modalBox.classList.add('scale-100'); }, 10);
+                }
+            });
+        });
+
+        function closeGlobalModal() {
+            modalBox.classList.remove('scale-100');
+            modalBox.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                frame.src = ""; 
+            }, 150);
+        }
+
+        modal.addEventListener('click', function(e) {
+            if(e.target === modal) { closeGlobalModal(); }
+        });
+    </script>
+</body>
+</html>
