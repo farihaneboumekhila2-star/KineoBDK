@@ -11,10 +11,21 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-
+-- Barre d'actions Imprimer / PDF (Masquée lors de l'impression) -->
+    <div class="no-print max-w-5xl w-full flex justify-end mb-4">
+        <button onclick="window.print()" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-5 rounded-xl shadow-sm transition-all duration-200 transform hover:-translate-y-0.5 text-sm">
+            <i class="fa-solid fa-print"></i>
+            <span>Imprimer / Sauvegarder en PDF</span>
+        </button>
+    </div>
 <div class="max-w-4xl mx-auto">
     <header class="text-center mb-8 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-2xl p-6 sm:p-8 shadow-lg text-white">
         <div class="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-3">
@@ -23,6 +34,28 @@
         <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Bilan Diagnostic Kinésithérapique (BDK)</h1>
         <p class="text-indigo-100 mt-2 font-medium">Cheville, Arrière-pied & Complexe de la Pince Bi-Malléolaire</p>
     </header>
+     <form id="bdkForm" class="space-y-6">
+        
+        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
+            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+                <div class="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                    <i class="fa-solid fa-address-card text-lg"></i>
+                </div>
+                <h2 class="text-lg font-bold text-slate-900">Votre informations</h2>
+            </div>
+     <div class="flex flex-col">
+                    <label for="nom" class="text-sm font-semibold text-slate-700 mb-1">KINÉSITHÉRAPEUTE :</label>
+                    <input type="text" id="nom" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Ex: Boumekhila Farihane">
+                </div>
+                <div class="flex flex-col">
+                    <label for="nom" class="text-sm font-semibold text-slate-700 mb-1">ÉTABLISSEMENT :</label>
+                    <input type="text" id="nom" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Ex: CHU de Batna">
+                </div>
+                <div class="flex flex-col">
+                    <label for="nom" class="text-sm font-semibold text-slate-700 mb-1">SERVICE :</label>
+                    <input type="text" id="nom" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm" placeholder="Ex: Service de kiné">
+                </div>
+                </section>
 
     <form id="bdkForm" class="space-y-6">
         
@@ -482,473 +515,5 @@
         notif.classList.remove('hidden');
     }
 </script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BDK Genou Interactif</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-    </style>
-</head>
-<body class="bg-slate-50 text-slate-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-
-<div class="max-w-4xl mx-auto">
-    <!-- En-tête -->
-    <header class="text-center mb-8 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-6 sm:p-8 shadow-lg text-white">
-        <div class="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-3">
-            <i class="fa-solid fa-person-running text-3xl"></i>
-        </div>
-        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Bilan Diagnostic Kinésithérapique (BDK)</h1>
-        <p class="text-blue-100 mt-2 font-medium">Genou & Articulation Fémoro-Tibiale / Fémoro-Patellaire</p>
-    </header>
-
-    <form id="bdkForm" class="space-y-6">
-        
-        <!-- Section 1 : Anamnèse & Contexte Clinique -->
-        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
-            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
-                <div class="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                    <i class="fa-solid fa-address-card text-lg"></i>
-                </div>
-                <h2 class="text-lg font-bold text-slate-900">1. Anamnèse & Contexte Clinique</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="flex flex-col">
-                    <label for="nom" class="text-sm font-semibold text-slate-700 mb-1">Nom / Prénom du Patient :</label>
-                    <input type="text" id="nom" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="Ex: Thomas Dubois">
-                </div>
-                <div class="flex flex-col">
-                    <label for="cote" class="text-sm font-semibold text-slate-700 mb-1">Côté atteint :</label>
-                    <select id="cote" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                        <option value="Droit">Droit</option>
-                        <option value="Gauche">Gauche</option>
-                        <option value="Bilatéral">Bilatéral</option>
-                    </select>
-                </div>
-                <div class="flex flex-col">
-                    <label for="lateralite" class="text-sm font-semibold text-slate-700 mb-1">Dominance :</label>
-                    <select id="lateralite" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                        <option value="Droitier">Droitier</option>
-                        <option value="Gaucher">Gaucher</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="mt-4 flex flex-col">
-                <label for="motif" class="text-sm font-semibold text-slate-700 mb-1">Motif de consultation / Diagnostic médical :</label>
-                <textarea id="motif" rows="2" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="Ex: Entorse LLI, Rupture du LCA (Suites d'opération ou conservateur), Syndrome Fémoro-Patellaire, Gonarthrose, Lésion méniscale interne..."></textarea>
-            </div>
-        </section>
-
-        <!-- Section 2 : Douleur & Signes d'observation -->
-        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
-            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
-                <div class="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                    <i class="fa-solid fa-eye text-lg"></i>
-                </div>
-                <h2 class="text-lg font-bold text-slate-900">2. Douleur & Inspection Objective</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="flex flex-col">
-                    <label for="eva" class="text-sm font-semibold text-slate-700 mb-1">Douleur au repos (EVA de 0 à 10) :</label>
-                    <input type="number" id="eva" min="0" max="10" value="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                </div>
-                <div class="flex flex-col">
-                    <label for="eva_effort" class="text-sm font-semibold text-slate-700 mb-1">Douleur en charge / squat / escalier (EVA 0 à 10) :</label>
-                    <input type="number" id="eva_effort" min="0" max="10" value="0" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div class="flex flex-col">
-                    <label for="epanchement" class="text-sm font-semibold text-slate-700 mb-1">Épanchement / Gonflement articulaire :</label>
-                    <select id="epanchement" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                        <option value="Absente">Aucun gonflement (Sec)</option>
-                        <option value="Choc Rotulien +">Choc rotulien positif (Hydarthrose modérée à forte)</option>
-                        <option value="Flot +">Signe du flot positif (Épanchement minime)</option>
-                        <option value="Chaud / Rouge">Genou inflammatoire (Chaud, érythémateux)</option>
-                    </select>
-                </div>
-                <div class="flex flex-col">
-                    <label for="palpation" class="text-sm font-semibold text-slate-700 mb-1">Palpation & Points douloureux :</label>
-                    <input type="text" id="palpation" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="Ex: Interligne articulaire interne sensible, douleur TTA, tendon rotulien sensible">
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 3 : Mobilités Articulaires -->
-        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
-            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
-                <div class="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                    <i class="fa-solid fa-arrows-up-down-left-right text-lg"></i>
-                </div>
-                <h2 class="text-lg font-bold text-slate-900">3. Mobilités Articulaires (Actif / Passif)</h2>
-            </div>
-            <p class="text-xs text-slate-500 mb-4 italic">Notez la valeur du côté pathologique comparé au côté sain. Ex: 110° / 140°</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="flex flex-col">
-                    <label for="flexion" class="text-sm font-semibold text-slate-700 mb-1">Flexion (Normale : 140° - 150°) :</label>
-                    <input type="text" id="flexion" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="Ex: 105° actif / 115° passif">
-                </div>
-                <div class="flex flex-col">
-                    <label for="extension" class="text-sm font-semibold text-slate-700 mb-1">Extension / Flessum / Recurvatum (N : 0° à -5°) :</label>
-                    <input type="text" id="extension" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="Ex: Flessum de 10° ou Extension à 0°">
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 4 : Tests Cliniques Spécifiques -->
-        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
-            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
-                <div class="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                    <i class="fa-solid fa-stethoscope text-lg"></i>
-                </div>
-                <h2 class="text-lg font-bold text-slate-900">4. Tests Orthopédiques Spécifiques</h2>
-            </div>
-            
-            <div class="space-y-4">
-                <!-- Stabilité Ligamentaire Sagittale (LCA/LCP) -->
-                <div>
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Pivot / Ligaments Croisés (LCA / LCP)</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="checkbox" id="lachman" class="mt-1 h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
-                            <div>
-                                <span class="text-sm font-semibold text-slate-800 block">Test de Lachman</span>
-                                <span class="text-xs text-slate-500">Arrêt mou, suspecte une lésion du LCA.</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="checkbox" id="tiroir_ant" class="mt-1 h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
-                            <div>
-                                <span class="text-sm font-semibold text-slate-800 block">Tiroir Antérieur (90°)</span>
-                                <span class="text-xs text-slate-500">Glissement tibial antérieur augmenté.</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="checkbox" id="tiroir_post" class="mt-1 h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
-                            <div>
-                                <span class="text-sm font-semibold text-slate-800 block">Tiroir Postérieur / Recul TTA</span>
-                                <span class="text-xs text-slate-500">Lésion du ligament croisé postérieur (LCP).</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Ligaments Collatéraux (Laxités Plan Frontal) -->
-                <div>
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Ligaments Collatéraux (Laxités frontales)</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="checkbox" id="valgus_30" class="mt-1 h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
-                            <div>
-                                <span class="text-sm font-semibold text-slate-800 block">Laxité en Valgus (LLI) à 30°</span>
-                                <span class="text-xs text-slate-500">Douleur ou instabilité du Ligament Collatéral Interne.</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="checkbox" id="varus_30" class="mt-1 h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
-                            <div>
-                                <span class="text-sm font-semibold text-slate-800 block">Laxité en Varus (LLE) à 30°</span>
-                                <span class="text-xs text-slate-500">Douleur ou instabilité du Ligament Collatéral Externe.</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Lésions Méniscales -->
-                <div>
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Atteintes Méniscales</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="checkbox" id="mcmurray" class="mt-1 h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
-                            <div>
-                                <span class="text-sm font-semibold text-slate-800 block">Test de McMurray</span>
-                                <span class="text-xs text-slate-500">Clic douloureux lors de la flexion/extension sous rotations.</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="checkbox" id="apley" class="mt-1 h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
-                            <div>
-                                <span class="text-sm font-semibold text-slate-800 block">Grinding Test d'Apley</span>
-                                <span class="text-xs text-slate-500">Compression axiale à plat ventre réveillant la douleur.</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Syndrome Fémoro-Patellaire -->
-                <div>
-                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">Appareil Fémoro-Patellaire & Rotule</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="checkbox" id="smillie" class="mt-1 h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
-                            <div>
-                                <span class="text-sm font-semibold text-slate-800 block">Signe de Smillie (Appréhension)</span>
-                                <span class="text-xs text-slate-500">Réaction de défense lors de la subluxation externe de rotule.</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
-                            <input type="checkbox" id="rabot" class="mt-1 h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
-                            <div>
-                                <span class="text-sm font-semibold text-slate-800 block">Signe du Rabot / Zohlen</span>
-                                <span class="text-xs text-slate-500">Frottement rugueux rétro-patellaire ou douleur à la contraction du Quadriceps.</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 5 : Score Fonctionnel du Genou -->
-        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
-            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
-                <div class="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                    <i class="fa-solid fa-person-walking-arrow-right text-lg"></i>
-                </div>
-                <h2 class="text-lg font-bold text-slate-900">5. Index d'Incapacité Fonctionnelle (Lysholm simplifié /50)</h2>
-            </div>
-            <p class="text-xs text-slate-500 mb-4 italic">Évaluez la répercussion de la pathologie du genou dans les actions quotidiennes.</p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="flex flex-col">
-                    <label for="sf_boiterie" class="text-sm font-semibold text-slate-700 mb-1">Boiterie à la marche :</label>
-                    <select id="sf_boiterie" onchange="calculerScoreGenou()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                        <option value="0">0 - Aucune boiterie</option>
-                        <option value="3">3 - Boiterie légère / intermittente</option>
-                        <option value="6">6 - Boiterie constante notable</option>
-                        <option value="10">10 - Boiterie sévère / Appui impossible sans aide</option>
-                    </select>
-                </div>
-                <div class="flex flex-col">
-                    <label for="sf_derobement" class="text-sm font-semibold text-slate-700 mb-1">Instabilité / Dérobement du genou :</label>
-                    <select id="sf_derobement" onchange="calculerScoreGenou()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                        <option value="0">0 - Genou parfaitement stable</option>
-                        <option value="3">3 - Sensation de lâchage très rare</option>
-                        <option value="6">6 - Dérobements fréquents pendant la marche</option>
-                        <option value="10">10 - Instabilité majeure au moindre pas</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <div class="flex flex-col">
-                    <label for="sf_escaliers" class="text-sm font-semibold text-slate-700 mb-1">Prendre les escaliers :</label>
-                    <select id="sf_escaliers" onchange="calculerScoreGenou()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                        <option value="0">0 - Aucune difficulté</option>
-                        <option value="3">3 - Légère appréhension / besoin de la rampe</option>
-                        <option value="6">6 - Étape par étape (pas à pas douloureux)</option>
-                        <option value="10">10 - Impossible</option>
-                    </select>
-                </div>
-                <div class="flex flex-col">
-                    <label for="sf_accroupi" class="text-sm font-semibold text-slate-700 mb-1">Accroupissement / Squat :</label>
-                    <select id="sf_accroupi" onchange="calculerScoreGenou()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                        <option value="0">0 - Complet sans douleur</option>
-                        <option value="3">3 - Un peu limité / sensation de tension</option>
-                        <option value="6">6 - Très limité (ne dépasse pas 90° de flexion)</option>
-                        <option value="10">10 - Accroupissement totalement impossible</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="mt-4 flex flex-col">
-                <label for="sf_gonflement" class="text-sm font-semibold text-slate-700 mb-1">Impact du gonflement sur l'activité :</label>
-                <select id="sf_gonflement" onchange="calculerScoreGenou()" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
-                    <option value="0">0 - Pas de gonflement notable</option>
-                    <option value="3">3 - Gonflement léger après efforts sportifs</option>
-                    <option value="6">6 - Gonflement modéré après simple marche</option>
-                    <option value="10">10 - Gonflement permanent impactant toute activité</option>
-                </select>
-            </div>
-
-            <!-- Box d'interprétation du score -->
-            <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-4 text-center transition-all duration-300" id="scoreBanner">
-                <span class="text-slate-600 block text-sm font-medium">Indice d'incapacité fonctionnelle :</span>
-                <div class="mt-1 flex items-baseline justify-center gap-1">
-                    <span id="totalGenou" class="text-3xl font-extrabold text-blue-700">0</span>
-                    <span class="text-blue-600 font-semibold">/ 50 pts</span>
-                </div>
-                <p id="interpreteGenou" class="text-xs text-blue-800 mt-1 font-medium">Incapacité négligeable à minime</p>
-            </div>
-        </section>
-
-        <!-- Section 6 : Objectifs & Planification -->
-        <section class="bg-white rounded-xl p-6 shadow-sm border border-slate-100">
-            <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
-                <div class="p-2 bg-blue-50 text-blue-600 rounded-lg">
-                    <i class="fa-solid fa-bullseye text-lg"></i>
-                </div>
-                <h2 class="text-lg font-bold text-slate-900">6. Objectifs & Plan de Traitement</h2>
-            </div>
-            <div class="flex flex-col">
-                <label for="objectifs" class="text-sm font-semibold text-slate-700 mb-1">Axes de rééducation prioritaires :</label>
-                <textarea id="objectifs" rows="3" class="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" placeholder="Ex: Réduire l'épanchement par drainage / cryothérapie, retrouver l'extension complète (verrouillage actif), renforcement excentrique du Quadriceps et des Ischio-Jambiers, proprioception et reprogrammation neuro-motrice..."></textarea>
-            </div>
-        </section>
-
-        <!-- Bouton de Génération -->
-        <button type="button" onclick="genererCompteRendu()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 text-base">
-            <i class="fa-solid fa-file-invoice text-lg"></i>
-            Générer le Résumé Clinique du Genou
-        </button>
-    </form>
-
-    <!-- Résultats et export -->
-    <div id="resultat-bilan" class="mt-8 bg-slate-900 rounded-xl p-6 shadow-xl border border-slate-800 text-slate-100 hidden">
-        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-clipboard-check text-blue-400 text-lg"></i>
-                <h3 class="text-lg font-bold text-slate-100">Résumé du BDK Genou</h3>
-            </div>
-            <button onclick="copierBilan()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-blue-400 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
-                <i class="fa-solid fa-copy"></i> Copier le texte
-            </button>
-        </div>
-        
-        <pre id="texteBilan" class="text-xs sm:text-sm font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed text-slate-300 bg-slate-950 p-4 rounded-lg border border-slate-800"></pre>
-        
-        <div id="notification-copie" class="mt-3 text-center text-xs text-blue-400 hidden font-semibold flex items-center justify-center gap-1">
-            <i class="fa-solid fa-check-circle"></i> Le bilan a été copié dans le presse-papier !
-        </div>
-    </div>
-</div>
-
-<script>
-    // Calcul de l'incapacité fonctionnelle simplifiée du genou
-    function calculerScoreGenou() {
-        const b = parseInt(document.getElementById('sf_boiterie').value);
-        const d = parseInt(document.getElementById('sf_derobement').value);
-        const e = parseInt(document.getElementById('sf_escaliers').value);
-        const a = parseInt(document.getElementById('sf_accroupi').value);
-        const g = parseInt(document.getElementById('sf_gonflement').value);
-        
-        const total = b + d + e + a + g;
-        const totalElement = document.getElementById('totalGenou');
-        const interpretationElement = document.getElementById('interpreteGenou');
-        const banner = document.getElementById('scoreBanner');
-        
-        totalElement.innerText = total;
-
-        // Mise à jour de la couleur et de l'interprétation en fonction de la sévérité
-        if (total <= 10) {
-            interpretationElement.innerText = "Incapacité négligeable à minime (Bonne fonctionnalité globale)";
-            banner.className = "mt-6 bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center transition-all duration-300";
-            totalElement.className = "text-3xl font-extrabold text-emerald-700";
-            interpretationElement.className = "text-xs text-emerald-800 mt-1 font-medium";
-        } else if (total <= 25) {
-            interpretationElement.innerText = "Incapacité modérée (gêne dans les activités à impact ou prolongées)";
-            banner.className = "mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4 text-center transition-all duration-300";
-            totalElement.className = "text-3xl font-extrabold text-yellow-700";
-            interpretationElement.className = "text-xs text-yellow-800 mt-1 font-medium";
-        } else if (total <= 40) {
-            interpretationElement.innerText = "Incapacité sévère (impact notable sur les gestes du quotidien)";
-            banner.className = "mt-6 bg-orange-50 border border-orange-200 rounded-xl p-4 text-center transition-all duration-300";
-            totalElement.className = "text-3xl font-extrabold text-orange-700";
-            interpretationElement.className = "text-xs text-orange-800 mt-1 font-medium";
-        } else {
-            interpretationElement.innerText = "Incapacité extrême / impotence fonctionnelle majeure du genou";
-            banner.className = "mt-6 bg-red-50 border border-red-200 rounded-xl p-4 text-center transition-all duration-300";
-            totalElement.className = "text-3xl font-extrabold text-red-700";
-            interpretationElement.className = "text-xs text-red-800 mt-1 font-medium";
-        }
-    }
-
-    // Génération du compte rendu synthétique
-    function genererCompteRendu() {
-        const nom = document.getElementById('nom').value || 'Non renseigné';
-        const cote = document.getElementById('cote').value;
-        const lat = document.getElementById('lateralite').value;
-        const motif = document.getElementById('motif').value || 'Non renseigné';
-        
-        const eva = document.getElementById('eva').value;
-        const eva_effort = document.getElementById('eva_effort').value;
-        const epanchement = document.getElementById('epanchement').value;
-        const palpation = document.getElementById('palpation').value || 'RAS';
-        
-        const flexion = document.getElementById('flexion').value || 'Non mesuré';
-        const extension = document.getElementById('extension').value || 'Non mesuré';
-
-        // Collecte des tests orthopédiques spécifiques
-        let testsPositifs = [];
-        if(document.getElementById('lachman').checked) testsPositifs.push('Lachman (+ : suspicion de rupture LCA)');
-        if(document.getElementById('tiroir_ant').checked) testsPositifs.push('Tiroir Antérieur (+)');
-        if(document.getElementById('tiroir_post').checked) testsPositifs.push('Tiroir Postérieur / Recul TTA (+)');
-        if(document.getElementById('valgus_30').checked) testsPositifs.push('Laxité en Valgus à 30° (+ : LLI atteint)');
-        if(document.getElementById('varus_30').checked) testsPositifs.push('Laxité en Varus à 30° (+ : LLE atteint)');
-        if(document.getElementById('mcmurray').checked) testsPositifs.push('McMurray (+ : lésion méniscale)');
-        if(document.getElementById('apley').checked) testsPositifs.push('Grinding test d\'Apley (+ : lésion méniscale)');
-        if(document.getElementById('smillie').checked) testsPositifs.push('Smillie (+ : appréhension fémoro-patellaire)');
-        if(document.getElementById('rabot').checked) testsPositifs.push('Rabot / Zohlen (+ : souffrance cartilage rotulien)');
-        
-        const testsStr = testsPositifs.length > 0 ? testsPositifs.join(', ') : 'Tests de provocations spécifiques négatifs';
-
-        const scoreIncapacite = document.getElementById('totalGenou').innerText;
-        const interpreteScore = document.getElementById('interpreteGenou').innerText;
-        const objectifs = document.getElementById('objectifs').value || 'Réduction des douleurs, contrôle de l\'épanchement, verrouillage actif et reconditionnement dynamique.';
-
-        // Construction du livrable textuel
-        let output = `=== BILAN DIAGNOSTIC KINÉSITHÉRAPIQUE (GENOU) ===\n`;
-        output += `Patient : ${nom} | Côté : ${cote} (${lat})\n`;
-        output += `Motif / Diagnostic : ${motif}\n`;
-        output += `--------------------------------------------------\n`;
-        output += `DOULEUR : EVA Repos: ${eva}/10 | EVA Effort/Charge: ${eva_effort}/10\n`;
-        output += `INSPECTION / ÉPANCHEMENT : ${epanchement}\n`;
-        output += `PALPATION / POINTS SENSIBLES : ${palpation}\n`;
-        output += `--------------------------------------------------\n`;
-        output += `MOBILITÉS COXO-FÉMORALES / ARTICULAIRES :\n`;
-        output += ` - Flexion : ${flexion}\n`;
-        output += ` - Extension / Flessum : ${extension}\n`;
-        output += `--------------------------------------------------\n`;
-        output += `TESTS ORTHOPÉDIQUES SPÉCIFIQUES :\n`;
-        output += ` - ${testsStr}\n`;
-        output += `--------------------------------------------------\n`;
-        output += `FONCTIONNEL (Incapacité Lysholm) : ${scoreIncapacite}/50 pts (${interpreteScore})\n`;
-        output += `--------------------------------------------------\n`;
-        output += `AXES DE RÉÉDUCATION : ${objectifs}\n`;
-
-        // Affichage du rendu
-        const divResultat = document.getElementById('resultat-bilan');
-        document.getElementById('texteBilan').innerText = output;
-        divResultat.classList.remove('hidden');
-        
-        // Cache la notification de copie précédente
-        document.getElementById('notification-copie').classList.add('hidden');
-        
-        // Défilement automatique vers le bas
-        divResultat.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Fonction de copie du résultat clinique vers le presse-papiers
-    function copierBilan() {
-        const texte = document.getElementById('texteBilan').innerText;
-        
-        // Création d'une zone de texte temporaire car navigator.clipboard peut échouer dans certains contextes d'iFrames
-        const el = document.createElement('textarea');
-        el.value = texte;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-
-        // Afficher la notification de confirmation
-        const notif = document.getElementById('notification-copie');
-        notif.classList.remove('hidden');
-    }
-</script>
-
 </body>
 </html>
